@@ -4,11 +4,11 @@ Placeholder: Screenshot of game
 
 Leave a star if you like this project!
 
-# AI Disclosure:
+## AI Disclosure:
 
 No Generative AI was used for creation or modification of any assets in this repository.
 
-# Functional Requirements:
+## Functional Requirements:
 
 
 - **Player can start the game**
@@ -21,12 +21,12 @@ No Generative AI was used for creation or modification of any assets in this rep
 - **Player moves onto a new opponent with new hand after defeating current opponent**
 
 
-# Installation
+## Installation
 
-# Repository Structure
+## Repository Structure
 
 
-# Software / Stack
+## Software / Stack
 
 <table>
     <thead>
