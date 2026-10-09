@@ -7,24 +7,28 @@
     </head>
     <body>
         <!--LOGIN BOX-->
-        <div class="InputContainer">
-            <h2 id="Subheading">LOGIN</h2>
-            <h3 id="Caption">(Score Saved)</h3>
-            <label>Username </label>
-            <input type="text"><br><br>
-            <label>Password </label>
-            <input type="text"><br><br>
-            <button id="ConfirmSubmit">Confirm</button>
+        <div class="InputContainerParent">
+            <div class="InputContainer">
+                <h2 class="Subheading">LOGIN</h2>
+                <h3 class="Caption">(Score Saved)</h3>
+                <label class="Caption">Username</label>
+                <input class="LongInput" type="text" id="loginUsername" name="username"><br><br>
+                <label class="Caption">Password</label>
+                <input class="LongInput" type="password" id="loginPassword" name="password"><br><br>
+                <button class="LongButton" type="submit" onclick="ConfirmLogin()">Confirm</button>
+            </div>
+            <!--GUEST BOX-->
+            <div class="InputContainer">
+                <h2 class="Subheading">GUEST</h2>
+                <h3 class="Caption">(Score not saved)</h3>
+                <label class="Caption">Username</label>
+                <input class="LongInput" type="text" id="guestUsername"><br><br><br><br>
+                <button class="LongButton" onclick="AddGuest()">Confirm</button>
+            </div>
         </div>
-        <!--GUEST BOX-->
-        <div class="InputContainer">
-            <h2 id="Subheading">GUEST</h2>
-            <h3 id="Caption">(Score not saved)</h3>
-            <label>Username</label>
-            <input type="text"><br><br>
-            <label>Password</label>
-            <input type="text"><br><br>
-            <button id="ConfirmSubmit">Confirm</button>
-        </div>
+        
+        <button class="LongButton" onclick="GoChooseCharacter()">PLAY</button>
+
+        <script src="app.js"></script>        
     </body>
 </html>
