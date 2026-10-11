@@ -1,22 +1,23 @@
 let homePage = "index.html";
-let loginPage = "login.html";
 let characterPage = "choosecharacter.html";
 
 function GoLogin()
 {
-    location.replace(loginPage);
+    location.replace("index.html");
 }
 
 function ConfirmLogin()
 {
     //If confirmed
-    console.log("Confirmed")
+    console.log("Confirmed");
+    GoChooseCharacter();
 }
 
-function AddGuest()
+function Register()
 {
-    //Add guest in local storage
-    console.log("Confirmed")
+    //Register user
+    GoLogin();
+    console.log("Confirmed");
 }
 
 function GoChooseCharacter()

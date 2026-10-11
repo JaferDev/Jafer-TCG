@@ -4,20 +4,17 @@
         <title>Jafer's TCG</title>
         <link rel="stylesheet" href="Styles.css">
     </head>
-    <body>
-        <div class="InputContainerParent">
-            <div class="InputContainer">
-                <h1 class="Subheading">Register</h1>
-                <br><br><label class="Caption">Username</label>
-                <input class="LongInput">
-                <br><br><label class="Caption">Password</label>
-                <input class="LongInput">
-                <br><br><label class="Caption">Confirm Password</label>
-                <input class="LongInput">
-                <button class="LongButton">LOGIN</button>
-            </div>
+    <body id="Home">
+        <h1 class="PageHead">Jafer's TCG</h1>
+        <div class="RegisterContainer">
+            <h1 class="Subheading">REGISTER</h1>
+            <input class="LongInput" placeholder="Username" type="text"><br><br>
+            <input class="LongInput" placeholder="Password" type="password"><br><br>
+            <input class="LongInput" placeholder="Confirm Password" type="password"><br><br>
         </div>
-        
+
+        <button class="LongButton" onclick=Register()>LOGIN</button>
+
         <script src="app.js"></script>
     </body>
 </html>
