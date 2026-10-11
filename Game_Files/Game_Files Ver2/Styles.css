@@ -1,0 +1,156 @@
+@font-face{
+    font-family: silkScreenRegular;
+    src: url(../Fonts/Silkscreen/Silkscreen-Regular.ttf)
+}
+
+@font-face{
+    font-family: silkScreenBold;
+    src: url(../Fonts/Silkscreen/Silkscreen-Bold.ttf)
+}
+
+body{
+    background-color:rgb(11, 4, 37);
+    color:#95655D;
+    font-family: silkScreenRegular;
+}
+
+body#Home{
+    background-image: url("../Sprites/Background2.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.PageHead{
+    color: #12402C;
+    font-family: silkScreenBold;
+    font-size: 80px;
+    text-align: center;
+    margin-top: 3%;
+    text-shadow: 5px 10px black;
+}
+
+.Subheading{
+    font-size:45px;
+    text-align:center;
+    letter-spacing: 5px;
+}
+
+.Caption{
+    font-size: 25px;
+    text-align: center;
+}
+
+.ListBox{
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color: aliceblue;
+    max-width: fit-content;
+    min-width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.HighScores{
+    color:black;
+    margin-left: 10px;
+    line-height: 35px;
+    font-size: 25px;
+    letter-spacing: 3px;
+}
+
+.LongButton{
+    border: 5px solid transparent;
+    border-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color:#1B1240;
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 35%;
+    width: 50%;
+    text-align: center;
+    letter-spacing: 16px;
+    font-size: 40px;
+    padding: 10px;
+    transition: all 0.3s ease;
+    color: #95655D;
+    font-family: silkScreenBold;
+}
+
+.LongButton:hover{
+    background-color: black;
+    color: aliceblue;
+}
+
+.InputContainerParent{
+    margin-top: 5%;
+    margin-right: 20%;
+    margin-left: 20%;
+    display: flex;
+}
+
+.InputContainer{
+    text-align: center;
+    flex: 1;
+    border: 10px solid transparent;
+    padding: 2%;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+    border-image: url(../Sprites/Border.png) 16 round;
+} 
+
+.InputContainer:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.InputContainer:first-child{
+    margin-right: 3%;
+}
+
+.LongInput{
+    width:70%;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 5px;
+    font-family: silkScreenRegular;
+}
+
+.UnderlineAnim {
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+.UnderlineAnim::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease-out;
+}
+.UnderlineAnim:hover::after {
+  transform: scaleX(1);
+}
+
+.NoFormat:hover{
+    text-decoration: underline;
+}
+
+.RegisterContainer{
+    text-align: center;
+    border: 10px solid transparent;
+    border-image: url(../Sprites/Border.png) 16 round;
+    padding: 2%;
+    border-radius: 15px;
+    margin-top: 5%;
+    margin-bottom: 2%;  
+    width: 25%;
+    margin-right: auto;
+    margin-left: auto;
+} 

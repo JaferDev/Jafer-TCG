@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet", href="Styles.css">
+        <meta charset="UTF-8" />
+        <title>Jafer's TCG</title>
+    </head>
+    <body id="Home">
+        <h1 class="PageHead">Jafer's TCG</h1>
+        <!--LOGIN BOX-->
+        <div class="InputContainerParent">
+            <div class="InputContainer">
+                <h2 class="Subheading">LOGIN</h2>
+                <h3 class="Caption">(Score Saved)</h3>
+                <input class="LongInput" type="text" id="loginUsername" placeholder="Username"><br><br>
+                <input class="LongInput" type="password" id="loginPassword" placeholder="Password"><br><br>
+                <a class="UnderlineAnim" href="register.html">Register an Account</a>
+            </div>
+            <!--GUEST BOX-->
+            <div class="InputContainer">
+                <h2 class="Subheading">GUEST</h2>
+                <h3 class="Caption">(Score not saved)</h3>
+                <input class="LongInput" type="text" id="guestUsername" placeholder="Username"><br><br>
+                <input class="LongInput" type="text" id="guestNickname" placeholder="Nickname"><br><br>
+            </div>
+        </div>
+        <br>
+        <button class="LongButton" onclick="ConfirmLogin()">PLAY</button>
+
+        <script src="app.js"></script>        
+    </body>
+</html>
