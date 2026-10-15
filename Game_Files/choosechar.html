@@ -6,7 +6,10 @@
         <title>Jafer's TCG</title>
     </head>
     <body id="Game">
-        <h1 class="PageHead">Choose 3 Characters</h1>   
+        <div class="Navbar">
+            <h1 class="PageHead">Choose 3 Characters</h1>
+            <button class="TopButton" onclick="GoHome()">Home</button>
+        </div>
         <div class="CharacterCardContainer">
             <img class="CharacterCard" src="Sprites\CharacterCards\Jafer-TCG_Character Card.png" onclick="SelectCharacter(1)">
             <img class="CharacterCard" src="Sprites\CharacterCards\Jafer-TCG_Character Card copy.png" onclick="SelectCharacter(2)">
@@ -24,6 +27,6 @@
 
         <button class="LongButton" onclick="ConfirmCharacterSelection()" id="ConfirmBtn">Confirm Selection</button>
 
-        <script src="app.js"></script>
+        <script src="ChoicesHandler.js"></script>
     </body>
 </html>

@@ -5,7 +5,10 @@
         <link rel="stylesheet" href="Styles.css">
     </head>
     <body id="Home">
-        <h1 class="PageHead">Jafer's TCG</h1>
+        <div class="Navbar">
+            <h1 class="PageHead">Jafer's TCG</h1>
+            <button class="TopButton" onclick="GoHome()">Home</button>
+        </div>
         <div class="RegisterContainer">
             <h1 class="Subheading">REGISTER</h1>
             <input class="LongInput" placeholder="Username" type="text"><br><br>
@@ -15,6 +18,6 @@
 
         <button class="LongButton" onclick=Register()>LOGIN</button>
 
-        <script src="app.js"></script>
+        <script src="LoginHandler.js"></script>
     </body>
 </html>

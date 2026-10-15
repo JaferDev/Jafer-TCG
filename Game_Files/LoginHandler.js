@@ -9,6 +9,11 @@ function GoLogin()
     location.replace("index.html");
 }
 
+function GoHome()
+{
+    location.replace("index.html");
+}
+
 function FindIndex(item, array)
 {
     for(let i = 0; i < array.length; i++) if (array[i] == item) return i;
@@ -59,8 +64,6 @@ function ConfirmLogin()
     GoChooseCharacter();
 }
 
-
-
 function Register()
 {
     //Register user
@@ -71,29 +74,4 @@ function Register()
 function GoChooseCharacter()
 {
     location.replace(characterPage);
-}
-
-function SelectCharacter(charIndex)
-{
-    console.log(loginDetails);
-    console.log(userInfo);
-    if (userInfo.charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
-    else if (userInfo.charsSelected.length == 3) console.log("Can't add more");
-    else userInfo.charsSelected.push(charIndex);
-
-    console.log(userInfo.charsSelected);
-}
-
-function DeselectCharacter(charIndex)
-{
-    console.log("Before Deselection: " + userInfo.charsSelected);
-    userInfo.charsSelected = userInfo.charsSelected.filter(item => item != charIndex);
-    console.log("After Deselection: " + userInfo.charsSelected);
-}
-
-function ConfirmCharacterSelection()
-{
-    if (userInfo.charsSelected.length != 3) {console.log("Nop"); return;}
-
-    location.replace(powerUpPage);
 }

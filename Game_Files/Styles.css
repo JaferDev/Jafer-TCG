@@ -26,12 +26,12 @@ body#Game{
 }
 
 .PageHead{
-    color: #12402C;
+    color: #22a069;
     font-family: silkScreenBold;
-    font-size: 80px;
+    font-size: 90px;
     text-align: center;
     margin-top: 3%;
-    text-shadow: 5px 10px black;
+    text-shadow: 5px 10px #021d11;
 }
 
 .Subheading{
@@ -43,6 +43,13 @@ body#Game{
 .Caption{
     font-size: 25px;
     text-align: center;
+}
+
+.Navbar{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 1%;
 }
 
 .ListBox{
@@ -70,9 +77,9 @@ body#Game{
     border-color: rgb(0, 0, 0);
     border-radius: 10px;
     background-color:#1B1240;
-    margin-top: 5%;
+    margin-top: 1%;
     margin-left: 25%;
-    margin-right: 35%;
+    margin-right: 25%;
     width: 50%;
     text-align: center;
     letter-spacing: 16px;
@@ -88,8 +95,31 @@ body#Game{
     color: aliceblue;
 }
 
+.TopButton{
+    border: 5px solid transparent;
+    border-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color:#1B1240;;
+    text-align: center;
+    letter-spacing: 5px;
+    font-size: 20px;
+    color: #95655D;
+    font-family: silkScreenBold;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    margin-left: 3%;
+    margin-right: 3%;
+    transition: all 0.3s ease;
+}
+
+.TopButton:hover{
+    background-color: #95655D;
+    color: #1B1240;
+}
+
 .InputContainerParent{
-    margin-top: 5%;
+    margin-top: 8%;
+    margin-bottom: 7%;
     margin-right: 20%;
     margin-left: 20%;
     display: flex;
@@ -100,13 +130,14 @@ body#Game{
     flex: 1;
     border: 10px solid transparent;
     padding: 2%;
+    padding-bottom: 3%;
     border-radius: 15px;
     transition: background-color 0.3s ease;
     border-image: url(Sprites/UI/Border.png) 16 round;
 } 
 
 .InputContainer:hover{
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .InputContainer:first-child{
@@ -131,11 +162,11 @@ body#Game{
   content: '';
   position: absolute;
   width: 100%;
-  transform: scaleX(0);
-  height: 3px;
+  height: 2px;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scaleX(0);
   transition: transform 0.25s ease-out;
 }
 .UnderlineAnim:hover::after {
@@ -152,28 +183,44 @@ body#Game{
     border-image: url(Sprites/UI/Border.png) 16 round;
     padding: 2%;
     border-radius: 15px;
-    margin-top: 5%;
-    margin-bottom: 2%;  
+    margin-top: 2%;
+    margin-bottom: 8.5%;  
     width: 25%;
     margin-right: auto;
     margin-left: auto;
+    transition: background-color 0.3s ease;
 } 
 
+.RegisterContainer:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
 .CharacterCardContainer{
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 10%;
+    margin-right: 7%;
+    margin-bottom: 1%;
     background-color: rgba(0 0, 0, 1);
 }
 
 .CharacterCard{
-    width: 250px;
-    height: 350 px;
-    margin: 10px;
+    width: 225px;
+    height: 315px;
+    margin-left: 10px;
     transition: all  0.5s ease;
+    border: 5px solid transparent;
+    border-color: black;
+    border-radius: 15px;
 }
 
 .CharacterCard:hover{
-    width: 275px;
-    height: 385px;
-    transform: scale(1.005);
+    transform: scale(1.05);
+}
+
+.PowerupCardContainer{
+    margin-left: 18%;
+    margin-right: 15%;
+    margin-bottom: 10%;
+    margin-top: 5%;
+    background-color: rgba(0 0, 0, 1);
 }
