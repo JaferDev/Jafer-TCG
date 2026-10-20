@@ -21,16 +21,15 @@ function GoChooseCharacter()
 
 function SelectCharacter(charIndex)
 {
-    console.log(userInfo.charsSelected);
-    console.log(userInfo.charsSelected.includes(charIndex));
+    console.log("-----------\n", userInfo.charsSelected);
     if (userInfo.charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
     else if (userInfo.charsSelected.length == MAXCHARSSELECT) console.log("Can't add more");
     else userInfo.charsSelected.push(charIndex);
-}
+    console.log(userInfo.charsSelected);
+}   
 
 function DeselectCharacter(charIndex)
 {
-    console.log("Test");
     userInfo.charsSelected = userInfo.charsSelected.filter(item => item != charIndex);
 }
 

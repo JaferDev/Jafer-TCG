@@ -28,7 +28,16 @@ body#Game{
 .PageHead{
     color: #22a069;
     font-family: silkScreenBold;
-    font-size: 90px;
+    font-size: 80px;
+    text-align: center;
+    margin-top: 3%;
+    text-shadow: 5px 10px #021d11;
+}
+
+.PageHeadLong{
+    color: #22a069;
+    font-family: silkScreenBold;
+    font-size: 60px;
     text-align: center;
     margin-top: 3%;
     text-shadow: 5px 10px #021d11;
@@ -48,8 +57,6 @@ body#Game{
 .Navbar{
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 1%;
 }
 
 .ListBox{
@@ -109,6 +116,8 @@ body#Game{
     margin-bottom: 4%;
     margin-left: 3%;
     margin-right: 3%;
+    padding-left: 2%;
+    padding-right: 2%;
     transition: all 0.3s ease;
 }
 
@@ -118,8 +127,8 @@ body#Game{
 }
 
 .InputContainerParent{
-    margin-top: 8%;
-    margin-bottom: 7%;
+    margin-top: 1.5%;
+    margin-bottom: 4%;
     margin-right: 20%;
     margin-left: 20%;
     display: flex;
@@ -183,8 +192,8 @@ body#Game{
     border-image: url(Sprites/UI/Border.png) 16 round;
     padding: 2%;
     border-radius: 15px;
-    margin-top: 2%;
-    margin-bottom: 8.5%;  
+    margin-top: 1%;
+    margin-bottom: 5%;  
     width: 25%;
     margin-right: auto;
     margin-left: auto;
@@ -197,15 +206,16 @@ body#Game{
 
 
 .CharacterCardContainer{
-    margin-left: 10%;
-    margin-right: 7%;
+    align-self: center;
+    align-items: center;
     margin-bottom: 1%;
-    background-color: rgba(0 0, 0, 1);
+    margin-left: 5%;
+    margin-right: 5%;
 }
-
+/*Width:height ratio = 1: 1.2*/
 .CharacterCard{
-    width: 225px;
-    height: 315px;
+    width: 13.5%; 
+    height: 16.2%;
     margin-left: 10px;
     transition: all  0.5s ease;
     border: 5px solid transparent;
@@ -218,9 +228,8 @@ body#Game{
 }
 
 .PowerupCardContainer{
-    margin-left: 18%;
-    margin-right: 15%;
-    margin-bottom: 10%;
-    margin-top: 5%;
-    background-color: rgba(0 0, 0, 1);
+    margin-top: 7%;
+    margin-bottom: 1%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
