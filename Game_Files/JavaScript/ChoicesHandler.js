@@ -1,7 +1,7 @@
-const HOMEPAGE = "index.html";
-const CHARACTERPAGE = "choosechar.html";
-const POWERUPPAGE = "choosepowerup.html";
-const GAMEPAGE = "game.html";
+const HOMEPAGE = "../index.html";
+const CHARACTERPAGE = "2_choosechar.html";
+const POWERUPPAGE = "3_choosepowerup.html";
+const GAMEPAGE = "4_game.html";
 
 let userInfo = {loggedIn: false, playerName : "", charsSelected: [], powerupsSelected: []};
 let loginDetails = {usernames: ["abc"], passwords: ["123"]};

@@ -187,8 +187,7 @@ body#Game{
     align-self: center;
     align-items: center;
     margin-bottom: 1%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 130px;
 }
 /*Width:height ratio = 1: 1.2*/
 .CharacterCard{
@@ -196,9 +195,6 @@ body#Game{
     height: 16.2%;
     margin-left: 10px;
     transition: all  0.5s ease;
-    border: 5px solid transparent;
-    border-color: black;
-    border-radius: 15px;
 }
 
 .CharacterCard:hover{
@@ -222,11 +218,6 @@ body#Game{
     color: rgb(193, 19, 19);
     margin-top: 5px;
     padding: 5px;
-}
-
-::-webkit-scrollbar{
-    width: 20px;
-    height: 12px;
 }
 
 .ErrorMsg{

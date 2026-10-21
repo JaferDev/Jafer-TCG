@@ -1,5 +1,4 @@
-let characterPage = "choosechar.html";
-let powerUpPage = "choosepowerup.html";
+let characterPage = "HTMLPages/2_choosechar.html";
 let userInfo = {loggedIn: false, playerName : "", charsSelected: [], powerupsSelected: []};
 let loginDetails = {usernames: ["abc"], passwords: ["123"]};
 
@@ -11,6 +10,7 @@ function ConfirmLogin()
     const guestName = document.getElementById("guestNickname").value;
 
     if ((loginUsername == "" && loginPassword == "") && (guestName != "")) GuestEnter(guestName);
+    else if((loginUsername != "" || loginPassword == "") && (guestName != "")) RaiseError("Pick between login or guest");
     else LoggedInEnter(loginUsername, loginPassword);
 }
 
@@ -24,12 +24,11 @@ function GuestEnter(guestName)
 function LoggedInEnter(username, password)
 {   
     let userData = localStorage[username];
-    if (userData == undefined) { UserNotFound(); return; }
+    if (userData == undefined) { RaiseError("User Not Found, you may want to register"); return; }
 
     let userObj = JSON.parse(userData);
-    console.log(password, userObj.password);
     if (password == userObj.password) LoginSuccess();
-    else PasswordIncorrect();
+    else RaiseError("Password Incorrect");
 }
 
 function LoginSuccess(username)
@@ -38,14 +37,9 @@ function LoginSuccess(username)
     GoChooseCharacter();
 }
 
-function UserNotFound()
+function RaiseError(errorMsg)
 {
-    document.getElementById("ErrorMessage").innerHTML = "User Not Found, you may want to register";
-}
-
-function PasswordIncorrect()
-{
-    document.getElementById("ErrorMessage").innerHTML = "Password Incorrect";
+    document.getElementById("ErrorMessage").innerHTML = errorMsg;
 }
 
 function FindIndex(item, array)

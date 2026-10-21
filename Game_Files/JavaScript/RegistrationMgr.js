@@ -1,4 +1,4 @@
-const homePage = "index.html";
+const homePage = "../index.html";
 
 class User
 {
@@ -99,7 +99,7 @@ function DisplayErrorMsg(errorMsg)
 }
 
 function AddToStorage(email, username, dob, password)
-{
+{   
     let newUser = new User(email, username, dob, password);
     localStorage[newUser.username] = JSON.stringify(newUser);
 }

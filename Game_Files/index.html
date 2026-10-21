@@ -14,7 +14,7 @@
                 <h3 class="Caption">(Score Saved)</h3>
                 <input class="LongInput" type="text" id="loginUsername" placeholder="Username"><br>
                 <input class="LongInput" type="password" id="loginPassword" placeholder="Password"><br>
-                <a class="UnderlineAnim" href="register.html">Register an Account</a>
+                <a class="UnderlineAnim" href="HTMLPages/1_register.html">Register an Account</a>
                 <div class="ErrorMsg" id="ErrorMessage"></div>
             </div>
             <!--GUEST BOX-->
@@ -26,8 +26,9 @@
             </div>
         </div>
         <br>
-        <button class="LongButton" onclick="ConfirmLogin()">PLAY</button>
+        <button class="LongButton" onclick="ConfirmLogin()" onclick="AddAllData()">PLAY</button>
 
-        <script src="LoginHandler.js"></script>  
+        <script src="JavaScript/LoginHandler.js"></script>  
+        <script src="JavaScript/CardDetails.js"></script>
     </body>
 </html>
