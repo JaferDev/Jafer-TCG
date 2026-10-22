@@ -1,10 +1,9 @@
 const HOMEPAGE = "../index.html";
 const POWERUPPAGE = "3_choosepowerup.html";
 
-let userInfo = {loggedIn: false, playerName : "", charsSelected: [], powerupsSelected: []};
+let charsSelected= [];
 
 const MAXCHARSSELECT = 3;
-const MAXPOWERUPSSELECT = 2;
 
 function GoHome()
 {
@@ -18,9 +17,9 @@ function GoPowerup()
 
 function SelectCharacter(charIndex)
 {;
-    console.log("-----------\n", userInfo.charsSelected);
-    if (userInfo.charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
-    else if (userInfo.charsSelected.length != MAXCHARSSELECT) userInfo.charsSelected.push(charIndex);
+    console.log("-----------\n", charsSelected);
+    if (charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
+    else if (charsSelected.length != MAXCHARSSELECT) charsSelected.push(charIndex);
     DisplaySelection()
 }   
 
@@ -29,7 +28,7 @@ function DisplaySelection()
     let characters = JSON.parse(localStorage.Characters);
     let namesCharsSelected = [];
 
-    userInfo.charsSelected.forEach(charIndex => {
+    charsSelected.forEach(charIndex => {
         namesCharsSelected.push(characters[charIndex - 1].name);
     });
 
@@ -38,19 +37,19 @@ function DisplaySelection()
 
 function DeselectCharacter(charIndex)
 {
-    userInfo.charsSelected = userInfo.charsSelected.filter(item => item != charIndex);
+    charsSelected = charsSelected.filter(item => item != charIndex);
 }
 
 function ConfirmCharacterSelection()
 {
-    if (userInfo.charsSelected.length != MAXCHARSSELECT) {console.log("Nop"); return;}
+    if (charsSelected.length != MAXCHARSSELECT) {console.log("Nop"); return;}
     
     let charObjs = [];
     let characters = JSON.parse(localStorage.Characters);
-    userInfo.charsSelected.forEach(charIndex => {
+    charsSelected.forEach(charIndex => {
         charObjs.push(characters[charIndex - 1]);
     });
-    sessionStorage["Characters"] = JSON.stringify(charObjs);
+    sessionStorage.Characters = JSON.stringify(charObjs);
 
     GoPowerup();
 }

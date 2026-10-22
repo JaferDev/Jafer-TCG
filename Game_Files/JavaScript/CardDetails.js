@@ -39,9 +39,34 @@ class Character
     }
 }
 
+class PowerupType
+{
+    static enhancement = "enhancement";
+    static transmutation = "transmutation";
+    static conjuration = "conjuration";
+    static manipulation = "manipulation";
+}
+
+class Powerup
+{
+    constructor(name, powerupType, elementTypes)
+    {
+        /**
+         * @param {string} name - Powerup Name
+         * @param {PowerupType} powerupType - Powerup Type
+         * @param {Array[ElementType]} elementTypes - Element Types
+         */
+
+        this.name = name;
+        this.powerupType = powerupType;
+        this.elementTypes = elementTypes;
+    }
+}
+
 function AddAllData()
 {
     AddCharacterCards();
+    AddPowerupCards();
 }
 
 function AddCharacterCards()
@@ -60,6 +85,11 @@ function AddCharacterCards()
 
     localStorage["Characters"] = JSON.stringify(characters);
     console.log(characters);
+}
+
+function AdddPowerupCards()
+{
+    
 }
 
 window.onload = AddAllData;
