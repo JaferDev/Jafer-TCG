@@ -9,6 +9,7 @@ function ConfirmLogin()
     const loginPassword = document.getElementById("loginPassword").value;
     const guestName = document.getElementById("guestNickname").value;
 
+    console.log(loginPassword);
     if ((loginUsername == "" && loginPassword == "") && (guestName != "")) GuestEnter(guestName);
     else if((loginUsername != "" || loginPassword == "") && (guestName != "")) RaiseError("Pick between login or guest");
     else LoggedInEnter(loginUsername, loginPassword);
@@ -34,6 +35,7 @@ function LoggedInEnter(username, password)
 function LoginSuccess(username)
 {
     sessionStorage[username] = username;
+    sessionStorage.loggedIn = true;
     GoChooseCharacter();
 }
 

@@ -58,6 +58,8 @@ function AddCharacterCards()
     const dragonfleeStrongAtk = new Attack("Mega Sting", [ElementType.flora, ElementType.flora, ElementType.wind], 40);
     characters.push(new Character("Dragonflee", [ElementType.flora, ElementType.wind], 100, dragonfleeWeakAtk, dragonfleeStrongAtk));
 
-    localStorage["Characters"] = characters;
-
+    localStorage["Characters"] = JSON.stringify(characters);
+    console.log(characters);
 }
+
+window.onload = AddAllData;

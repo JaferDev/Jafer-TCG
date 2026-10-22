@@ -8,6 +8,7 @@ class User
         this.username = username;
         this.dateOfBirth = dateOfBirth;
         this.password = password;
+        this.highScore = 0;
     }
 }
 
