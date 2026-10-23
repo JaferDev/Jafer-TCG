@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet", href="../Styles.css">
+        <link rel="stylesheet", href="../Styles1.css">
         <meta charset="UTF-8" />
         <title>Jafer's TCG</title>
     </head>
     <body id="Game">
-        <div class="Navbar">
-            <h1 class="PageHeadLong">Choose 3 Characters</h1>
-            <button class="TopButton" onclick="GoHome()">Home</button>
+        <div class="CardContainer">
+            <div class="Card">
+                <div class="CardHeadContainer">
+                    <img src="../Sprites/UI/Wind.png" class="CardHeadType">
+                    <p class="CardHead">Paper Sheet</p>
+                    <p class="CardHP">HP 70</p>
+                </div>    
+                <img src="../Sprites/CharacterCards/Character Images/Axle.png" class="CardImage">
+                <div class="AtkInfoContainer">
+                    <div class="Atk">
+                        <div class="AtkHead">
+                            <img src="../Sprites/UI/Wind.png" class="AtkType">
+                            <p class="AtkName">Catch</p>
+                            <p class="AtkHP">13</p>       
+                        </div>
+                        <p class="AtkDesc">Catches enemy by surrounding enemy with itself</p>
+                    </div>
+                    <div class="Atk">
+                        <div class="AtkHead">
+                            <img src="../Sprites/UI/Wind.png" class="AtkType">
+                            <img src="../Sprites/UI/Wind.png" class="AtkType">
+                            <img src="../Sprites/UI/Wind.png" class="AtkType">
+                            <p class="AtkName">Paper Cuts</p>
+                            <p class="AtkHP">42</p>
+                        </div>
+                        <p class="AtkDesc">Gives enemy many different paper cuts. Ouch!</p>
+                    </div>
+                    <div class="DefaultDetails">
+                        <div class="HalfDetail">
+                            <p class="SmallDetail">Weakness</p>
+                            <img src="../Sprites/UI/Ground.png" class="AtkType">
+                            <p class="SmallDetail">x 2</p>
+                        </div>
+                        <div class="HalfDetail">
+                            <p class="SmallDetail">Reactions</p>
+                            <img src="../Sprites/UI/Fire.png" class="AtkType">
+                            <img src="../Sprites/UI/Ice.png" class="AtkType">
+                            <img src="../Sprites/UI/Water.png" class="AtkType">
+                            <p class="SmallDetail">x 1.1</p>
+                        </div>
+                    </div>
+                </div> 
+                <div class="CreditsContainer">
+                    <p class="Credits">Idea By: Baqir Hussain</p>
+                    <p class="Credits">Art By: Jafer Hussain</p>
+                </div>
+            </div>
         </div>
-        <div class="CharacterCardContainer">
-            <img class="CharacterCard" src="../Sprites/CharacterCards/Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(1)" id="1">
-            <img class="CharacterCard" src="../Sprites/CharacterCards/Jafer-TCG_Character Card_Dragonflee.png" onclick="SelectCharacter(2)" id="2">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(3)" id="3">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(4)" id="4">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(5)" id="5">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(6)" id="6">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(7)" id="7">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(8)" id="8">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(9)" id="9">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(10)" id="10">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(11)" id="11">
-            <img class="CharacterCard" src="../Sprites/CharacterCards\Jafer-TCG_Character Card_Axle.png" onclick="SelectCharacter(12)" id="12">
-        </div>
-
-        <div class="SelectionDisplay" id="SelectionDisplay">
-            Characters Selected:
-        </div>
-        <button class="LongButton" onclick="ConfirmCharacterSelection()" id="ConfirmBtn">Confirm</button>
-
-        <script src="../JavaScript/CharacterSelector.js"></script>
     </body>
 </html>

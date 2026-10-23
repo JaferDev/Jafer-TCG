@@ -1,5 +1,5 @@
 const HOMEPAGE = "../index.html";
-const POWERUPPAGE = "3_choosepowerup.html";
+const GAMEPAGE = "3_game.html";
 
 let charsSelected= [];
 
@@ -10,9 +10,9 @@ function GoHome()
     location.replace(HOMEPAGE);
 }
 
-function GoPowerup()
+function GoGame()
 {
-    location.replace(POWERUPPAGE);
+    location.replace(GAMEPAGE);
 }
 
 function SelectCharacter(charIndex)
@@ -51,5 +51,5 @@ function ConfirmCharacterSelection()
     });
     sessionStorage.Characters = JSON.stringify(charObjs);
 
-    GoPowerup();
+    GoGame();
 }

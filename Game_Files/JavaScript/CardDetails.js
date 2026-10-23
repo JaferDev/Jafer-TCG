@@ -1,10 +1,11 @@
 class Attack
 {
-    constructor(name, types, dmg)
+    constructor(name, types, dmg, desc)
     {
         this.name = name;
         this.types = types;
         this.dmg = dmg;
+        this.desc = desc
     }
 }
 
@@ -21,7 +22,7 @@ class ElementType
 
 class Character
 {
-    constructor(name, types, hp, weakAttack, strongAttack)
+    constructor(name, types, hp, weakAttack, strongAttack, imagePath, ideaBy)
     {
         /**
          * @param {string} name - Character name
@@ -29,6 +30,8 @@ class Character
          * @param {number} hp - Character HP
          * @param {Attack} weakAttack - Character's weak attack
          * @param {Attack} strongAttack - Character's strong attack
+         * @param {string} imagePath - URL to get image
+         * @param {string} ideaBy - Who provided the developer (JaferDev) with the idea
          */
 
         this.name = name;
@@ -36,37 +39,14 @@ class Character
         this.hp = hp;
         this.weakAttack = weakAttack;
         this.strongAttack = strongAttack;
-    }
-}
-
-class PowerupType
-{
-    static enhancement = "enhancement";
-    static transmutation = "transmutation";
-    static conjuration = "conjuration";
-    static manipulation = "manipulation";
-}
-
-class Powerup
-{
-    constructor(name, powerupType, elementTypes)
-    {
-        /**
-         * @param {string} name - Powerup Name
-         * @param {PowerupType} powerupType - Powerup Type
-         * @param {Array[ElementType]} elementTypes - Element Types
-         */
-
-        this.name = name;
-        this.powerupType = powerupType;
-        this.elementTypes = elementTypes;
+        this.imagePath = imagePath;
+        this.ideaBy = ideaBy;
     }
 }
 
 function AddAllData()
 {
     AddCharacterCards();
-    AddPowerupCards();
 }
 
 function AddCharacterCards()
@@ -79,17 +59,12 @@ function AddCharacterCards()
     characters.push(new Character("Axel", [ElementType.ice], 100, axelWeakAtk, axelStrongAtk));
 
     //Dragonflee
-    const dragonfleeWeakAtk = new Attack("Sting Slap", [ElementType.flora], 10);
-    const dragonfleeStrongAtk = new Attack("Mega Sting", [ElementType.flora, ElementType.flora, ElementType.wind], 40);
+    const dragonfleeWeakAtk = new Attack("Sting Slap", [ElementType.flora], 15);
+    const dragonfleeStrongAtk = new Attack("Mega Sting", [ElementType.flora, ElementType.flora, ElementType.wind], 50);
     characters.push(new Character("Dragonflee", [ElementType.flora, ElementType.wind], 100, dragonfleeWeakAtk, dragonfleeStrongAtk));
 
     localStorage["Characters"] = JSON.stringify(characters);
     console.log(characters);
-}
-
-function AdddPowerupCards()
-{
-    
 }
 
 window.onload = AddAllData;

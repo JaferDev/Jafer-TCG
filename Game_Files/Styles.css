@@ -186,7 +186,7 @@ body#Game{
 .CharacterCardContainer{
     align-self: center;
     align-items: center;
-    margin-bottom: 1%;
+    margin-bottom: 0.5%;
     margin-left: 130px;
 }
 /*Width:height ratio = 1: 1.2*/
@@ -202,10 +202,23 @@ body#Game{
 }
 
 .PowerupCardContainer{
-    margin-top: 7%;
-    margin-bottom: 1%;
-    margin-left: 5%;
-    margin-right: 5%;
+    align-self: center;
+    align-items: center;
+    margin-top: 4%;
+    margin-bottom: 6%;
+    margin-left: 3%;
+}
+
+/*Width:height ratio = 1: 1.2*/
+.PowerupCard{
+    width: 18%; 
+    height: 21.6%;
+    margin-left: 10px;
+    transition: all  0.5s ease;
+}
+
+.PowerupCard:hover{
+    transform: scale(1.05);
 }
 
 .ScrollableText{
@@ -234,7 +247,7 @@ body#Game{
     width: 50%;
     border: 5px solid black;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
     background-color:  rgba(255, 255, 255, 0.5);
     color: black;
     text-align: center;
