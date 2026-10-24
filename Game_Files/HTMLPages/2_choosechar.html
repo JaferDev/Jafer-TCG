@@ -1,58 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet", href="../Styles1.css">
+        <link rel="stylesheet", href="../Styles.css">
         <meta charset="UTF-8" />
         <title>Jafer's TCG</title>
     </head>
     <body id="Game">
-        <div class="CardContainer">
-            <div class="Card">
-                <div class="CardHeadContainer">
-                    <img src="../Sprites/UI/Wind.png" class="CardHeadType">
-                    <p class="CardHead">Paper Sheet</p>
-                    <p class="CardHP">HP 70</p>
-                </div>    
-                <img src="../Sprites/CharacterCards/Character Images/Axle.png" class="CardImage">
-                <div class="AtkInfoContainer">
-                    <div class="Atk">
-                        <div class="AtkHead">
-                            <img src="../Sprites/UI/Wind.png" class="AtkType">
-                            <p class="AtkName">Catch</p>
-                            <p class="AtkHP">13</p>       
-                        </div>
-                        <p class="AtkDesc">Catches enemy by surrounding enemy with itself</p>
-                    </div>
-                    <div class="Atk">
-                        <div class="AtkHead">
-                            <img src="../Sprites/UI/Wind.png" class="AtkType">
-                            <img src="../Sprites/UI/Wind.png" class="AtkType">
-                            <img src="../Sprites/UI/Wind.png" class="AtkType">
-                            <p class="AtkName">Paper Cuts</p>
-                            <p class="AtkHP">42</p>
-                        </div>
-                        <p class="AtkDesc">Gives enemy many different paper cuts. Ouch!</p>
-                    </div>
-                    <div class="DefaultDetails">
-                        <div class="HalfDetail">
-                            <p class="SmallDetail">Weakness</p>
-                            <img src="../Sprites/UI/Ground.png" class="AtkType">
-                            <p class="SmallDetail">x 2</p>
-                        </div>
-                        <div class="HalfDetail">
-                            <p class="SmallDetail">Reactions</p>
-                            <img src="../Sprites/UI/Fire.png" class="AtkType">
-                            <img src="../Sprites/UI/Ice.png" class="AtkType">
-                            <img src="../Sprites/UI/Water.png" class="AtkType">
-                            <p class="SmallDetail">x 1.1</p>
-                        </div>
-                    </div>
-                </div> 
-                <div class="CreditsContainer">
-                    <p class="Credits">Idea By: Baqir Hussain</p>
-                    <p class="Credits">Art By: Jafer Hussain</p>
-                </div>
-            </div>
+        <div class="Navbar">
+            <h1 class="PageHeadLong">Choose 3 Characters</h1>
+            <button class="TopButton" onclick="ChangePage(0)">Home</button>
         </div>
+        <div class="CharacterCardContainer" id="CardContainer">
+        </div>
+
+        <div class="SelectionDisplay" id="SelectionDisplay">
+            Characters Selected:
+        </div>
+        <button class="LongButton" onclick="ConfirmCharacterSelection()" id="ConfirmBtn">Confirm</button>
+
+        <script src="../JavaScript/Redirect.js"></script>
+        <script src="../JavaScript/CharacterSelector.js"></script>
+        <script src="../JavaScript/DisplayAllChars.js" type="module"></script>
     </body>
 </html>

@@ -79,6 +79,7 @@ function CheckRegistration(email, username, dob, password, confPassword)
         "Username cannot be longer than 16 characters": username.length < 17,
         "Username must at least be 5 characters": username.length > 4,
         "You must be at least 5 years old": (CURDATE - dateOfBirth) / (1000 * 60 * 60 * 24 * 365) >= 5,
+        "You cannot be more than 161 years old": (CURDATE - dateOfBirth) / (1000 * 60 * 60 * 24 * 365) <= 2391,
         "Password must be at least 8 characters": password.length >= 8,
         "Password must contain at least one special character": CheckSpecialChars(password),
         "Password must contain at least one capital letter": /[A-Z]/.test(password),

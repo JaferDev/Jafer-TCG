@@ -8,6 +8,11 @@
     src: url(Fonts/Silkscreen/Silkscreen-Bold.ttf)
 }
 
+@font-face{
+    font-family: anta;
+    src: url(Fonts/Anta/Anta-Regular.ttf);
+}
+
 body{
     background-color:rgb(11, 4, 37);
     color:#95655D;
@@ -183,43 +188,6 @@ body#Game{
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.CharacterCardContainer{
-    align-self: center;
-    align-items: center;
-    margin-bottom: 0.5%;
-    margin-left: 130px;
-}
-/*Width:height ratio = 1: 1.2*/
-.CharacterCard{
-    width: 13.5%; 
-    height: 16.2%;
-    margin-left: 10px;
-    transition: all  0.5s ease;
-}
-
-.CharacterCard:hover{
-    transform: scale(1.05);
-}
-
-.PowerupCardContainer{
-    align-self: center;
-    align-items: center;
-    margin-top: 4%;
-    margin-bottom: 6%;
-    margin-left: 3%;
-}
-
-/*Width:height ratio = 1: 1.2*/
-.PowerupCard{
-    width: 18%; 
-    height: 21.6%;
-    margin-left: 10px;
-    transition: all  0.5s ease;
-}
-
-.PowerupCard:hover{
-    transform: scale(1.05);
-}
 
 .ScrollableText{
     height: 50px;
@@ -251,4 +219,154 @@ body#Game{
     background-color:  rgba(255, 255, 255, 0.5);
     color: black;
     text-align: center;
+}
+
+/* Card CSS Code */
+
+.CharacterCardContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 1%;
+}
+
+.Card{
+    color: black;
+    background-color: #dd5656;
+    width: 200px;
+    height: 280px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    font-family: anta;
+    border: 4px solid;
+    
+    transition: all 0.5s ease;
+}
+
+.Card:hover{
+    transform: scale(1.05);
+}
+
+.CardHeadContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.CardHead{
+    font-size: 15px;
+    margin-left: 1%;
+    justify-content: center;
+}
+
+.CardHP{
+    font-size: 7px;
+    text-align: right;
+    margin-left: 5%;
+    align-self: center;
+}
+
+.CardHeadType{
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-right: 5%;
+    width: 10%;
+    height: max-content;
+}
+
+.CardImage{
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    border: 1px solid white;
+    margin-bottom: 3px;
+}
+
+.AtkInfoContainer{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 92%;
+    border-radius: 5px;
+}
+
+.AtkHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 15px
+}
+
+.AtkType{
+    width: 10%;
+    height: max-content;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.AtkName{
+    margin-left: 10%;
+    font-size: 9px;
+}
+
+.AtkHP{
+    margin-left: 10%;
+    font-size: 10px;
+}
+
+.AtkDesc{
+    font-size: 8px;
+}
+
+.DefaultDetails{
+    display: flex;
+    flex-direction: row;
+    border:1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    height: 15px;
+}
+
+.HalfDetail{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
+.SmallDetail{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 5px;
+}
+
+.DetailType{
+    width: 10%;
+    height: max-content;
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-top: 7%;
+}
+
+.CreditsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.Credits{
+    margin-left: 3%;
+    margin-right: 3%;
+    font-size: 4px;
+}
+
+/*Card CSS Over*/
+
+.LargeBlank{
+    margin: 6%;
 }

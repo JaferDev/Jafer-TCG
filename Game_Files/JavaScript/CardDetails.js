@@ -1,48 +1,4 @@
-class Attack
-{
-    constructor(name, types, dmg, desc)
-    {
-        this.name = name;
-        this.types = types;
-        this.dmg = dmg;
-        this.desc = desc
-    }
-}
-
-class ElementType
-{
-    static water = "water";
-    static wind = "wind";
-    static ground = "ground";
-    static electricity = "electricity";
-    static flora = "flora";
-    static fire = "fire";
-    static ice = "ice";
-}
-
-class Character
-{
-    constructor(name, types, hp, weakAttack, strongAttack, imagePath, ideaBy)
-    {
-        /**
-         * @param {string} name - Character name
-         * @param {Array[ElementType]} types - Character types
-         * @param {number} hp - Character HP
-         * @param {Attack} weakAttack - Character's weak attack
-         * @param {Attack} strongAttack - Character's strong attack
-         * @param {string} imagePath - URL to get image
-         * @param {string} ideaBy - Who provided the developer (JaferDev) with the idea
-         */
-
-        this.name = name;
-        this.types = types;
-        this.hp = hp;
-        this.weakAttack = weakAttack;
-        this.strongAttack = strongAttack;
-        this.imagePath = imagePath;
-        this.ideaBy = ideaBy;
-    }
-}
+import {Attack, ElementType, Character} from "./modules/GameData.js";
 
 function AddAllData()
 {
@@ -54,14 +10,17 @@ function AddCharacterCards()
     let characters = []; //Array[Character]
     
     //Axel
-    const axelWeakAtk = new Attack("Front Slash", [ElementType.ice], 10);
-    const axelStrongAtk = new Attack("Triple Slash", [ElementType.ice, ElementType.ice, ElementType.fire], 40);
-    characters.push(new Character("Axel", [ElementType.ice], 100, axelWeakAtk, axelStrongAtk));
+    const axelWeakAtk = new Attack("Front Slash", [ElementType.ice], 10, "Throws an axe towards the enemy");
+    const axelStrongAtk = new Attack("Triple Slash", [ElementType.ice, ElementType.ice, ElementType.fire], 35, "Gets two more axes to throw at the enemy");
+    characters.push(new Character("Axel", [ElementType.ice], 110, axelWeakAtk, axelStrongAtk, "Baqir Hussain"));
 
     //Dragonflee
-    const dragonfleeWeakAtk = new Attack("Sting Slap", [ElementType.flora], 15);
-    const dragonfleeStrongAtk = new Attack("Mega Sting", [ElementType.flora, ElementType.flora, ElementType.wind], 50);
-    characters.push(new Character("Dragonflee", [ElementType.flora, ElementType.wind], 100, dragonfleeWeakAtk, dragonfleeStrongAtk));
+    const dragonfleeWeakAtk = new Attack("Sting Slap", [ElementType.flora], 12, "Slaps enemy with stinger");
+    const dragonfleeStrongAtk = new Attack("Mega Sting", [ElementType.flora, ElementType.flora, ElementType.wind], 40, "Puffs up stinger and stings enemy");
+    characters.push(new Character("Dragonflee", [ElementType.flora, ElementType.wind], 90, dragonfleeWeakAtk, dragonfleeStrongAtk, "Baqir Hussain"));
+
+    //Wheeler
+    
 
     localStorage["Characters"] = JSON.stringify(characters);
     console.log(characters);

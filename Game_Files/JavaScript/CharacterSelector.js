@@ -1,22 +1,11 @@
-const HOMEPAGE = "../index.html";
-const GAMEPAGE = "3_game.html";
+const GAMEPAGE = "3_selectactive.html";
 
-let charsSelected= [];
+let charsSelected = [];
 
-const MAXCHARSSELECT = 3;
-
-function GoHome()
-{
-    location.replace(HOMEPAGE);
-}
-
-function GoGame()
-{
-    location.replace(GAMEPAGE);
-}
+const MAXCHARSSELECT = 2;
 
 function SelectCharacter(charIndex)
-{;
+{
     console.log("-----------\n", charsSelected);
     if (charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
     else if (charsSelected.length != MAXCHARSSELECT) charsSelected.push(charIndex);
@@ -51,5 +40,5 @@ function ConfirmCharacterSelection()
     });
     sessionStorage.Characters = JSON.stringify(charObjs);
 
-    GoGame();
+    location.replace(GAMEPAGE);
 }
