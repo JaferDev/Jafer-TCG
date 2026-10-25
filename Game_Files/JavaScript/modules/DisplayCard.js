@@ -34,7 +34,7 @@ function CardHTML(character, onClick)
                             <p class="AtkName">${character.strongAttack.name}</p>
                             <p class="AtkHP">${character.strongAttack.dmg}</p>
                         </div>
-                        <p class="AtkDesc">${character.weakAttack.desc}</p>
+                        <p class="AtkDesc">${character.strongAttack.desc}</p>
                     </div>
                     <div class="DefaultDetails">
                         <div class="HalfDetail">

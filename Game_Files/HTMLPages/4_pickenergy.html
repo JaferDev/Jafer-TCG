@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet", href="../Styles.css">
+        <meta charset="UTF-8" />
+        <title>Jafer's TCG</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body id="Home">
+        <div class="Navbar">
+            <button class="TopButton" onclick="ChangePage(3)">Change Active</button>
+            <h1 class="PageHeadLong">Pick 5 Energy</h1>
+            <button class="TopButton" onclick="ChangePage(0)">Home</button>
+        </div>
+
+        <div class="EnergyContainer" id="EnergyContainer">
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(0)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(1)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(2)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(3)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(4)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(5)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(6)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(7)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(8)>
+            <img src="../Sprites/Types/TypeBack.png" class="BigEnergy" onclick=SelectEnergy(9)>
+        </div>
+
+        <div id="SelectionDisplay"></div>
+        <div id="Informant"></div>
+
+        <script src="../JavaScript/Redirect.js"></script>
+        <script type="module" src="../JavaScript/PickEnergy.js" ></script>
+    </body>
+</html>

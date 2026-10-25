@@ -1,11 +1,25 @@
+import {DisplayCards} from "./modules/DisplayCard.js"
+
 const ENERGYPAGE = "4_pickenergy.html";
 
 let activeChar;
+
+window.onload = Init;
+window.SelectCharacter = SelectCharacter;
+window.ConfirmCharacterSelection = ConfirmCharacterSelection;
+
+function Init()
+{
+    let characters = JSON.parse(sessionStorage.Characters);
+    let onClicks = ["SelectCharacter(0)", "SelectCharacter(1)", "SelectCharacter(2)"];
+    DisplayCards(characters, onClicks);
+}
 
 function SelectCharacter(charIndex)
 {
     if (activeChar == charIndex) activeChar = undefined;
     else activeChar = charIndex;
+    console.log(activeChar);
     DisplaySelection();
 }   
 
