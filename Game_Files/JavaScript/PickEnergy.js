@@ -10,6 +10,7 @@ const GAMEPAGE = "5_game.html";
 
 let rngEnergies = [];
 let selectedEnergies = []; //Array[ElementType]
+let selectedIndexes = [];
 
 /**
  * Randomises Energies from index 0 - 9
@@ -29,12 +30,16 @@ function RandomiseEnergies()
 
     let allElements = GetPrimarySecondaryTypes(JSON.parse(sessionStorage.Characters));
     let primaryTypes = allElements[0]; let secondaryTypes = allElements[1];
-    
+    console.log(allElements);
     for(let i = 0; i < NUMTYPES; i++)
     {
         let rng = Math.random();
-        if (rng >= 0.30) rngEnergies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
-        else rngEnergies.push(secondaryTypes[Math.floor(Math.random() * secondaryTypes.length)]);
+        if (secondaryTypes.length == 0) rngEnergies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
+        else
+        {
+            if (rng >= 0.30) rngEnergies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
+            else rngEnergies.push(secondaryTypes[Math.floor(Math.random() * secondaryTypes.length)]);
+        }
     } 
 }
 
@@ -65,7 +70,7 @@ function GetPrimarySecondaryTypes(characters)
 
 function SelectEnergy(energyIndex)
 {
-    if (selectedEnergies.length == SELECTABLETYPES) return;
+    if (selectedEnergies.length == SELECTABLETYPES || selectedIndexes.includes(energyIndex)) return;
 
     let htmlCode = document.getElementById("EnergyContainer").innerHTML;
     let newHTMLCode = FindAndReplace(htmlCode, energyIndex);
@@ -73,6 +78,7 @@ function SelectEnergy(energyIndex)
     document.getElementById("EnergyContainer").innerHTML = newHTMLCode;
 
     selectedEnergies.push(rngEnergies[energyIndex]);
+    selectedIndexes.push(energyIndex);
 
     DisplayChange(energyIndex);
 
@@ -84,9 +90,8 @@ function DisplayChange(energyIndex)
     let selectionElement = document.getElementById("SelectionDisplay");
     if (!selectionElement.classList.contains("SelectionDisplay")) selectionElement.classList.add("SelectionDisplay");
     
-    if (selectedEnergies.length == 1 || selectedEnergies.length == SELECTABLETYPES) selectionElement.innerHTML += rngEnergies[energyIndex];
-    else if (selectedEnergies.length == 2) selectionElement.innerHTML += ", " + rngEnergies[energyIndex] + ", ";
-    else selectionElement.innerHTML += rngEnergies[energyIndex] + ", ";
+    if (selectedEnergies.length == 1) selectionElement.innerHTML += rngEnergies[energyIndex];
+    else selectionElement.innerHTML += ", " + rngEnergies[energyIndex]
 }
 
 /**

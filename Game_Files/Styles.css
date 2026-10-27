@@ -30,6 +30,10 @@ body#Game{
     background-image: url("Sprites/UI/Background1.jpeg");
 }
 
+body#GameFocused{
+    background-image: url("Sprites/UI/GameFocused.png");
+}
+
 .PageHead{
     color: #22a069;
     font-family: silkScreenBold;
@@ -407,8 +411,14 @@ body#Game{
     transition: all 0.6s ease;
 }
 
-.RoundInform:hover{
-    width: 90%;
-    font-size: 35px;
-    color: rgb(171, 1, 1);
+.Gap{
+    margin-top: 10%;
+}
+
+.GameCanvas{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
