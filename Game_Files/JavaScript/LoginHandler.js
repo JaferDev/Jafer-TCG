@@ -17,25 +17,24 @@ function ConfirmLogin()
 
 function GuestEnter(guestName)
 {
-    sessionStorage.guestName = guestName;
-    sessionStorage.loggedIn = undefined;
+    sessionStorage.guestName = JSON.stringify(guestName);
+    sessionStorage.loggedIn = JSON.stringify(false);
     GoChooseCharacter();
 }
 
 function LoggedInEnter(username, password)
 {   
-    let userData = localStorage[username];
-    if (userData == undefined) { RaiseError("User Not Found, you may want to register"); return; }
+    let userData = JSON.parse(localStorage[username]);
+    if (!userData) { RaiseError("User Not Found, you may want to register"); return; }
 
-    let userObj = JSON.parse(userData);
-    if (password == userObj.password) LoginSuccess();
+    if (password == userData.password) LoginSuccess(username);
     else RaiseError("Password Incorrect");
 }
 
 function LoginSuccess(username)
 {
-    sessionStorage[username] = username;
-    sessionStorage.loggedIn = true;
+    sessionStorage.username = JSON.stringify(username);
+    sessionStorage.loggedIn = JSON.stringify(true);
     GoChooseCharacter();
 }
 
