@@ -1,16 +1,8 @@
+import { User } from "./modules/GameData";
+
 const homePage = "../index.html";
 
-class User
-{
-    constructor(email, username, dateOfBirth, password)
-    {
-        this.email = email;
-        this.username = username;
-        this.dateOfBirth = dateOfBirth;
-        this.password = password;
-        this.highScore = 0;
-    }
-}
+window.Register = Register;
 
 function GoHome()
 {
@@ -104,4 +96,6 @@ function AddToStorage(email, username, dob, password)
 {   
     let newUser = new User(email, username, dob, password);
     localStorage[newUser.username] = JSON.stringify(newUser);
+
+    localStorage.Users.push(JSON.stringify(newUser));
 }

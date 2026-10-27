@@ -68,6 +68,22 @@ body#GameFocused{
     justify-content: center;
 }
 
+.RoundInform{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    width: 50%;
+    text-align: center;
+    background-color: black;
+    border: 5px solid black;
+    padding: 5px;
+    font-size: 30px;
+    color: red;
+    border-radius: 5px;
+
+    transition: all 0.6s ease;
+}
+
 .LongButton{
     border: 5px solid transparent;
     border-color: rgb(0, 0, 0);
@@ -81,14 +97,18 @@ body#GameFocused{
     letter-spacing: 16px;
     font-size: 40px;
     padding: 10px;
-    transition: all 0.3s ease;
     color: #95655D;
     font-family: silkScreenBold;
+
+    transition: all 0.3s ease;
 }
 
 .LongButton:hover{
     background-color: black;
     color: aliceblue;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .TopButton{
@@ -116,7 +136,7 @@ body#GameFocused{
 }
 
 .InputContainerParent{
-    margin-top: 5%;
+    margin-top: 2%;
     margin-bottom: 4%;
     margin-right: 20%;
     margin-left: 20%;
@@ -421,4 +441,33 @@ body#GameFocused{
     right: 0;
     top: 0;
     bottom: 0;
+}
+
+.HighScoreList{
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    border: 5px solid black;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+.HighScoreList table{
+    width: 90%;
+}
+
+.HighScoreList table, th, td{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    line-height: 30px;
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 7px;
 }

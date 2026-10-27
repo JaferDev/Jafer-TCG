@@ -106,4 +106,24 @@ function FindReactions(type)
     } 
 }
 
-export {Attack, ElementType, Character, FindReactions, FindWeakness};
+class User
+{
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} username 
+     * @param {string} dateOfBirth 
+     * @param {string} password 
+     * 
+     */
+    constructor(email, username, dateOfBirth, password)
+    {
+        this.email = email;
+        this.username = username;
+        this.dateOfBirth = dateOfBirth;
+        this.password = password;
+        this.highScore = 0;
+    }
+}
+
+export {Attack, ElementType, Character, FindReactions, FindWeakness, User};

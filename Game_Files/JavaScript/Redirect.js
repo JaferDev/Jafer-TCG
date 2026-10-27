@@ -4,6 +4,7 @@ const CHOOSECHAR = "2_choosechar.html";
 const SELECTACTIVE = "3_selectactive.html";
 const PICKENERGY = "4_pickenergy.html";
 const MAINGAME = "5_game.html";
+const HIGHSCORES = "HTMLPages/6_highscores.html";
 
 function ChangePage(pageNum)
 {
@@ -26,6 +27,9 @@ function ChangePage(pageNum)
             break;
         case 5:
             location.replace(MAINGAME);
+            break;
+        case 6:
+            location.replace(HIGHSCORES);
             break;
         default:
             location.replace(HOME);
