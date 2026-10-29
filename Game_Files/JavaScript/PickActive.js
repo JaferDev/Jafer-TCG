@@ -12,7 +12,7 @@ function Init()
 {
     let characters = JSON.parse(sessionStorage.Characters);
     let onClicks = ["SelectCharacter(0)", "SelectCharacter(1)", "SelectCharacter(2)"];
-    DisplayCards(characters, onClicks);
+    DisplayCards(characters, onClicks, "CardContainer");
 }
 
 function SelectCharacter(charIndex)

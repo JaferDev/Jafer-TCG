@@ -56,12 +56,26 @@ function CardHTML(character, onClick)
                     <p class="Credits">Art By: Jafer Hussain</p>
                 </div>
             </div>
-    `
+    `;
 }
 
-function DisplayOnPage(htmlContent)
+function ScaleCard(multiplyer)
 {
-    document.getElementById("CardContainer").innerHTML = htmlContent;
+    let cards = document.getElementsByClassName("Card");
+
+    console.log(cards.length);
+    console.log(cards[0].style);
+    for (let i = 0; i < cards.length; i++) cards[i].style.transform =  `scale(${multiplyer})`;
+
+    console.log(123);
+    console.log(cards[0].style.transform);
+
+}
+
+function DisplayOnPage(htmlContent, htmlID, multiplyer = 1)
+{
+    document.getElementById(htmlID).innerHTML = htmlContent;
+    if (multiplyer != 1) ScaleCard(multiplyer);
 }
 
 /**
@@ -79,7 +93,7 @@ function GetTypesPath(type)
  * @param {Array[Character]} characters - Array of characters to display 
  * @param {Array[string]} onClick - Functions to execute
  */
-function DisplayCards(characters, onClick = [""])
+function DisplayCards(characters, onClick = [""], htmlID, multiplyer)
 {
     let htmlContent = "";
     let index = 0;
@@ -87,7 +101,8 @@ function DisplayCards(characters, onClick = [""])
         htmlContent += CardHTML(character, onClick[index]);
         index++;
     });
-    DisplayOnPage(htmlContent);
+
+    DisplayOnPage(htmlContent, htmlID, multiplyer);
 }
 
 export {CardHTML, DisplayOnPage, DisplayCards};

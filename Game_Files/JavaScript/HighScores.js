@@ -2,20 +2,6 @@ import { User } from "./modules/GameData.js";
 
 window.onload = Init;
 
-class HighScore
-{
-    /**
-     * 
-     * @param {number} score 
-     * @param {string} name 
-     */
-    constructor(score, name)
-    {
-        this.score = score;
-        this.name = name;
-    }
-}
-
 function Init()
 {
     let tableBody = document.getElementById("TableBody");
