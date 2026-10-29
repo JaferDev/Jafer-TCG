@@ -1,4 +1,4 @@
-import { User } from "./modules/GameData";
+import { User } from "./modules/GameData.js";
 
 const homePage = "../index.html";
 
@@ -55,7 +55,7 @@ function CheckRegistration(email, username, dob, password, confPassword)
     let errorMsg = "";
 
     //Converting dates from string to Date datatype
-    dateOfBirth = Date.parse(dob);
+    let dateOfBirth = Date.parse(dob);
     const CURDATE = new Date;
 
     //Initial check
@@ -97,5 +97,9 @@ function AddToStorage(email, username, dob, password)
     let newUser = new User(email, username, dob, password);
     localStorage[newUser.username] = JSON.stringify(newUser);
 
-    localStorage.Users.push(JSON.stringify(newUser));
+    let users = JSON.parse(localStorage.getItem("Users"));
+    if (users === null) users = [newUser]; 
+    else users.push(newUser);
+
+    localStorage.Users = JSON.stringify(users);
 }
