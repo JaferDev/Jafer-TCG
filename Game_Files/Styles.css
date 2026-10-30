@@ -471,3 +471,33 @@ body#GameFocused{
     border-collapse: collapse;
     padding: 7px;
 }
+
+.TopCards{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 7%;
+    rotate: 180deg;
+    margin-bottom: 3%;
+    gap: 2%;
+}
+
+.ActiveCards{ 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 1%;
+    gap: 8.5%;
+}
+
+.EnemyCard{
+    rotate: 180deg;
+}
+
+.BottomCards{
+    margin-top: 2%;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+}

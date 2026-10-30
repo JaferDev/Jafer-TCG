@@ -9,8 +9,12 @@
     <body id="GameFocused">
         <canvas class="GameCanvas" id="GameCanvas"></canvas>
         <div id="Container">
-            <div id="TopCards"></div>
-            <div id="BottomCards"></div>
+            <div id="TopCards" class="TopCards"></div>
+            <div id="ActiveCards" class="ActiveCards">
+                <div class="PlayerCard" id="playerActive"></div>
+                <div class="EnemyCard" id="enemyActive"></div>
+            </div>
+            <div id="BottomCards" class="BottomCards"></div>
         </div>
         
         <script src="../JavaScript/Game.js" type="module"></script>

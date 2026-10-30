@@ -65,7 +65,7 @@ function ScaleCard(multiplyer)
 
     console.log(cards.length);
     console.log(cards[0].style);
-    for (let i = 0; i < cards.length; i++) cards[i].style.transform =  `scale(${multiplyer})`;
+    for (let i = 0; i < cards.length; i++) cards[i].style.zoom =  multiplyer;
 
     console.log(123);
     console.log(cards[0].style.transform);
