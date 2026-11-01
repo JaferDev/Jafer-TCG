@@ -1,11 +1,11 @@
 import {DisplayCards, DisplayOnPage, CardHTML} from "./modules/DisplayCard.js";
+import {Rectangle} from "./modules/CanvasDisplay.js";
 
 window.onload = Init;
 
 function Init()
 {
     let canvas = document.getElementById("GameCanvas");
-    let context = canvas.getContext("2d");
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -13,15 +13,21 @@ function Init()
     canvas.addEventListener("mousedown", function(e) {GetMousePosition(canvas, e)});
 
     AddEnemyCharacters();
-    InitialDisplay();
+    InitialDisplay(canvas);
 }
 
-function InitialDisplay()
+function InitialDisplay(canvas)
 {
     DisplayCards(GetInactiveCharacters(JSON.parse(sessionStorage.enemyCharacters), JSON.parse(sessionStorage.enemyActiveChar)), "", "TopCards", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.activeChar)), "playerActive", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.enemyActiveChar)), "enemyActive", 0.7);
     DisplayCards(GetInactiveCharacters(JSON.parse(sessionStorage.Characters), JSON.parse(sessionStorage.activeChar)), "", "BottomCards", 0.7);
+
+    const playerAtkInfo = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.7)");
+    const enemyAtkInfo = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.7)");
+    console.log(playerAtkInfo.height);
+    playerAtkInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0))", 7);
+    enemyAtkInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 7);
 }
 
 function AddEnemyCharacters()
