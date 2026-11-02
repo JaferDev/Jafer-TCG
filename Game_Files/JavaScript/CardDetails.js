@@ -20,9 +20,14 @@ function AddCharacterCards()
     characters.push(new Character("Dragonflee", [ElementType.flora, ElementType.wind], 90, dragonfleeWeakAtk, dragonfleeStrongAtk, "Baqir Hussain"));
 
     //Pauper Scheet
-    const pauperscheetWeakAtk = new Attack("Catch", [ElementType.wind], 42, "Surrounds enemy with itself");
+    const pauperscheetWeakAtk = new Attack("Catch", [ElementType.wind], 13, "Surrounds enemy with itself");
     const papuperscheetStrongAtk = new Attack("Paper Cuts", [ElementType.wind, ElementType.wind, ElementType.wind], 40, "Straightens up and gives paper cuts");
     characters.push(new Character("Pauper Scheet", [ElementType.wind], 70, pauperscheetWeakAtk, papuperscheetStrongAtk, "Baqir Hussain"));
+
+    //Phoney
+    const phoneyWeakAtk = new Attack("Call", [ElementType.electricity], 11, "Calls enemy and throws headphones at them");
+    const phoneyStrokeAtk = new Attack("Call", [ElementType.electricity, ElementType.electricity, ElementType.electricity], 38, "Straightens up and gives paper cuts");
+    characters.push(new Character("Phoney", [ElementType.electricity], 100, phoneyWeakAtk, phoneyStrokeAtk, "Sughra Fatima"));
 
     localStorage["Characters"] = JSON.stringify(characters);
     console.log(characters);
