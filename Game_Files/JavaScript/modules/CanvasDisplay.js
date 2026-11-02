@@ -17,6 +17,14 @@ class Rectangle
         this.colour = colour;
     }
 
+    /**
+     * 
+     * @param {Canvas} canvas 
+     * @param {boolean} outline 
+     * @param {string} outlineColour 
+     * @param {number} lineWidth 
+     */
+
     DrawRectangle(canvas, outline = false, outlineColour = "rgba(0, 0, 0, 1)", lineWidth = 10)
     {
         let context = canvas.getContext("2d");
@@ -25,13 +33,41 @@ class Rectangle
         context.fillStyle = this.colour;
         context.fillRect(this.x, this.y, this.width, this.height);
 
-        if (outline)
-        {
-            context.lineWidth = lineWidth;
-            context.strokeStyle = outlineColour;
-            context.strokeRect(this.x, this.y, this.width, this.height);
-        }
+        if (!outline) return;
+        
+        context.lineWidth = lineWidth;
+        context.strokeStyle = outlineColour;
+        context.strokeRect(this.x, this.y, this.width, this.height);
     }
 }
 
-export {Rectangle};
+class Img
+{
+    /**
+     * 
+     * @param {string} source 
+     */
+    constructor(source)
+    {
+        this.source = source;
+    }
+
+    DrawImage(canvas, x, y, width, height)
+    {
+        let context = canvas.getContext("2d");
+        let img = new Image();
+        img.src = this.source;
+        img.onload = function() { context.drawImage(img, x, y, width, height); }
+    }
+}
+
+class Position
+{
+    constructor(x, y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+export {Rectangle, Img, Position};

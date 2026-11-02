@@ -1,6 +1,6 @@
 import {ElementType, Character} from "./modules/GameData.js"
 
-window.onload = RandomiseEnergies;
+window.onload = Init;
 window.SelectEnergy = SelectEnergy;
 
 const NUMTYPES = 10;
@@ -9,15 +9,22 @@ const TYPEIMGPATH = "../Sprites/Types/";
 const GAMEPAGE = "5_game.html";
 
 let rngEnergies = [];
+let enemyRngEnergies = [];
 let selectedEnergies = []; //Array[ElementType]
 let selectedIndexes = [];
+
+function Init()
+{
+    EnemyEnergies();
+    rngEnergies = RandomiseEnergies(JSON.parse(sessionStorage.Characters));
+}
 
 /**
  * Randomises Energies from index 0 - 9
  * Slightly lower chance of secondary energy type
  * @return {Array[ElementType]} rngEnergies - Randomly generated array of energies 
  */
-function RandomiseEnergies()
+function RandomiseEnergies(characters)
 {
     /*
         Go through primary elements of selected characters
@@ -28,19 +35,22 @@ function RandomiseEnergies()
         Secondary elements chance = 0.30
     */
 
-    let allElements = GetPrimarySecondaryTypes(JSON.parse(sessionStorage.Characters));
+    let energies = [];
+    let allElements = GetPrimarySecondaryTypes(characters);
     let primaryTypes = allElements[0]; let secondaryTypes = allElements[1];
     console.log(allElements);
     for(let i = 0; i < NUMTYPES; i++)
     {
         let rng = Math.random();
-        if (secondaryTypes.length == 0) rngEnergies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
+        if (secondaryTypes.length == 0) energies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
         else
         {
-            if (rng >= 0.30) rngEnergies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
-            else rngEnergies.push(secondaryTypes[Math.floor(Math.random() * secondaryTypes.length)]);
+            if (rng >= 0.30) energies.push(primaryTypes[Math.floor(Math.random() * primaryTypes.length)]);
+            else energies.push(secondaryTypes[Math.floor(Math.random() * secondaryTypes.length)]);
         }
     } 
+
+    return energies;
 }
 
 /**
@@ -137,4 +147,36 @@ function DisplayNew()
 function AddToStorage()
 {
     sessionStorage["Energy"] = JSON.stringify(selectedEnergies);
+}
+
+function EnemyEnergies()
+{
+    AddEnemyCharacters();
+    enemyRngEnergies = RandomiseEnergies(JSON.parse(sessionStorage.enemyCharacters));
+    sessionStorage["enemyEnergies"] = JSON.stringify(GetRandom(enemyRngEnergies, 5));
+}
+
+function AddEnemyCharacters()
+{
+    let rngCharacters = GetRandom(JSON.parse(localStorage.Characters), 3);
+    sessionStorage["enemyCharacters"] = JSON.stringify(rngCharacters);
+    sessionStorage["enemyActiveChar"] = JSON.stringify(rngCharacters[Math.floor(Math.random() * rngCharacters.length)]);
+}
+
+function GetRandom(array, n)
+{
+    let currentIndex = array.length;
+
+    while (currentIndex != 0) 
+    {
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+
+    return array.slice(0, n);
 }

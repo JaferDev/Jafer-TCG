@@ -1,8 +1,9 @@
-import {DisplayCards, DisplayOnPage, CardHTML} from "./modules/DisplayCard.js";
-import {Rectangle} from "./modules/CanvasDisplay.js";
+import { DisplayCards, DisplayOnPage, CardHTML } from "./modules/DisplayCard.js";
+import { Rectangle, Img, Position } from "./modules/CanvasDisplay.js";
+import { ElementType } from "./modules/GameData.js";
 
 window.onload = Init;
-
+const TYPESSOURCE = "../Sprites/Types/";
 function Init()
 {
     let canvas = document.getElementById("GameCanvas");
@@ -12,29 +13,82 @@ function Init()
     
     canvas.addEventListener("mousedown", function(e) {GetMousePosition(canvas, e)});
 
-    AddEnemyCharacters();
     InitialDisplay(canvas);
 }
 
 function InitialDisplay(canvas)
 {
+    DisplayAllCards();
+    DisplayAtkInfo(canvas);
+    DisplayEnergies(canvas);
+}
+
+function DisplayEnergies(canvas)
+{
+    const IMGWIDTH = 40; const IMGHEIGHT = 40;
+    const playerEnergiesImgs = GetEnergies(JSON.parse(sessionStorage.Energy));
+    const enemyEnergiesImgs = GetEnergies(JSON.parse(sessionStorage.enemyEnergies));
+    
+    const playerTypePositions = [
+        new Position(165, 185),
+        new Position(110, 230),
+        new Position(130, 300),
+        new Position(200, 300),
+        new Position(220, 230),
+    ];
+
+    const enemyTypePositions = [
+        new Position(1275, 525),
+        new Position(1220, 570),
+        new Position(1240, 640),
+        new Position(1310, 640),
+        new Position(1330, 570),
+    ];
+
+    DisplayImages(canvas, playerEnergiesImgs, playerTypePositions, IMGWIDTH, IMGHEIGHT);
+    DisplayImages(canvas, enemyEnergiesImgs, enemyTypePositions, IMGWIDTH, IMGHEIGHT);
+}
+
+function DisplayImages(canvas, imgs, positions, width, height)
+{
+    for (let i = 0; i < imgs.length; i++) imgs[i].DrawImage(canvas, positions[i].x, positions[i].y, width, height);
+}
+
+/**
+ * Takes array of energies and returns array of Img
+ * @param {Array[ElementType]} energiesArr 
+ * @returns {Array[Img]}
+ */
+function GetEnergies(energiesArr)
+{
+    let imgsArr = []; //Array[Img]
+    console.log(typeof energiesArr);
+    for(let i = 0; i < energiesArr.length; i++) imgsArr.push(new Img(TYPESSOURCE + energiesArr[i] + ".png"));
+
+    return imgsArr;
+}
+
+function DisplayAtkInfo(canvas)
+{
+    DrawAtkInfoContainer(canvas);
+    
+}
+
+function DrawAtkInfoContainer(canvas)
+{
+    const playerAtkInfoContainer = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.5)");
+    const enemyAtkInfoContainer = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.5)");
+    
+    playerAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
+    enemyAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
+}
+
+function DisplayAllCards()
+{
     DisplayCards(GetInactiveCharacters(JSON.parse(sessionStorage.enemyCharacters), JSON.parse(sessionStorage.enemyActiveChar)), "", "TopCards", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.activeChar)), "playerActive", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.enemyActiveChar)), "enemyActive", 0.7);
     DisplayCards(GetInactiveCharacters(JSON.parse(sessionStorage.Characters), JSON.parse(sessionStorage.activeChar)), "", "BottomCards", 0.7);
-
-    const playerAtkInfo = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.7)");
-    const enemyAtkInfo = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.7)");
-    console.log(playerAtkInfo.height);
-    playerAtkInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0))", 7);
-    enemyAtkInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 7);
-}
-
-function AddEnemyCharacters()
-{
-    let rngCharacters = GetRandom(JSON.parse(localStorage.Characters), 3);
-    sessionStorage["enemyCharacters"] = JSON.stringify(rngCharacters);
-    sessionStorage["enemyActiveChar"] = JSON.stringify(rngCharacters[Math.floor(Math.random() * rngCharacters.length)]);
 }
 
 function GetInactiveCharacters(total, active)
@@ -44,23 +98,6 @@ function GetInactiveCharacters(total, active)
     if (index == -1) total.splice(index, 1);
 
     return total;
-}
-
-function GetRandom(arr, n)
-{
-    let rngArray = [];
-    for (let i = 0; i < n; i++)
-    {
-        let randomElement = arr[Math.floor(Math.random() * (arr.length))]
-        console.log(arr);
-        console.log(randomElement);
-        rngArray.push(randomElement);
-        console.log(arr);
-        console.log(rngArray);
-        //arr = arr.filter(element => {element != randomElement});
-    }
-
-    return rngArray;
 }
 
 function GetMousePosition(canvas, event)
