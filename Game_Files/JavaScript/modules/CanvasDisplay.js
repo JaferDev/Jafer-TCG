@@ -29,7 +29,6 @@ class Rectangle
     {
         let context = canvas.getContext("2d");
         
-        console.log(this.height);
         context.fillStyle = this.colour;
         context.fillRect(this.x, this.y, this.width, this.height);
 
@@ -70,4 +69,27 @@ class Position
     }
 }
 
-export {Rectangle, Img, Position};
+class Text
+{
+    constructor(x, y, text, font, size, colour = "rgb(0, 0, 0)")
+    {
+        this.x = x;
+        this.y = y;
+        this.text = text;
+        this.font = font;
+        this.size = size;
+        this.colour = colour
+    }
+
+    Write(canvas, fill = true, maxChars = 30)
+    {
+        const context = canvas.getContext("2d");
+
+        context.font = `${this.size}px ${this.font}`;
+        context.fillStyle = this.colour;
+        if (fill) context.fillText(this.text, this.x, this.y);
+        else context.strokeText(this.text, this.x, this.y);
+    }
+}
+
+export {Rectangle, Img, Position, Text};
