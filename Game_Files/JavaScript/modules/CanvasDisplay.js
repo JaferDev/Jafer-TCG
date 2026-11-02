@@ -1,20 +1,36 @@
-class Rectangle
+class CanvasElement
+{
+    constructor(x, y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Interactable extends CanvasElement
+{
+    constructor(x, y, width, height, functionality = {})
+    {
+        super(x, y);
+        this.width = width;
+        this.height = height;
+        this.functionality = functionality;
+    }
+}
+
+class Rectangle extends Interactable
 {
     /**
      * 
-     * @param {number} x 
-     * @param {number} y 
      * @param {number} width 
      * @param {number} height 
      * @param {string} colour 
      */
-    constructor(x, y, width, height, colour)
+    constructor(x, y, width, height, colour, functionality)
     {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
         this.colour = colour;
+        this.functionality = functionality;
     }
 
     /**
@@ -40,7 +56,7 @@ class Rectangle
     }
 }
 
-class Img
+class Img 
 {
     /**
      * 
@@ -60,21 +76,11 @@ class Img
     }
 }
 
-class Position
-{
-    constructor(x, y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class Text
+class Text extends CanvasElement
 {
     constructor(x, y, text, font, size, colour = "rgb(0, 0, 0)")
     {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.text = text;
         this.font = font;
         this.size = size;
@@ -92,4 +98,4 @@ class Text
     }
 }
 
-export {Rectangle, Img, Position, Text};
+export {CanvasElement, Rectangle, Img, Text};

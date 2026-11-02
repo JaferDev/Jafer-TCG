@@ -1,9 +1,11 @@
 import { DisplayCards, DisplayOnPage, CardHTML } from "./modules/DisplayCard.js";
-import { Rectangle, Img, Position, Text } from "./modules/CanvasDisplay.js";
-import { ElementType, Character } from "./modules/GameData.js";
+import { Rectangle, Img, CanvasElement, Text } from "./modules/CanvasDisplay.js";
 
 window.onload = Init;
+
 const TYPESSOURCE = "../Sprites/Types/";
+let canvasElements = []; //Array[Interactable]
+
 function Init()
 {
     let canvas = document.getElementById("GameCanvas");
@@ -11,39 +13,52 @@ function Init()
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    canvas.addEventListener("mousedown", function(e) {GetMousePosition(canvas, e)});
+    canvas.addEventListener("click", function(e) {CheckClicked(e, canvas)}, false);
 
     InitialDisplay(canvas);
 }
 
 function InitialDisplay(canvas)
 {
+    TransparentButton(canvas);
     DisplayAllCards();
     DisplayAtkInfo(canvas);
     DisplayEnergies(canvas);
-    DisplayInfoBox(canvas, 80, 710);
+    DisplayInfoBox(canvas, 80, 710, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)");
+    console.log(canvasElements);
+}
+
+function TransparentButton(canvas)
+{
+    const homeBtn = new Rectangle(470, 10, 155, 35, "rgba(255, 255, 255, 0)", () => {location.replace("../index.html");});
+    const highscoresBtn = new Rectangle(715, 10, 295, 35, "rgba(255, 255, 255, 0)", () => {location.replace("6_highscores.html");});
+    canvasElements.push(homeBtn, highscoresBtn);
+    homeBtn.DrawRectangle(canvas);
+    highscoresBtn.DrawRectangle(canvas);
 }
 
 function DisplayEnergies(canvas)
 {
     const IMGWIDTH = 40; const IMGHEIGHT = 40;
+    const STARTX1 = 165; const STARTY1 = 185;
+    const STARTX2 = 1275; const STARTY2 = 525;
     const playerEnergiesImgs = GetEnergies(JSON.parse(sessionStorage.Energy));
     const enemyEnergiesImgs = GetEnergies(JSON.parse(sessionStorage.enemyEnergies));
     
     const playerTypePositions = [
-        new Position(165, 185),
-        new Position(110, 230),
-        new Position(130, 300),
-        new Position(200, 300),
-        new Position(220, 230),
+        new CanvasElement(STARTX1, STARTY1),
+        new CanvasElement(STARTX1 - 55, STARTY1 + 45),
+        new CanvasElement(STARTX1 - 35, STARTY1 + 115),
+        new CanvasElement(STARTX1 + 35, STARTY1 + 115),
+        new CanvasElement(STARTX1 + 55, STARTY1 + 45),
     ];
 
     const enemyTypePositions = [
-        new Position(1275, 525),
-        new Position(1220, 570),
-        new Position(1240, 640),
-        new Position(1310, 640),
-        new Position(1330, 570),
+        new CanvasElement(STARTX2, STARTY2),
+        new CanvasElement(STARTX2 - 55, STARTY2 + 45),
+        new CanvasElement(STARTX2 - 35, STARTY2 + 115),
+        new CanvasElement(STARTX2 + 35, STARTY2 + 115),
+        new CanvasElement(STARTX2 + 55, STARTY2 + 45),
     ];
 
     DisplayImages(canvas, playerEnergiesImgs, playerTypePositions, IMGWIDTH, IMGHEIGHT);
@@ -71,7 +86,7 @@ function GetEnergies(energiesArr)
 function DisplayAtkInfo(canvas)
 {
     DrawAtkInfoContainer(canvas);
-    const TYPEWIDTH = 35; const TYPEHEIGHT = 35;
+    const TYPEWIDTH = 30; const TYPEHEIGHT = 30;
     
     AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.activeChar), 80, 440);
     AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170);
@@ -81,17 +96,27 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY)
     //Creating
     //WeakAtk
     const backgroundRectangle1 = new Rectangle(STARTX, STARTY, 260, 110, "rgba(0, 0, 0, 0.2)");
-    const weakPos = new Position(STARTX + 5, STARTY + 10);
+    const weakPos = new CanvasElement(STARTX + 5, STARTY + 10);
     const weakType = new Img(TYPESSOURCE + activeChar.weakAttack.types[0] + ".png")
-    const weakAtkHeader = new Text(STARTX + 60, STARTY + 40, activeChar.weakAttack.name, "anta", 30);
+    const weakAtkHeader = new Text(STARTX + 60, STARTY + 40, activeChar.weakAttack.name, "anta", 25);
     const weakDmg = new Text(STARTX + 215, STARTY + 40, activeChar.weakAttack.dmg, "anta", 30);
-    
+
     //StrongAtk
     const backgroundRectangle2 = new Rectangle(STARTX, STARTY + 130, 260, 110, "rgba(0, 0, 0, 0.2)");
-    const strongPos = new Position(STARTX + 5, STARTY + 140);
-    const strongType = new Img(TYPESSOURCE + activeChar.strongAttack.types[0] + ".png")
-    const strongAtkHeader = new Text(STARTX + 60, STARTY + 170, activeChar.strongAttack.name, "anta", 30);
+    const strongType1 = new Img(TYPESSOURCE + activeChar.strongAttack.types[0] + ".png")
+    const strongType2 = new Img(TYPESSOURCE + activeChar.strongAttack.types[1] + ".png")
+    const strongType3 = new Img(TYPESSOURCE + activeChar.strongAttack.types[2] + ".png")
+    const strongAtkHeader = new Text(STARTX + 80, STARTY + 170, activeChar.strongAttack.name, "anta", 25);
     const strongDmg = new Text(STARTX + 215, STARTY + 170, activeChar.strongAttack.dmg, "anta", 30);
+    canvasElements.push(backgroundRectangle1, backgroundRectangle2);
+ 
+    const strongPositions = [
+        new CanvasElement(STARTX + 5, STARTY + 145),
+        new CanvasElement(STARTX + 25, STARTY + 145),
+        new CanvasElement(STARTX + 45, STARTY + 145),
+    ];
+
+    console.log(strongPositions);
 
     //Displaying
 
@@ -100,11 +125,11 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY)
     DisplayImages(canvas, [weakType], [weakPos], typesWidth, typesHeight);
     weakAtkHeader.Write(canvas);
     weakDmg.Write(canvas);
-    DisplayMultipleLines(canvas, activeChar.weakAttack.desc, 40, STARTX + 10, STARTY + 80, 17, "silkscreenRegular", "rgb(0, 0, 0)") 
+    DisplayMultipleLines(canvas, activeChar.weakAttack.desc, 40, STARTX + 10, STARTY + 85, 17, "silkscreenRegular", "rgb(0, 0, 0)") 
 
     //StrongAtk
     backgroundRectangle2.DrawRectangle(canvas);
-    DisplayImages(canvas, [strongType], [strongPos], typesWidth, typesHeight);
+    DisplayImages(canvas, [strongType1, strongType2, strongType3], strongPositions, typesWidth, typesHeight);
     strongAtkHeader.Write(canvas);
     strongDmg.Write(canvas);
     DisplayMultipleLines(canvas, activeChar.strongAttack.desc, 40, STARTX + 10, STARTY + 210, 17, "silkscreenRegular", "rgb(0, 0, 0)") 
@@ -114,7 +139,8 @@ function DrawAtkInfoContainer(canvas)
 {
     const playerAtkInfoContainer = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.5)");
     const enemyAtkInfoContainer = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.5)");
-    
+    canvasElements.push(playerAtkInfoContainer, enemyAtkInfoContainer);
+
     playerAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
     enemyAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
 }
@@ -140,19 +166,22 @@ function GetMousePosition(canvas, event)
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.right;
-
+    console.log(x, y);
     return {x: x, y: y};
 }
 
-function DisplayInfoBox(canvas, STARTX, STARTY)
+function DisplayInfoBox(canvas, STARTX, STARTY, text)
 {
     //Creating Objects
     const infoBg = new Rectangle(STARTX, STARTY, 400, 100, "rgba(255, 255, 255, 0.45)");
-    const infoTxt = new Text(STARTX + 15, STARTY + 25, "Select an attack by clicking on it.", "silkscreenRegular", 20, "rgb(64, 255, 0)");
-    const infoTxt2 = new Text(STARTX + 15, STARTY + 45, "The attack you choose will consume the energy(s) shown beside", 20, "rgb(64, 255, 0)");
+    const reminderBg = new Rectangle(10, 10, 390, 30, "rgba(0, 0, 0, 1)")
+    const reminderTxt = new Text(20, 30, "REMINDER: Kindly play the entire game in full screen (F11)", "anta", 15, "rgb(255, 255, 255)");
+    canvasElements.push(infoBg);
 
     infoBg.DrawRectangle(canvas, true, "rgba(0, 0, 0, 1)", 5); 
-    DisplayMultipleLines(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack", 50, STARTX + 15, STARTY + 25, 20, "silkscreenRegular", "rgb(64, 255, 0)");
+    reminderBg.DrawRectangle(canvas, true, "rgb(0, 0, 0, 1)", 5);
+    reminderTxt.Write(canvas);
+    DisplayMultipleLines(canvas, text, 50, STARTX + 15, STARTY + 25, 20, "silkscreenRegular", "rgb(64, 255, 0)");
 }
 
 function MultiLineText(text, lineLength)
@@ -174,6 +203,18 @@ function MultiLineText(text, lineLength)
 function DisplayMultipleLines(canvas, text, lineLength, STARTX, STARTY, fontSize, font, colour)
 {
     let lines = MultiLineText(text, lineLength);
-
     for(let i = 0; i < lines.length; i++) new Text(STARTX, STARTY + fontSize * i, lines[i], font, fontSize, colour).Write(canvas);
+}
+
+function CheckClicked(event, canvas)
+{
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log(x, y);
+    canvasElements.forEach(element => {
+        if (! (y > element.y && y < element.y + element.height && x > element.x && x < element.x + element.width)) return;
+        
+        element.functionality();
+    });
 }
