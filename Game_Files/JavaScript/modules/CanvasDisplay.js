@@ -78,23 +78,26 @@ class Img
 
 class Text extends CanvasElement
 {
-    constructor(x, y, text, font, size, colour = "rgb(0, 0, 0)")
+    constructor(x, y, text, font, size, colour = "rgb(0, 0, 0)", fontSrc = "../Fonts/Silkscreen/Silkscreen-Regular.ttf")
     {
         super(x, y);
         this.text = text;
         this.font = font;
         this.size = size;
         this.colour = colour
+        this.fontSrc = fontSrc; 
     }
 
-    Write(canvas, fill = true, maxChars = 30)
+    Write(canvas, fill = true)
     {
         const context = canvas.getContext("2d");
-
-        context.font = `${this.size}px ${this.font}`;
-        context.fillStyle = this.colour;
-        if (fill) context.fillText(this.text, this.x, this.y);
-        else context.strokeText(this.text, this.x, this.y);
+        let font = new FontFace(this.font, "url(" + this.fontSrc + ")");
+        font.load().then(() => {
+            context.font = `${this.size}px ${font.family}`;
+            context.fillStyle = this.colour;
+            if (fill) context.fillText(this.text, this.x, this.y);
+            else context.strokeText(this.text, this.x, this.y);
+        });
     }
 }
 

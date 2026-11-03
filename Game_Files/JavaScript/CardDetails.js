@@ -26,7 +26,7 @@ function AddCharacterCards()
 
     //Phoney
     const phoneyWeakAtk = new Attack("Call", [ElementType.electricity], 11, "Calls enemy and throws headphones at them");
-    const phoneyStrokeAtk = new Attack("Trojan Horse", [ElementType.electricity, ElementType.electricity, ElementType.electricity], 38, "Gives the enemy a Phoney file");
+    const phoneyStrokeAtk = new Attack("Trojan", [ElementType.electricity, ElementType.electricity, ElementType.electricity], 38, "Gives the enemy a Phoney file");
     characters.push(new Character("Phoney", [ElementType.electricity], 100, phoneyWeakAtk, phoneyStrokeAtk, "Sughra Fatima"));
 
     localStorage["Characters"] = JSON.stringify(characters);
