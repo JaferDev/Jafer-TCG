@@ -8,14 +8,17 @@ function Init()
 
     let rank = 1;
 
-    GetHighScores(JSON.parse(localStorage.Users)).forEach(user => {
-        if (rank == 5) return;
-        row = tableBody.insertRow();
-        row.insertCell(0).innerHTML = rank;
-        row.insertCell(1).innerHTML = user.highScore;
-        row.insertCell(2).innerHTML = user.username;
-        rank++;
-    })
+    if (localStorage.getItem("Users") !== null)
+    {
+        GetHighScores(JSON.parse(localStorage.Users)).forEach(user => {
+            if (rank == 5) return;
+            row = tableBody.insertRow();
+            row.insertCell(0).innerHTML = rank;
+            row.insertCell(1).innerHTML = user.highScore;
+            row.insertCell(2).innerHTML = user.username;
+            rank++;
+        });
+    }
 
     if (rank < 5) FillRest(rank, tableBody) 
 }

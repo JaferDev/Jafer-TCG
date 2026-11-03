@@ -98,4 +98,10 @@ class Text extends CanvasElement
     }
 }
 
-export {CanvasElement, Rectangle, Img, Text};
+function ClearPortion(canvas, x, y, width, height)
+{
+    const context = canvas.getContext("2d");
+    context.clearRect(x, y, width, height);
+}
+
+export {CanvasElement, Rectangle, Img, Text, ClearPortion};

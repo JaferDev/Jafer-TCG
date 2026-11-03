@@ -49,6 +49,7 @@ class Character
         this.strongAttack = strongAttack;
         this.imagePath = CHARIMGPATH + name + ".png";
         this.ideaBy = ideaBy;
+        this.elementApplied = null;
     }
 }
 

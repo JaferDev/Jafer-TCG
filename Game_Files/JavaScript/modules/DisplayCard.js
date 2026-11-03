@@ -5,10 +5,10 @@ import {Character, FindWeakness, FindReactions} from "./GameData.js";
      * @param {Character} character - Character to be displayed
      * @return {string} htmlString - String containing HTML5 code
 */
-function CardHTML(character, onClick)
+function CardHTML(character, onClick = "", id = "")
 {
     return `
-        <div class="Card" onclick=${onClick}>
+        <div class="Card" onclick="${onClick}" id="${id}">
                 <div class="CardHeadContainer">
                     <img src="${GetTypesPath(character.types[0])}" class="CardHeadType">
                     <p class="CardHead">${character.name}</p>
