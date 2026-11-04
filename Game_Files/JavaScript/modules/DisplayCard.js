@@ -58,6 +58,10 @@ function CardHTML(character, onClick = "", id = "")
     `;
 }
 
+/**
+ * Scales Card
+ * @param {*} multiplyer 
+ */
 function ScaleCard(multiplyer)
 {
     let cards = document.getElementsByClassName("Card");

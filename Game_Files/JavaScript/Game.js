@@ -15,8 +15,6 @@ function Init()
 
     canvas.width = 1478;
     canvas.height = 830;
-
-    console.log(canvas);
     
     canvas.addEventListener("click", function(e) {CheckClicked(e, canvas)}, false);
 
@@ -194,7 +192,7 @@ function DisplayInfoBox(canvas, text, STARTX = 80, STARTY = 710)
     infoBg.DrawRectangle(canvas, true, "rgba(0, 0, 0, 1)", 5); 
     reminderBg.DrawRectangle(canvas, true, "rgb(0, 0, 0, 1)", 5);
     reminderTxt.Write(canvas);
-    console.log(text);
+
     DisplayMultipleLines(canvas, text, 39, STARTX + 15, STARTY + 25, 15, "silkscreenRegular", "rgb(64, 255, 0)");
 }
 
@@ -224,12 +222,9 @@ function CheckClicked(event, canvas)
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    console.log(x, y);
     canvasElements.forEach(element => {
         if (y > element.y && y < element.y + element.height && x > element.x && x < element.x + element.width) 
         {
-            console.log(element.functionality);
-            console.log(element.x, element.y);
             if (element.functionality) element.functionality();
         }
     });
@@ -269,7 +264,6 @@ function SelectAtk(canvas, atk, atkStrength)
 
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 {
-    console.log(energiesKey);
     if (!CheckEnoughEnergy(atk,energiesKey)) { DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
     
     let opponentActive = JSON.parse(sessionStorage[opponentKey]);
@@ -278,25 +272,25 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
     sessionStorage[opponentKey] = JSON.stringify(opponentActive);
     DisplayEnergies(canvas);
     DisplayAllCards();
+    DisplayInfoBox(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)")
 }
 
 function CheckEnoughEnergy(atk, energyKey)
 {
     let energy = JSON.parse(sessionStorage[energyKey]);
     let energiesRemoved = 0;
-    
     //Go through types array based on amt of energy for atk
     for(let i = 0; i < atk.types.length; i++)
     {
         for(let j = 0; j < energy.length; j++)
         {
-            if (energy[j] == atk.types[i]) { console.log("Removed: " + energy[j]); energy.splice(j, 1); energiesRemoved++; continue;}
+            if (energy[j] == atk.types[i]) { console.log("Removed: " + energy[j]); energy.splice(j, 1); energiesRemoved++; break;}
         }
     }
 
-    console.log(energy);
-
-    if (energy.length == energiesRemoved)
+    console.log(energy, energiesRemoved);
+    
+    if (atk.types.length == energiesRemoved)
     {
         sessionStorage[energyKey] = JSON.stringify(energy);
         return true;
