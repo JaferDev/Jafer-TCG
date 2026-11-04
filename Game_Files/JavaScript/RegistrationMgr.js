@@ -100,6 +100,7 @@ function AddToStorage(email, username, dob, password)
     let users = JSON.parse(localStorage.getItem("Users"));
     if (users === null) users = [newUser]; 
     else users.push(newUser);
-
+    
+    newUser.highScore = 0;
     localStorage.Users = JSON.stringify(users);
 }

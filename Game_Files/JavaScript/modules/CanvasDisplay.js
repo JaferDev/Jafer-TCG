@@ -56,23 +56,24 @@ class Rectangle extends Interactable
     }
 }
 
-class Img 
+class Img extends Interactable 
 {
     /**
      * 
      * @param {string} source 
      */
-    constructor(source)
+    constructor(source, x, y, width, height, functionality)
     {
+        super(x, y, width, height, functionality);
         this.source = source;
     }
 
-    DrawImage(canvas, x, y, width, height)
+    DrawImage(canvas)
     {
         let context = canvas.getContext("2d");
         let img = new Image();
         img.src = this.source;
-        img.onload = function() { context.drawImage(img, x, y, width, height); }
+        img.onload = () => { context.drawImage(img, this.x, this.y, this.width, this.height); }
     }
 }
 
@@ -107,4 +108,10 @@ function ClearPortion(canvas, x, y, width, height)
     context.clearRect(x, y, width, height);
 }
 
-export {CanvasElement, Rectangle, Img, Text, ClearPortion};
+function ClearAll(canvas)
+{
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+export {CanvasElement, Rectangle, Img, Text, ClearPortion, ClearAll};

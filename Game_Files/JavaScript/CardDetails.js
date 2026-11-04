@@ -11,7 +11,7 @@ function AddCharacterCards()
     
     //Axel
     const axelWeakAtk = new Attack("Front Slash", [ElementType.ice], 10, "Throws an axe towards the enemy");
-    const axelStrongAtk = new Attack("Triple Slash", [ElementType.ice, ElementType.ice, ElementType.fire], 35, "Gets two more axes to throw at the enemy");
+    const axelStrongAtk = new Attack("TripleSlash", [ElementType.ice, ElementType.ice, ElementType.fire], 35, "Gets two more axes to throw at the enemy");
     characters.push(new Character("Axel", [ElementType.ice], 110, axelWeakAtk, axelStrongAtk, "Baqir Hussain"));
 
     //Dragonflee

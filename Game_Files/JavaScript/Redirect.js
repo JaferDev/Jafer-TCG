@@ -19,10 +19,10 @@ function ChangePage(pageNum)
         case 2:
             location.replace(CHOOSECHAR);
             break;
-        case 3:
+        case 4:
             location.replace(SELECTACTIVE);
             break;
-        case 4:
+        case 3:
             location.replace(PICKENERGY);
             break;
         case 5:
