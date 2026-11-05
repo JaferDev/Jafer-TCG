@@ -16,7 +16,7 @@ function Register()
     const dob = document.getElementById("dob").value;
     const password = document.getElementById("password").value;
     const confPassword = document.getElementById("confPassword").value;
-
+    console.log(password, confPassword);
     let regVerified = CheckRegistration(email, username, dob, password, confPassword);
     console.log(regVerified[0]);
 

@@ -137,14 +137,14 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, is
 {
     //Creating
     //WeakAtk
-    const backgroundRectangle1 = new Rectangle(STARTX, STARTY, 260, 110, "rgba(0, 0, 0, 0.2)", () => {SelectAtk(canvas, activeChar.weakAttack, 0);});
+    const backgroundRectangle1 = new Rectangle(STARTX, STARTY, 260, 110, "rgba(0, 0, 0, 0.2)", () => {SelectAtk(canvas, 0);});
 
     const weakType = new Img(TYPESSOURCE + activeChar.weakAttack.types[0] + ".png", STARTX + 5, STARTY + 10, typesWidth, typesHeight);
     const weakAtkHeader = new Text(STARTX + 60, STARTY + 40, activeChar.weakAttack.name, "silkscreenRegular", 20);
     const weakDmg = new Text(STARTX + 230, STARTY + 40, activeChar.weakAttack.dmg, "silkscreenRegular", 20);
     
     //StrongAtk
-    const backgroundRectangle2 = new Rectangle(STARTX, STARTY + 130, 260, 110, "rgba(0, 0, 0, 0.2)",() => {SelectAtk(canvas, activeChar.strongAttack, 1);});
+    const backgroundRectangle2 = new Rectangle(STARTX, STARTY + 130, 260, 110, "rgba(0, 0, 0, 0.2)",() => {SelectAtk(canvas, 1);});
     const strongType1 = new Img(TYPESSOURCE + activeChar.strongAttack.types[0] + ".png", STARTX + 5, STARTY + 145, typesWidth, typesHeight)
     const strongType2 = new Img(TYPESSOURCE + activeChar.strongAttack.types[1] + ".png", STARTX + 25, STARTY + 145, typesWidth, typesHeight)
     const strongType3 = new Img(TYPESSOURCE + activeChar.strongAttack.types[2] + ".png", STARTX + 45, STARTY + 145, typesWidth, typesHeight)
@@ -275,9 +275,11 @@ function CheckClicked(event, canvas)
     });
 }
 
-function SelectAtk(canvas, atk, atkStrength)
+function SelectAtk(canvas, atkStrength)
 {
     if (!playerTurn) return;
+    const character = JSON.parse(sessionStorage.activeChar);
+    const atk = [character.weakAttack, character.strongAttack][atkStrength];
     if (atkStrength == 0) 
     {
         if (confirmingWeakAtk) 
@@ -285,7 +287,7 @@ function SelectAtk(canvas, atk, atkStrength)
             Attack(atk, canvas, atkStrength, "enemyActiveChar", "Energy"); 
             confirmingStrongAtk = false
         }
-        else 
+        else if (!confirmingWeakAtk)
         {
             DisplayInfoBox(canvas, `Confirm ${atk.name}? (Click again)`); 
             confirmingWeakAtk = true; 
@@ -299,7 +301,7 @@ function SelectAtk(canvas, atk, atkStrength)
             Attack(atk, canvas, atkStrength, "enemyActiveChar", "Energy"); 
             confirmingWeakAtk = false;
         }
-        else 
+        else if(!confirmingStrongAtk)
         {
             DisplayInfoBox(canvas, `Confirm ${atk.name}? (Click again)`); 
             confirmingStrongAtk = true; 
@@ -309,25 +311,34 @@ function SelectAtk(canvas, atk, atkStrength)
 }
 
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
-{
-    if (energiesKey != "enemyEnergies")  if (!playerTurn) return;
-    if (!CheckEnoughEnergy(atk,energiesKey) && energiesKey != "enemyEnergies") { DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
-    else if (!CheckEnoughEnergy(atk,energiesKey)) { DisplayGameBox(canvas, "Attack Failed"); return;}
+{ 
+    if (!CheckEnoughEnergy(atk, energiesKey))
+    {
+        DisplayGameBox(canvas, "Attack Failed");
+        if (playerTurn) DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to switch characters?");
+        return;
+    }
 
+    console.log(selectedEnergy);
+    console.log(selectingEnergy);
     let opponentActive = JSON.parse(sessionStorage[opponentKey]);
-    if (energiesKey == "enemyEnergies") { console.log(123); DisplayGameBox(canvas, "Attacking"); }
+    if (!playerTurn) { DisplayGameBox(canvas, "Attacking"); }
+
     opponentActive.hp -= GetDmg(atk, opponentActive);
-    sessionStorage[opponentKey] = JSON.stringify(opponentActive);
+    sessionStorage[opponentKey] = JSON.stringify(opponentActive); //TODO: Also find character and reduce hp
+    playerTurn = !playerTurn; //After attack, its enemy's turn unless they ended turn
+
     DisplayEnergies(canvas);
     DisplayAllCards();
-    playerTurn = false; //After attack, its enemy's turn unless they ended turn
-    EnemyTurn(canvas);
+    if (!playerTurn || playerEnded) EnemyTurn(canvas);
 }
 
 function CheckEnoughEnergy(atk, energyKey)
 {
     let energy = JSON.parse(sessionStorage[energyKey]);
+    console.log(energy);
     let energiesRemoved = 0;
+    console.log(atk.types);
     //Go through types array based on amt of energy for atk
     for(let i = 0; i < atk.types.length; i++)
     {
@@ -336,7 +347,7 @@ function CheckEnoughEnergy(atk, energyKey)
             if (energy[j] == atk.types[i]) { energy.splice(j, 1); energiesRemoved++; break;}
         }
     }
-    
+    console.log(playerTurn, energy);
     if (atk.types.length == energiesRemoved)
     {
         sessionStorage[energyKey] = JSON.stringify(energy);
@@ -370,19 +381,18 @@ function CheckAnyInArray(targetArr, arrToCheck)
 
 function AttemptSwitching(canvas, charNum)
 {
-    if (!playerTurn) return;
+    if (!playerTurn && !playerEnded) return;
     if (JSON.parse(sessionStorage.Energy).length == 0 && !selectedEnergy){ DisplayInfoBox(canvas, "You need at least one energy to switch characters. You can end turn by clicking on the button on the left"); return; }
     
     if (selectedEnergy) { selectedEnergy = false; SwitchCharacter(canvas, charNum, false); return;}
     selectingEnergy = true;
-    console.log("You need to use any one energy to switch characters. Select it by clicking on it");
+
     DisplayInfoBox(canvas, "You need to use any one energy to switch characters. Select it by clicking on it");
 } 
 
 function SelectEnergy(canvas, energy, isEnemy = false)
 {
     if (!isEnemy) if (!selectingEnergy) return;
-    
     let energies;
 
     if (!isEnemy) { selectingEnergy = false; energies = JSON.parse(sessionStorage.Energy); }
@@ -421,22 +431,21 @@ function SwitchCharacter(canvas, charNum, isEnemy = false)
     if (!isEnemy) sessionStorage.activeChar = JSON.stringify(activeChar); 
     else sessionStorage.enemyActiveChar = JSON.stringify(activeChar);
 
+    DisplayGameBox(canvas, "Switching Character!");
     DisplayAllCards();
     DisplayAtkInfo(canvas);
     if (!isEnemy)
     {
-        console.log("Player");
         playerTurn = false;
         EnemyTurn(canvas);
     }
-    else 
+    else if (!playerEnded && isEnemy)
     {
         playerTurn = true;
         let gameText;
         if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
         else gameText = JSON.parse(sessionStorage.guestName) + "'s turn";
     }    
-    DisplayGameBox(canvas, "Switching Character!");
 }
 
 function EnemyTurn(canvas)
@@ -453,16 +462,17 @@ function EnemyTurn(canvas)
                 End: 100%
     */  
     let enemyEnergies = JSON.parse(sessionStorage.enemyEnergies)
-    let actionProbability = [0, 0, 0, 0];
 
-    if (enemyEnergies.length > 2) actionProbability = [0.25, 0.50, 0.20, 0.05];
-    else if (enemyEnergies.length > 0) actionProbability = [0.50, 0.10, 0, 0.40];
-    else actionProbability = [0, 0, 0, 1];
-    const rng = Math.floor(Math.random() * actionProbability.length);
-    console.log(rng);
-    switch (1)
+    let probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 0};
+    if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.50, "StrongAtk": 0.20, "EndRnd": 0};
+    else if (enemyEnergies.length > 0) probabilities = {"Switch": 0.50, "WeakAtk": 0.10, "StrongAtk": 0, "EndRnd": 0.40};
+    else probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 1};
+
+    const action = GetRandomElement(probabilities);
+    console.log(action);
+    switch (action)
     {
-        case 0: //Switch
+        case "Switch":
             setTimeout(() => {
                 const energies = JSON.parse(sessionStorage.enemyEnergies);
                 let energy = energies[Math.floor(Math.random() * energies.length)];
@@ -471,33 +481,35 @@ function EnemyTurn(canvas)
                 SwitchCharacter(canvas, random, true);
             }, 1500);
             break;
-        case 1: //Weak Attack
+        case "WeakAtk":
             setTimeout(() => {
-                console.log("Gonna attack");
                 const weakAtk = JSON.parse(sessionStorage.enemyActiveChar).weakAttack;
                 Attack(weakAtk, canvas, 0, "activeChar", "enemyEnergies");
             }, 1500);
             break;
-        case 2: //Strong Attack
+        case "StrongAtk": //Strong Attack
             setTimeout(() => {
                 const strongAtk = JSON.parse(sessionStorage.enemyActiveChar).strongAttack;
                 Attack(strongAtk, canvas, 1, "activeChar", "enemyEnergies");
             }, 1500);
             break;
-        case 3: //End Turn
-            setTimeout(() => {EndRound(canvas, false);}, 100);
+        case "EndRnd": //End Turn
+            setTimeout(() => {EndRound(canvas, false);}, 1500);
             break;
         default:
+            console.log(action);
             console.log("None whaaaat");
     }
-    setTimeout(() => {playerTurn = true; DisplayGameBox(canvas, "");}, 3000);
+    if (!playerEnded) setTimeout(() => {playerTurn = true; DisplayGameBox(canvas, "");}, 3000);
+    else { playerTurn = false; EnemyTurn(canvas); }
 }
 
 function EndRound(canvas, isPlayer)
 {
-    console.log(123);
+    if (isPlayer && playerEnded) return;
     playerTurn = !isPlayer;
-    if (!isPlayer)
+    console.log(playerEnded, isPlayer);
+    if (!isPlayer && !playerEnded)
     {
         let gameText;
         if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
@@ -506,7 +518,31 @@ function EndRound(canvas, isPlayer)
         DisplayGameBox(canvas, "Round End");
         return;
     }
-
+    else if (!isPlayer && playerEnded)//Both player and enemy ended
+    {
+        NextRound();
+        return;
+    }
+    playerEnded = true;
     DisplayGameBox(canvas, "Round End");
     DisplayInfoBox(canvas, "Wait for enemy to end turn", "Enemy's turn");
+    EnemyTurn(canvas);
+}
+
+function GetRandomElement(probabilities)
+{   
+    let sum = 0;
+    for(let event in probabilities) sum += probabilities[event];
+
+    let pick = Math.random() * sum;
+    for(let event in probabilities)
+    {
+        pick -= probabilities[event];
+        if (pick <= 0) return event;
+    }
+}
+
+function NextRound()
+{
+    console.log("LESS GOOOO");
 }
