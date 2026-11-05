@@ -123,7 +123,7 @@ function DisplayAtkInfo(canvas)
     const TYPEWIDTH = 30; const TYPEHEIGHT = 30;
     
     AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.activeChar), 80, 440, false);
-    AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170, true);
+    //AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170, true);
 }
 function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, isEnemy)
 {
@@ -168,7 +168,6 @@ function DrawAtkInfoContainer(canvas)
     ClearPortion(canvas, 1100, 150, 270, 270);
     const playerAtkInfoContainer = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.5)");
     const enemyAtkInfoContainer = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.5)");
-    canvasElements.push(playerAtkInfoContainer, enemyAtkInfoContainer);
 
     playerAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
     enemyAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
@@ -177,7 +176,6 @@ function DrawAtkInfoContainer(canvas)
 function DisplayAllCards()
 {
     const inactiveCharacters = GetInactiveCharacters();
-    console.log(inactiveCharacters);
     DisplayCards(inactiveCharacters[1], "", "TopCards", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.activeChar), "", "playerChar"), "playerActive", 0.7);
     DisplayOnPage(CardHTML(JSON.parse(sessionStorage.enemyActiveChar), "", "enemyChar"), "enemyActive", 0.7);
@@ -190,7 +188,6 @@ function GetInactiveCharacters()
     const enemyChars = JSON.parse(sessionStorage.enemyCharacters);
     const playerChar = JSON.parse(sessionStorage.activeChar);
     const enemyChar = JSON.parse(sessionStorage.enemyActiveChar);
-    console.log(playerChars, enemyChars, playerChar, enemyChar);
     let inactivePlayerCharacters = []; let inactiveEnemyCharacters = [];
     for(let i = 0; i < playerChars.length; i++) 
     {
@@ -295,7 +292,7 @@ function SelectAtk(canvas, atk, atkStrength)
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 {
     if (!playerTurn) return;
-    if (!CheckEnoughEnergy(atk,energiesKey)) { console.log(123);DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
+    if (!CheckEnoughEnergy(atk,energiesKey)) { DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
     
     let opponentActive = JSON.parse(sessionStorage[opponentKey]);
 
@@ -316,18 +313,16 @@ function CheckEnoughEnergy(atk, energyKey)
     {
         for(let j = 0; j < energy.length; j++)
         {
-            if (energy[j] == atk.types[i]) { console.log("Removed: " + energy[j]); energy.splice(j, 1); energiesRemoved++; break;}
+            if (energy[j] == atk.types[i]) { energy.splice(j, 1); energiesRemoved++; break;}
         }
     }
-
-    console.log(energy, energiesRemoved);
     
     if (atk.types.length == energiesRemoved)
     {
         sessionStorage[energyKey] = JSON.stringify(energy);
         return true;
     }
-
+    
     return false;
 }
 
@@ -358,38 +353,51 @@ function AttemptSwitching(canvas, charNum)
     if (!playerTurn) return;
     if (JSON.parse(sessionStorage.Energy).length == 0 && !selectedEnergy){ DisplayInfoBox(canvas, "You need at least one energy to switch characters. You can end turn by clicking on the button on the left"); return; }
     
-    if (selectedEnergy) { selectedEnergy = false; SwitchCharacter(canvas, charNum); }
+    if (selectedEnergy) { selectedEnergy = false; SwitchCharacter(canvas, charNum, false); return;}
     selectingEnergy = true;
+    console.log("You need to use any one energy to switch characters. Select it by clicking on it");
     DisplayInfoBox(canvas, "You need to use any one energy to switch characters. Select it by clicking on it");
 } 
 
-function SelectEnergy(canvas, energy)
+function SelectEnergy(canvas, energy, isEnemy = false)
 {
-    if (!selectingEnergy) return;
-    selectingEnergy = false;
-    let energies = JSON.parse(sessionStorage.Energy);
+    if (!isEnemy) if (!selectingEnergy) return;
+    
+    let energies;
+
+    if (!isEnemy) { selectingEnergy = false; energies = JSON.parse(sessionStorage.Energy); }
+    else energies = JSON.parse(sessionStorage.enemyEnergies);
+
+    console.log(energies);
+    console.log(energy);
     for(let i = 0; i < energies.length; i++)
     {
         if (energy == energies[i]) { energies.splice(i, 1); break;}
     }
-    sessionStorage.Energy = JSON.stringify(energies)
-    DisplayEnergies(canvas);
-    DisplayInfoBox(canvas, "Select a character to switch with by clicking on them");
-    
-    selectedEnergy = true;
+
+    if (!isEnemy)  
+    {
+        sessionStorage.Energy = JSON.stringify(energies)
+        DisplayInfoBox(canvas, "Select a character to switch with by clicking on them");
+        selectedEnergy = true;
+    }
+    else 
+    {
+        sessionStorage.enemyEnergies = JSON.stringify(energies);
+    }
+
+    DisplayEnergies(canvas); 
 }
 
 function SwitchCharacter(canvas, charNum, isEnemy = false)
 {
     let activeChar;
- 
     if (!isEnemy) activeChar = JSON.parse(sessionStorage.activeChar); 
     else activeChar = JSON.parse(sessionStorage.enemyActiveChar); 
     const inactiveChars = GetInactiveCharacters()[+ isEnemy];
-
     //inactiveChars[0] = charNum = 2
     activeChar = inactiveChars[charNum - 2];
-
+    if (activeChar == -1) activeChar = 1;
     if (!isEnemy) sessionStorage.activeChar = JSON.stringify(activeChar); 
     else sessionStorage.enemyActiveChar = JSON.stringify(activeChar);
 
@@ -407,7 +415,6 @@ function SwitchCharacter(canvas, charNum, isEnemy = false)
         let gameText;
         if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
         else gameText = JSON.parse(sessionStorage.guestName) + "'s turn";
-        DisplayInfoBox(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)", gameText);
     }    
 }
 
@@ -430,14 +437,15 @@ function EnemyTurn(canvas)
     if (enemyEnergies.length > 2) actionProbability = [0.25, 0.50, 0.20, 0.05];
     else if (enemyEnergies.length > 0) actionProbability = [0.50, 0.10, 0, 0.40];
     else actionProbability = [0, 0, 0, 1];
-    console.log(actionProbability);
     const rng = Math.floor(Math.random() * actionProbability.length);
     
-    switch (0)
+    switch (rng)
     {
         case 0: //Switch
-            let random = Math.ceil(Math.random() * 3);
-            console.log(random)
+            const energies = JSON.parse(sessionStorage.enemyEnergies);
+            let energy = energies[Math.floor(Math.random() * energies.length)];
+            SelectEnergy(canvas, energy, true);
+            let random = Math.ceil(Math.random() * 2 + 1);
             SwitchCharacter(canvas, random, true);
             break;
         case 1: //Weak Attack
