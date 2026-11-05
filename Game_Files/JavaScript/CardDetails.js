@@ -26,8 +26,13 @@ function AddCharacterCards()
 
     //Phoney
     const phoneyWeakAtk = new Attack("Call", [ElementType.electricity], 11, "Calls enemy and throws headphones at them");
-    const phoneyStrokeAtk = new Attack("Trojan", [ElementType.electricity, ElementType.electricity, ElementType.electricity], 38, "Gives the enemy a phoney file");
-    characters.push(new Character("Phoney", [ElementType.electricity], 100, phoneyWeakAtk, phoneyStrokeAtk, "Sughra Fatima"));
+    const phoneyStrongAtk = new Attack("Trojan", [ElementType.electricity, ElementType.electricity, ElementType.electricity], 38, "Gives the enemy a phoney file");
+    characters.push(new Character("Phoney", [ElementType.electricity], 100, phoneyWeakAtk, phoneyStrongAtk, "Sughra Fatima"));
+
+    //Blow Torch
+    const blowtorchWeakAtk = new Attack("Torch", [ElementType.fire], 11, "Uses it's blowtorch to torch");
+    const blowtorchStrongAtk = new Attack("Blow", [ElementType.fire, ElementType.fire, ElementType.wind], 40, "First we blow, then we torch");
+    characters.push(new Character("Blow Torch", [ElementType.fire, ElementType.wind], 115, blowtorchWeakAtk, blowtorchStrongAtk, "Jafer Hussain"));
 
     localStorage["Characters"] = JSON.stringify(characters);
     console.log(characters);
