@@ -11,6 +11,8 @@ let confirmingStrongAtk = false;
 let playerTurn = true;
 let selectingEnergy = false;
 let selectedEnergy = false;
+let enemyEnded = false;
+let playerEnded = false;
 
 function Init()
 {
@@ -26,15 +28,21 @@ function Init()
 
 function InitialDisplay(canvas)
 {
+    EndButton(canvas);
     TransparentButton(canvas);
     DisplayAllCards();
     DisplayAtkInfo(canvas);
     DisplayEnergies(canvas);
+    DisplayInfoBox(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)");
+    DisplayGameBox(canvas, "");
+}
 
-    let gameText;
-    if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
-    else gameText = JSON.parse(sessionStorage.guestName) + "'s turn";
-    DisplayInfoBox(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)", gameText);
+function EndButton(canvas)
+{
+    const STARTX = canvas.width / 2 - 60; const STARTY = canvas.height / 2 + 30;
+    const endContainer = new Img("../Sprites/UI/EndContainer.png", STARTX + 15, STARTY - 40, 100, 100, () => {EndRound(canvas, true);});
+    endContainer.DrawImage(canvas);
+    canvasElements.push(endContainer);
 }
 
 function TransparentButton(canvas)
@@ -61,7 +69,7 @@ function DisplayEnergies(canvas)
     const STARTX1 = 165; const STARTY1 = 185;
     const STARTX2 = 1275; const STARTY2 = 525;
     
-    ClearPortion(canvas, STARTX1 - 60, STARTY1 - 80, 180, 260);
+    ClearPortion(canvas, STARTX1 - 60, STARTY1 - 50, 180, 260);
     ClearPortion(canvas, STARTX2 - 60, STARTY2 - 80, 180, 260);
 
     const playerTypePositions = [
@@ -202,23 +210,34 @@ function GetInactiveCharacters()
     return [inactivePlayerCharacters, inactiveEnemyCharacters] ;
 } 
 
-function DisplayInfoBox(canvas, text, gameText = "", STARTX = 80, STARTY = 710)
+function DisplayGameBox(canvas, action = "", STARTX = 80, STARTY = 60)
+{
+    let player;
+    if (JSON.parse(sessionStorage.loggedIn)) player = JSON.parse(sessionStorage.username);
+    else player = JSON.parse(sessionStorage.guestName);
+
+    let curTurn = ["Enemy", player][+ playerTurn];
+
+    ClearPortion(canvas, STARTX, STARTY, 400, 100);
+    let gameText = "TURN: " + curTurn + " " + action;
+    const gameInfo = new Rectangle(STARTX, STARTY, 400, 75, "rgba(255, 255, 255, 1)");
+    gameInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
+    DisplayMultipleLines(canvas, gameText, 25, STARTX + 10, STARTY + 25, 20, "silkscreenRegular", "rgb(0, 0, 0)");
+}
+
+function DisplayInfoBox(canvas, text, STARTX = 80, STARTY = 710)
 {
     //Creating Objects
     ClearPortion(canvas, STARTX, STARTY, 400, 100);
-    ClearPortion(canvas, STARTX, STARTY - 650, 400, 100);
-
-    const infoBg = new Rectangle(STARTX, STARTY, 400, 100, "rgba(0,0,0, 0.5)");
+    
+    const infoBg = new Rectangle(80, STARTY, 400, 100, "rgba(0,0,0, 0.5)");
     const reminderBg = new Rectangle(10, 10, 420, 30, "rgba(0, 0, 0, 1)")
     const reminderTxt = new Text(20, 30, "REMINDER: Kindly play the entire game in full screen (F11)", "anta", 15, "rgb(255, 255, 255)");
-    const gameInfo = new Rectangle(STARTX, STARTY - 650, 400, 75, "rgba(255, 255, 255, 1)");
 
     infoBg.DrawRectangle(canvas, true, "rgba(0, 0, 0, 1)", 5); 
     reminderBg.DrawRectangle(canvas, true, "rgb(0, 0, 0, 1)", 5);
     reminderTxt.Write(canvas);
-    gameInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
     
-    DisplayMultipleLines(canvas, gameText, 39, STARTX + 10, STARTY - 620, 15, "silkscreenRegular", "rgb(0, 0, 0)");
     DisplayMultipleLines(canvas, text, 39, STARTX + 15, STARTY + 25, 15, "silkscreenRegular", "rgb(64, 255, 0)");
 }
 
@@ -291,11 +310,12 @@ function SelectAtk(canvas, atk, atkStrength)
 
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 {
-    if (!playerTurn) return;
-    if (!CheckEnoughEnergy(atk,energiesKey)) { DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
-    
-    let opponentActive = JSON.parse(sessionStorage[opponentKey]);
+    if (energiesKey != "enemyEnergies")  if (!playerTurn) return;
+    if (!CheckEnoughEnergy(atk,energiesKey) && energiesKey != "enemyEnergies") { DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to end turn?"); return;}
+    else if (!CheckEnoughEnergy(atk,energiesKey)) { DisplayGameBox(canvas, "Attack Failed"); return;}
 
+    let opponentActive = JSON.parse(sessionStorage[opponentKey]);
+    if (energiesKey == "enemyEnergies") { console.log(123); DisplayGameBox(canvas, "Attacking"); }
     opponentActive.hp -= GetDmg(atk, opponentActive);
     sessionStorage[opponentKey] = JSON.stringify(opponentActive);
     DisplayEnergies(canvas);
@@ -392,7 +412,7 @@ function SelectEnergy(canvas, energy, isEnemy = false)
 function SwitchCharacter(canvas, charNum, isEnemy = false)
 {
     let activeChar;
-    if (!isEnemy) activeChar = JSON.parse(sessionStorage.activeChar); 
+    if (!isEnemy) activeChar = JSON.parse(sessionStorage.activeChar);
     else activeChar = JSON.parse(sessionStorage.enemyActiveChar); 
     const inactiveChars = GetInactiveCharacters()[+ isEnemy];
     //inactiveChars[0] = charNum = 2
@@ -416,6 +436,7 @@ function SwitchCharacter(canvas, charNum, isEnemy = false)
         if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
         else gameText = JSON.parse(sessionStorage.guestName) + "'s turn";
     }    
+    DisplayGameBox(canvas, "Switching Character!");
 }
 
 function EnemyTurn(canvas)
@@ -438,8 +459,8 @@ function EnemyTurn(canvas)
     else if (enemyEnergies.length > 0) actionProbability = [0.50, 0.10, 0, 0.40];
     else actionProbability = [0, 0, 0, 1];
     const rng = Math.floor(Math.random() * actionProbability.length);
-    
-    switch (rng)
+    console.log(rng);
+    switch (1)
     {
         case 0: //Switch
             setTimeout(() => {
@@ -448,31 +469,33 @@ function EnemyTurn(canvas)
                 SelectEnergy(canvas, energy, true);
                 let random = Math.ceil(Math.random() * 2 + 1);
                 SwitchCharacter(canvas, random, true);
-            }, 1000);
+            }, 1500);
             break;
         case 1: //Weak Attack
             setTimeout(() => {
+                console.log("Gonna attack");
                 const weakAtk = JSON.parse(sessionStorage.enemyActiveChar).weakAttack;
                 Attack(weakAtk, canvas, 0, "activeChar", "enemyEnergies");
-            });
+            }, 1500);
             break;
         case 2: //Strong Attack
             setTimeout(() => {
                 const strongAtk = JSON.parse(sessionStorage.enemyActiveChar).strongAttack;
                 Attack(strongAtk, canvas, 1, "activeChar", "enemyEnergies");
-            });
+            }, 1500);
             break;
         case 3: //End Turn
-            setTimeout(() => {EndTurn(canvas, false);}, 100);
-            
+            setTimeout(() => {EndRound(canvas, false);}, 100);
             break;
         default:
             console.log("None whaaaat");
     }
+    setTimeout(() => {playerTurn = true; DisplayGameBox(canvas, "");}, 3000);
 }
 
-function EndTurn(canvas, isPlayer)
+function EndRound(canvas, isPlayer)
 {
+    console.log(123);
     playerTurn = !isPlayer;
     if (!isPlayer)
     {
@@ -480,8 +503,10 @@ function EndTurn(canvas, isPlayer)
         if (JSON.parse(sessionStorage.loggedIn)) gameText = JSON.parse(sessionStorage.username) + "'s turn";
         else gameText = JSON.parse(sessionStorage.guestName) + "'s turn";
         DisplayInfoBox(canvas, "Select an attack by clicking on it. The attack you choose will consume the energy(s) shown beside the attack. You are on the bottom side (cards facing up)", gameText);
+        DisplayGameBox(canvas, "Round End");
         return;
     }
 
+    DisplayGameBox(canvas, "Round End");
     DisplayInfoBox(canvas, "Wait for enemy to end turn", "Enemy's turn");
 }
