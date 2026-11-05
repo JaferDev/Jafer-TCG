@@ -442,22 +442,29 @@ function EnemyTurn(canvas)
     switch (rng)
     {
         case 0: //Switch
-            const energies = JSON.parse(sessionStorage.enemyEnergies);
-            let energy = energies[Math.floor(Math.random() * energies.length)];
-            SelectEnergy(canvas, energy, true);
-            let random = Math.ceil(Math.random() * 2 + 1);
-            SwitchCharacter(canvas, random, true);
+            setTimeout(() => {
+                const energies = JSON.parse(sessionStorage.enemyEnergies);
+                let energy = energies[Math.floor(Math.random() * energies.length)];
+                SelectEnergy(canvas, energy, true);
+                let random = Math.ceil(Math.random() * 2 + 1);
+                SwitchCharacter(canvas, random, true);
+            }, 1000);
             break;
         case 1: //Weak Attack
-            const weakAtk = JSON.parse(sessionStorage.enemyActiveChar).weakAttack;
-            Attack(weakAtk, canvas, 0, "activeChar", "enemyEnergies");
+            setTimeout(() => {
+                const weakAtk = JSON.parse(sessionStorage.enemyActiveChar).weakAttack;
+                Attack(weakAtk, canvas, 0, "activeChar", "enemyEnergies");
+            });
             break;
         case 2: //Strong Attack
-            const strongAtk = JSON.parse(sessionStorage.enemyActiveChar).strongAttack;
-            Attack(strongAtk, canvas, 1, "activeChar", "enemyEnergies");
+            setTimeout(() => {
+                const strongAtk = JSON.parse(sessionStorage.enemyActiveChar).strongAttack;
+                Attack(strongAtk, canvas, 1, "activeChar", "enemyEnergies");
+            });
             break;
         case 3: //End Turn
-            EndTurn(canvas, false);
+            setTimeout(() => {EndTurn(canvas, false);}, 100);
+            
             break;
         default:
             console.log("None whaaaat");
