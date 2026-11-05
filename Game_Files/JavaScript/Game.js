@@ -122,10 +122,10 @@ function DisplayAtkInfo(canvas)
     DrawAtkInfoContainer(canvas);
     const TYPEWIDTH = 30; const TYPEHEIGHT = 30;
     
-    AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.activeChar), 80, 440);
-    AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170);
+    AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.activeChar), 80, 440, false);
+    AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170, true);
 }
-function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY)
+function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, isEnemy)
 {
     //Creating
     //WeakAtk
@@ -134,7 +134,7 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY)
     const weakType = new Img(TYPESSOURCE + activeChar.weakAttack.types[0] + ".png", STARTX + 5, STARTY + 10, typesWidth, typesHeight);
     const weakAtkHeader = new Text(STARTX + 60, STARTY + 40, activeChar.weakAttack.name, "silkscreenRegular", 20);
     const weakDmg = new Text(STARTX + 230, STARTY + 40, activeChar.weakAttack.dmg, "silkscreenRegular", 20);
-
+    
     //StrongAtk
     const backgroundRectangle2 = new Rectangle(STARTX, STARTY + 130, 260, 110, "rgba(0, 0, 0, 0.2)",() => {SelectAtk(canvas, activeChar.strongAttack, 1);});
     const strongType1 = new Img(TYPESSOURCE + activeChar.strongAttack.types[0] + ".png", STARTX + 5, STARTY + 145, typesWidth, typesHeight)
@@ -142,10 +142,11 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY)
     const strongType3 = new Img(TYPESSOURCE + activeChar.strongAttack.types[2] + ".png", STARTX + 45, STARTY + 145, typesWidth, typesHeight)
     const strongAtkHeader = new Text(STARTX + 80, STARTY + 170, activeChar.strongAttack.name, "silkscreenRegular", 20);
     const strongDmg = new Text(STARTX + 230, STARTY + 170, activeChar.strongAttack.dmg, "silkscreenRegular", 20);
-    canvasElements.push(backgroundRectangle1, backgroundRectangle2);
+    
+    if (!isEnemy) canvasElements.push(backgroundRectangle1, backgroundRectangle2);
     
     //Displaying
-
+    
     //WeakAtk
     backgroundRectangle1.DrawRectangle(canvas);
     DisplayImages(canvas, [weakType]);
@@ -214,14 +215,13 @@ function DisplayInfoBox(canvas, text, gameText = "", STARTX = 80, STARTY = 710)
     const reminderBg = new Rectangle(10, 10, 420, 30, "rgba(0, 0, 0, 1)")
     const reminderTxt = new Text(20, 30, "REMINDER: Kindly play the entire game in full screen (F11)", "anta", 15, "rgb(255, 255, 255)");
     const gameInfo = new Rectangle(STARTX, STARTY - 650, 400, 75, "rgba(255, 255, 255, 1)");
-    const gameInfoTxt = new Text(STARTX + 10, STARTY - 620, gameText, "silkscreenRegular", 20, "rgb(0, 0, 0)");
 
     infoBg.DrawRectangle(canvas, true, "rgba(0, 0, 0, 1)", 5); 
     reminderBg.DrawRectangle(canvas, true, "rgb(0, 0, 0, 1)", 5);
     reminderTxt.Write(canvas);
-    gameInfoTxt.Write(canvas);
     gameInfo.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
     
+    DisplayMultipleLines(canvas, gameText, 39, STARTX + 10, STARTY - 620, 15, "silkscreenRegular", "rgb(0, 0, 0)");
     DisplayMultipleLines(canvas, text, 39, STARTX + 15, STARTY + 25, 15, "silkscreenRegular", "rgb(64, 255, 0)");
 }
 
@@ -303,7 +303,6 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
     sessionStorage[opponentKey] = JSON.stringify(opponentActive);
     DisplayEnergies(canvas);
     DisplayAllCards();
-    DisplayInfoBox(canvas, "Wait for enemy's turn to get over", "Enemy's turn")
     playerTurn = false; //After attack, its enemy's turn unless they ended turn
     EnemyTurn(canvas);
 }
@@ -357,7 +356,7 @@ function CheckAnyInArray(targetArr, arrToCheck)
 function AttemptSwitching(canvas, charNum)
 {
     if (!playerTurn) return;
-    if (JSON.parse(sessionStorage.Energy).length == 0){ DisplayInfoBox(canvas, "You need at least one energy to switch characters. You can end turn by clicking on the button on the left"); return; }
+    if (JSON.parse(sessionStorage.Energy).length == 0 && !selectedEnergy){ DisplayInfoBox(canvas, "You need at least one energy to switch characters. You can end turn by clicking on the button on the left"); return; }
     
     if (selectedEnergy) { selectedEnergy = false; SwitchCharacter(canvas, charNum); }
     selectingEnergy = true;
@@ -397,9 +396,9 @@ function SwitchCharacter(canvas, charNum, isEnemy = false)
     DisplayAllCards();
     DisplayAtkInfo(canvas);
     if (!isEnemy)
-    {console.log("Player");
+    {
+        console.log("Player");
         playerTurn = false;
-        DisplayInfoBox(canvas, "", "Enemy's Turn");
         EnemyTurn(canvas);
     }
     else 
@@ -433,7 +432,7 @@ function EnemyTurn(canvas)
     else actionProbability = [0, 0, 0, 1];
     console.log(actionProbability);
     const rng = Math.floor(Math.random() * actionProbability.length);
-
+    
     switch (0)
     {
         case 0: //Switch
