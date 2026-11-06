@@ -11,8 +11,8 @@ let confirmingStrongAtk = false;
 let playerTurn = true;
 let selectingEnergy = false;
 let selectedEnergy = false;
-let enemyEnded = false;
 let playerEnded = false;
+let enemyAtkFailed = false;
 
 function Init()
 {
@@ -100,8 +100,10 @@ function GetFunctions(canvas, energies)
     let functions = [];
     for(let i = 0; i < energies.length; i++)
     {
+        console.log(energies[i]);
         functions.push( () => {SelectEnergy(canvas, energies[i]);} );
     }
+    console.log(energies, functions);
     return functions;
 }
 
@@ -280,14 +282,18 @@ function SelectAtk(canvas, atkStrength)
     if (!playerTurn) return;
     const character = JSON.parse(sessionStorage.activeChar);
     const atk = [character.weakAttack, character.strongAttack][atkStrength];
+    console.log("Selected Attack of strength:", atkStrength);
+    console.log("Confirming Weak Attack:", confirmingWeakAtk);
+    console.log("Confirming Strong Attack:", confirmingStrongAtk);
     if (atkStrength == 0) 
     {
         if (confirmingWeakAtk) 
         { 
+            console.log("Confirming Weak Attack", confirmingWeakAtk);
             Attack(atk, canvas, atkStrength, "enemyActiveChar", "Energy"); 
-            confirmingStrongAtk = false
+            confirmingWeakAtk = false
         }
-        else if (!confirmingWeakAtk)
+        else
         {
             DisplayInfoBox(canvas, `Confirm ${atk.name}? (Click again)`); 
             confirmingWeakAtk = true; 
@@ -300,8 +306,9 @@ function SelectAtk(canvas, atkStrength)
         {
             Attack(atk, canvas, atkStrength, "enemyActiveChar", "Energy"); 
             confirmingWeakAtk = false;
+            confirmingStrongAtk = false;
         }
-        else if(!confirmingStrongAtk)
+        else
         {
             DisplayInfoBox(canvas, `Confirm ${atk.name}? (Click again)`); 
             confirmingStrongAtk = true; 
@@ -316,6 +323,7 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
     {
         DisplayGameBox(canvas, "Attack Failed");
         if (playerTurn) DisplayInfoBox(canvas, "Not enough energy to use " + atk.name + ". Do you want to switch characters?");
+        else enemyAtkFailed = true;
         return;
     }
 
@@ -336,9 +344,7 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 function CheckEnoughEnergy(atk, energyKey)
 {
     let energy = JSON.parse(sessionStorage[energyKey]);
-    console.log(energy);
     let energiesRemoved = 0;
-    console.log(atk.types);
     //Go through types array based on amt of energy for atk
     for(let i = 0; i < atk.types.length; i++)
     {
@@ -347,7 +353,6 @@ function CheckEnoughEnergy(atk, energyKey)
             if (energy[j] == atk.types[i]) { energy.splice(j, 1); energiesRemoved++; break;}
         }
     }
-    console.log(playerTurn, energy);
     if (atk.types.length == energiesRemoved)
     {
         sessionStorage[energyKey] = JSON.stringify(energy);
@@ -394,12 +399,11 @@ function SelectEnergy(canvas, energy, isEnemy = false)
 {
     if (!isEnemy) if (!selectingEnergy) return;
     let energies;
-
+    
     if (!isEnemy) { selectingEnergy = false; energies = JSON.parse(sessionStorage.Energy); }
     else energies = JSON.parse(sessionStorage.enemyEnergies);
 
-    console.log(energies);
-    console.log(energy);
+    if (!isEnemy) console.log(energy, energies);
     for(let i = 0; i < energies.length; i++)
     {
         if (energy == energies[i]) { energies.splice(i, 1); break;}
@@ -467,9 +471,15 @@ function EnemyTurn(canvas)
     if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.50, "StrongAtk": 0.20, "EndRnd": 0};
     else if (enemyEnergies.length > 0) probabilities = {"Switch": 0.50, "WeakAtk": 0.10, "StrongAtk": 0, "EndRnd": 0.40};
     else probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 1};
-
+    
+    if (enemyAtkFailed && enemyEnergies.length > 0) 
+    {
+        probabilities["Switch"] = 1 - probabilities["EndRnd"];
+        probabilities["StrongAtk"] = 0; probabilities["WeakAtk"] = 0;
+        enemyAtkFailed = false;
+    }
     const action = GetRandomElement(probabilities);
-    console.log(action);
+
     switch (action)
     {
         case "Switch":
@@ -508,7 +518,7 @@ function EndRound(canvas, isPlayer)
 {
     if (isPlayer && playerEnded) return;
     playerTurn = !isPlayer;
-    console.log(playerEnded, isPlayer);
+
     if (!isPlayer && !playerEnded)
     {
         let gameText;
