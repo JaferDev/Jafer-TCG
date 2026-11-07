@@ -6,7 +6,7 @@ window.SelectEnergy = SelectEnergy;
 const NUMTYPES = 10;
 const SELECTABLETYPES = 5;
 const TYPEIMGPATH = "../Sprites/Types/";
-const GAMEPAGE = "5_game.html";
+const ACTIVEPAGE = "3_selectactive.html";
 
 let rngEnergies = [];
 let enemyRngEnergies = [];
@@ -129,19 +129,19 @@ function FindAndReplace(text, searchItem)
     return lines.join("\n");    
 }
 
-let timeLeft = 6;
+let timeLeft = 4;
 function SelectedAll()
 {
     AddToStorage();
     DisplayNew()
-    setInterval(DisplayNew, 1000);
+    setInterval( DisplayNew, 1000 );
 }
 
 function DisplayNew()
 {
     timeLeft --;
-    if (timeLeft <= 0) location.replace(GAMEPAGE);
-    document.getElementById("Informant").innerHTML = "<div class=\"RoundInform \" id= \"Informant \">Round begins in " + timeLeft +"..</div>";
+    if (timeLeft <= 0) location.replace(ACTIVEPAGE);
+    document.getElementById("ConfirmButton").innerHTML = "<div class=\"RoundInform \" id= \"Informant \">Pick Active in " + timeLeft +"..</div>";
 }
 
 function AddToStorage()
@@ -158,9 +158,22 @@ function EnemyEnergies()
 
 function AddEnemyCharacters()
 {
-    let rngCharacters = GetRandom(JSON.parse(localStorage.Characters), 3);
-    sessionStorage["enemyCharacters"] = JSON.stringify(rngCharacters);
-    sessionStorage["enemyActiveChar"] = JSON.stringify(rngCharacters[Math.floor(Math.random() * rngCharacters.length)]);
+    if (JSON.parse(sessionStorage.enemyCharacters) === null) 
+    {
+        let rngCharacters = GetRandom(JSON.parse(localStorage.Characters), 3);
+        sessionStorage["enemyCharacters"] = JSON.stringify(rngCharacters);
+    }
+
+    let enemyChars = JSON.parse(sessionStorage.enemyCharacters);
+    enemyChars = GetAliveChars(enemyChars);
+    sessionStorage["enemyActiveChar"] = JSON.stringify(enemyChars[Math.floor(Math.random() * enemyChars.length)]);
+}
+
+function GetAliveChars(characters)
+{
+    let aliveCharacters = [];
+    characters.forEach(character => {if (character.hp != 0) aliveCharacters.push(character);});
+    return aliveCharacters;
 }
 
 function GetRandom(array, n)

@@ -1,6 +1,6 @@
 import {DisplayCards} from "./modules/DisplayCard.js"
 
-const GAMEPAGE = "3_selectactive.html";
+const ENERGYPAGE = "4_pickenergy.html";
 
 let charsSelected = [];
 
@@ -58,5 +58,5 @@ function ConfirmCharacterSelection()
     });
     sessionStorage.Characters = JSON.stringify(charObjs);
 
-    location.replace(GAMEPAGE);
+    location.replace(ENERGYPAGE);
 }

@@ -1,6 +1,6 @@
 import {DisplayCards} from "./modules/DisplayCard.js"
 
-const ENERGYPAGE = "4_pickenergy.html";
+const GAMEPAGE = "5_game.html";
 
 let activeChar;
 
@@ -11,8 +11,16 @@ window.ConfirmCharacterSelection = ConfirmCharacterSelection;
 function Init()
 {
     let characters = JSON.parse(sessionStorage.Characters);
+    characters = GetAliveChars(characters);
     let onClicks = ["SelectCharacter(0)", "SelectCharacter(1)", "SelectCharacter(2)"];
     DisplayCards(characters, onClicks, "CardContainer");
+}
+
+function GetAliveChars(characters)
+{
+    let aliveCharacters = [];
+    characters.forEach(character => {if (character.hp != 0) aliveCharacters.push(character);});
+    return aliveCharacters;
 }
 
 function SelectCharacter(charIndex)
@@ -42,5 +50,5 @@ function ConfirmCharacterSelection()
     let characters = JSON.parse(sessionStorage.Characters);
     sessionStorage.activeChar = JSON.stringify(characters[activeChar]);
 
-    location.replace(ENERGYPAGE);
+    location.replace(GAMEPAGE);
 }
