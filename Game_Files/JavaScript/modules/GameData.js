@@ -124,6 +124,7 @@ class User
         this.dateOfBirth = dateOfBirth;
         this.password = password;
         this.highScore = 0;
+        this.curScore = 0;
     }
 }
 

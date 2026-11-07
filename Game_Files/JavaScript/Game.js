@@ -359,7 +359,7 @@ function DamageOpponent(canvas, dmg)
     if (activeChar.hp < 1) 
     {
         chars = CharacterDeath(activeChar);
-        if (DeadCount(chars) == 3) GameOver();
+        if (DeadCount(chars) == 3) GameOver(playerTurn);
         else setTimeout( () => {SwitchCharacter(canvas, Math.ceil(Math.random() * 2 + 1), !playerTurn, false);}, 2500);
     }
 
@@ -642,7 +642,36 @@ function NextRound()
     location.replace("4_pickenergy.html");
 }
 
-function GameOver()
+/**
+ * Checks who won and goes to results page accordingly
+ * @param {boolean} loser - if loser == true player lost, else enemy lost 
+ */
+function GameOver(loser)
 {
-    console.log("WOOHOOOOOOOOOO");
+    const winners = ["Player", "Enemy"]
+    sessionStorage["Winner"] = JSON.stringify(winners[+ loser]);
+
+    //Score only accounted for logged in users
+    if (JSON.parse(sessionStorage.loggedIn)) UpdateScores(winners[+ loser]);
+
+    location.replace("7_results.html");
+}
+
+/**
+ * Updates users curScore and highScore based on if they won or not
+ * @param {string} winner - "Player" or "Enemy" 
+ */
+function UpdateScores(winner)
+{
+    const username = JSON.parse(sessionStorage.username);
+    const users = JSON.parse(localStorage.Users);
+    let player = JSON.parse(localStorage[username]);
+    users.forEach(user => {
+        if (user.username == username)
+        {
+            if (winner == "Player") { user.curScore++; player.curScore++;}
+            if (user.curScore > user.highScore) { user.highScore = user.curScore; player.highScore = player.curScore}
+            return;
+        }
+    });
 }
