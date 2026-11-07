@@ -48,7 +48,14 @@ function ConfirmCharacterSelection()
     if (activeChar == undefined) return;
     
     let characters = JSON.parse(sessionStorage.Characters);
+    characters = GetAliveCharacters(characters);
     sessionStorage.activeChar = JSON.stringify(characters[activeChar]);
 
     location.replace(GAMEPAGE);
+}
+
+function GetAliveCharacters(characters)
+{
+    let aliveChars = [];
+    characters.forEach(character => {if (character.hp > 1) aliveChars.push(character);});
 }

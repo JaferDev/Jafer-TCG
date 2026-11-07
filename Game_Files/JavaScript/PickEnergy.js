@@ -15,6 +15,11 @@ let selectedIndexes = [];
 
 function Init()
 {
+    let username;
+    if (JSON.parse(sessionStorage.loggedIn)) username = "LOGOUT";
+    else username = "LOGIN"
+    document.getElementById("Logout").innerHTML = username;
+    
     EnemyEnergies();
     rngEnergies = RandomiseEnergies(JSON.parse(sessionStorage.Characters));
 }

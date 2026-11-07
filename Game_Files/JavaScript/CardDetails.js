@@ -43,8 +43,9 @@ function AddCharacterCards()
 
 function ResetSessionStorage()
 {
-    const resetKeys = [ "enemyActiveChar", "enemyEnergies", "enemyCharacters" ];
+    const resetKeys = [ "enemyActiveChar", "enemyEnergies", "enemyCharacters", "turn" ];
     resetKeys.forEach(key => {
         sessionStorage[key] = null; 
     });
+    sessionStorage["turn"] = JSON.stringify(1);
 }

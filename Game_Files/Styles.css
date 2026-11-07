@@ -34,22 +34,44 @@ body#GameFocused{
     background-image: url("Sprites/UI/GameFocused.png");
 }
 
-.PageHead{
-    color: #22a069;
-    font-family: silkScreenBold;
-    font-size: 80px;
-    text-align: center;
-    margin-top: 2%;
-    text-shadow: 5px 10px #021d11;
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
 }
 
-.PageHeadLong{
+ul li{
+    float: right;
+    padding: 10px 40px 0px 40px; /*Top right bottom left*/
+}
+
+ul li a{
+    font-size: 30px;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+ul li a#PageHead{
     color: #22a069;
     font-family: silkScreenBold;
     font-size: 60px;
     text-align: center;
-    margin-top: 3%;
+    margin: 0;
+    padding: 0;
     text-shadow: 5px 10px #021d11;
+}
+
+ul li a:hover{
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .Subheading{
@@ -61,11 +83,6 @@ body#GameFocused{
 .Caption{
     font-size: 25px;
     text-align: center;
-}
-
-.Navbar{
-    display: flex;
-    justify-content: center;
 }
 
 .RoundInform{
@@ -111,31 +128,8 @@ body#GameFocused{
     margin-right: 15%;
 }
 
-.TopButton{
-    border: 5px solid transparent;
-    border-color: rgb(0, 0, 0);
-    border-radius: 10px;
-    background-color:#1B1240;;
-    text-align: center;
-    letter-spacing: 5px;
-    font-size: 20px;
-    color: #95655D;
-    font-family: silkScreenBold;
-    margin-bottom: 4%;
-    margin-left: 3%;
-    margin-right: 3%;
-    padding-left: 2%;
-    padding-right: 2%;
-    transition: all 0.3s ease;
-}
-
-.TopButton:hover{
-    background-color: #95655D;
-    color: #1B1240;
-}
-
 .InputContainerParent{
-    margin-top: 2%;
+    margin-top: 4%;
     margin-bottom: 4%;
     margin-right: 20%;
     margin-left: 20%;
@@ -175,6 +169,7 @@ body#GameFocused{
   position: relative;
   text-decoration: none;
 }
+
 .UnderlineAnim::after {
   content: '';
   position: absolute;
@@ -186,6 +181,7 @@ body#GameFocused{
   transform: scaleX(0);
   transition: transform 0.25s ease-out;
 }
+
 .UnderlineAnim:hover::after {
   transform: scaleX(1);
 }
@@ -199,7 +195,7 @@ body#GameFocused{
     border: 10px solid transparent;
     border-image: url(Sprites/UI/Border.png) 16 round;
     padding: 1%;
-    margin-top: 0%;
+    margin-top: 4%;
     margin-bottom: 5%;  
     width: 25%;
     margin-right: auto;
@@ -210,7 +206,6 @@ body#GameFocused{
 .RegisterContainer:hover{
     background-color: rgba(255, 255, 255, 0.05);
 }
-
 
 .ScrollableText{
     height: 50px;
@@ -253,6 +248,7 @@ body#GameFocused{
     flex-direction: row;
     gap: 10px;
     margin-bottom: 1%;
+    margin-top: 3%;
 }
 
 .Card{
@@ -462,6 +458,7 @@ body#GameFocused{
     padding-top: 10px;
     text-align: center;
     margin-bottom: 3%;
+    margin-top: 2%;
 }
 
 .HighScoreList table{
@@ -495,15 +492,48 @@ body#GameFocused{
     gap: 8.5%;
 }
 
-.EnemyCard{
-    rotate: 180deg;
-}
-
-.PlayerCard{}
 .BottomCards{
     margin-top: 2%;
     justify-content: center;
     display: flex;
     flex-direction: row;
     gap: 2%;
+}
+
+.MediumGap{
+    margin: 7%;
+}
+
+.ResultsList{
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55%;
+    border: 5px solid black;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: 2%;
+}
+
+.ResultsList table{
+    width: 98%;
+}
+
+.ResultsList table, th, td{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    line-height: 30px;
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 7px;
+}
+
+.ResultsList td{
+    text-align: left;
 }

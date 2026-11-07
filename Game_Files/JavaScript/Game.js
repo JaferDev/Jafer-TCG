@@ -29,6 +29,7 @@ function Init()
 
 function InitialDisplay(canvas)
 {
+    NavButtons(canvas);
     EndButton(canvas);
     TransparentButton(canvas);
     DisplayAllCards();
@@ -48,20 +49,31 @@ function EndButton(canvas)
 
 function TransparentButton(canvas)
 {
-    const homeBtn = new Rectangle(470, 10, 155, 35, "rgba(255, 255, 255, 0)", () => {location.replace("../index.html");});
-    const highscoresBtn = new Rectangle(715, 10, 295, 35, "rgba(255, 255, 255, 0)", () => {location.replace("6_highscores.html");});
-    
     const CHARWIDTH = 145; const CHARHEIGHT = 200;
     const char1 = new Rectangle(540, 350, CHARWIDTH, CHARHEIGHT, "rgba(0, 0, 0, 0)", () => {AttemptSwitching(canvas, 1);});
     const char2 = new Rectangle(580, 580, CHARWIDTH, CHARHEIGHT, "rgba(0, 0, 0, 0)", () => {AttemptSwitching(canvas, 2);});
     const char3 = new Rectangle(755, 580, CHARWIDTH, CHARHEIGHT, "rgba(0, 0, 0, 0)", () => {AttemptSwitching(canvas, 3);});
     
-    canvasElements.push(homeBtn, highscoresBtn, char1, char2, char3);
-    homeBtn.DrawRectangle(canvas);
-    highscoresBtn.DrawRectangle(canvas);
+    canvasElements.push(char1, char2, char3);
+    
     char1.DrawRectangle(canvas);
     char2.DrawRectangle(canvas);
     char3.DrawRectangle(canvas);
+}
+
+function NavButtons(canvas)
+{
+    const homeBtn = new Rectangle(600, 10, 85, 35, "rgba(255, 255, 255, 0.7)", () => {location.replace("../index.html");});
+    const highscoresBtn = new Rectangle(715, 10, 170, 35, "rgba(255, 255, 255, 0.7)", () => {location.replace("6_highscores.html");});
+    const homeTxt = new Text(610, 32, "Home", "silkscreenRegular", 20);
+    const highscoresTxt = new Text(725, 32, "High Scores", "silkscreenRegular", 20);
+
+    homeBtn.DrawRectangle(canvas);
+    highscoresBtn.DrawRectangle(canvas);
+    homeTxt.Write(canvas);
+    highscoresTxt.Write(canvas);
+
+    canvasElements.push(homeBtn, highscoresBtn);
 }
 
 function DisplayEnergies(canvas)
@@ -359,7 +371,7 @@ function DamageOpponent(canvas, dmg)
     if (activeChar.hp < 1) 
     {
         chars = CharacterDeath(activeChar);
-        if (DeadCount(chars) == 3) GameOver(playerTurn);
+        if (DeadCount(chars) == 3) setInterval(() => {GameOver(!playerTurn)}, 2000);
         else setTimeout( () => {SwitchCharacter(canvas, Math.ceil(Math.random() * 2 + 1), !playerTurn, false);}, 2500);
     }
 
@@ -639,6 +651,9 @@ function GetRandomElement(probabilities)
 
 function NextRound()
 {
+    let turns = JSON.parse(sessionStorage.turn);
+    turns++;
+    sessionStorage.turn = JSON.stringify(turns);
     location.replace("4_pickenergy.html");
 }
 
@@ -648,7 +663,7 @@ function NextRound()
  */
 function GameOver(loser)
 {
-    const winners = ["Player", "Enemy"]
+    const winners = ["Enemy", "Player"];
     sessionStorage["Winner"] = JSON.stringify(winners[+ loser]);
 
     //Score only accounted for logged in users
@@ -674,4 +689,7 @@ function UpdateScores(winner)
             return;
         }
     });
+
+    localStorage.Users = JSON.stringify(users);
+    localStorage[username] = JSON.stringify(player);
 }

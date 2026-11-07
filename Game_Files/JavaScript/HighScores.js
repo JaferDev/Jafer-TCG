@@ -12,7 +12,7 @@ function Init()
     {
         GetHighScores(JSON.parse(localStorage.Users)).forEach(user => {
             if (rank == 5) return;
-            row = tableBody.insertRow();
+            let row = tableBody.insertRow();
             row.insertCell(0).innerHTML = rank;
             row.insertCell(1).innerHTML = user.highScore;
             row.insertCell(2).innerHTML = user.username;
@@ -37,17 +37,17 @@ function FillRest(rank, tableBody)
 function GetHighScores(users)
 {
     let sortedUsers = [];
-
-    for (let i = 5; i < 5; i++)
+    console.log(users);
+    for (let i = 0; i < users.length; i++)
     {
         let maxUser = users[0];
+        console.log(maxUser);
         users.forEach(user =>{
             if (user.highScore > maxUser.highScore) maxUser = user;
         })
-
         sortedUsers.push(maxUser);
         users = users.filter(user => {user != maxUser});
     }
-
+    console.log(sortedUsers);
     return sortedUsers;
 }

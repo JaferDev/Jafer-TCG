@@ -17,9 +17,9 @@ function Init()
     DisplayCards(characters, onClicks, "CardContainer");
 
     let username;
-    if (JSON.parse(sessionStorage.loggedIn)) username = JSON.parse(sessionStorage.username);
+    if (JSON.parse(sessionStorage.loggedIn)) username = "LOGOUT";
     else username = "LOGIN"
-    document.getElementById("Navbar").innerHTML = `<button class=\"TopButton\" onclick=\"ChangePage(0)\">${username}</button>` + document.getElementById("Navbar").innerHTML;
+    document.getElementById("Logout").innerHTML = username;
 }
 
 function SelectCharacter(charIndex)
