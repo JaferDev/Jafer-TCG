@@ -2,6 +2,9 @@ import { User } from "./modules/GameData.js";
 
 window.onload = Init;
 
+/**
+ * Adds all highscore rows to table
+ */
 function Init()
 {
     let tableBody = document.getElementById("TableBody");
@@ -34,25 +37,24 @@ function FillRest(rank, tableBody)
     }
 }
 
+/**
+ * @param {Array[User]} users 
+ * @returns {Array[User]} Top 5 Users
+ */
 function GetHighScores(users)
 {
     let sortedUsers = [];
-    console.log(users);
     
     const usersLen = users.length;
     for (let i = 0; i < usersLen; i++)
     {
         let maxUser = users[0];
-        console.log(maxUser);
         users.forEach(user => {
             if (user.highScore >= maxUser.highScore) maxUser = user;
         });
         sortedUsers.push(maxUser);
-        console.log(sortedUsers);
-        console.log(users);
         users = users.filter(user => user != maxUser);
-        console.log(users);
     }
-    console.log(sortedUsers);
+
     return sortedUsers;
 }

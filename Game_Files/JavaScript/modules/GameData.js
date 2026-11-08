@@ -3,7 +3,7 @@ const CHARIMGPATH = "../Sprites/CharacterCards/"
 class Attack
 {
     /**
-     * 
+     * Creates an Attack
      * @param {string} name 
      * @param {Array[ElementType]} types 
      * @param {number} dmg 
@@ -32,14 +32,14 @@ class ElementType
 class Character
 {
     /**
-         * @param {string} name - Character name
-         * @param {Array[ElementType]} types - Character types
-         * @param {number} hp - Character HP
-         * @param {Attack} weakAttack - Character's weak attack
-         * @param {Attack} strongAttack - Character's strong attack
-         * @param {string} imagePath - URL to get image
-         * @param {string} ideaBy - Who provided the developer (JaferDev) with the idea
-         */
+        * @param {string} name - Character name
+        * @param {Array[ElementType]} types - Character types
+        * @param {number} hp - Character HP
+        * @param {Attack} weakAttack - Character's weak attack
+        * @param {Attack} strongAttack - Character's strong attack
+        * @param {string} imagePath - URL to get image
+        * @param {string} ideaBy - Who provided the developer (JaferDev) with the idea
+        */
     constructor(name, types, hp, weakAttack, strongAttack, ideaBy)
     {
         this.name = name;
@@ -53,6 +53,11 @@ class Character
     }
 }
 
+/**
+ * 
+ * @param {ElementType} type 
+ * @returns {ElementType} Element that's weak to input type
+ */
 function FindWeakness(type)
 {
     switch (type)
@@ -80,6 +85,11 @@ function FindWeakness(type)
     }
 }
 
+/**
+ * 
+ * @param {ElementType} type 
+ * @returns {Array[ElementType]} All ElementTypes that react with type
+ */
 function FindReactions(type)
 {
     switch (type)

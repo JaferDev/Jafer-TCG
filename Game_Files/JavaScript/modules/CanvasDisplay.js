@@ -20,51 +20,6 @@ class Transform extends CanvasElement
         this.milisTimeout = 0;
         this.DisplayFunc;
     }
-
-    StartAnim(canvas, duration, initialTransform, DisplayFunc = () => {} , isText = false, fps = 60)
-    {
-        console.log(DisplayFunc);
-        this.elapsedTime = 0;
-        this.milisTimeout = 1000 / fps;
-        setTimeout(() => {
-            setInterval(() => {this.#Animate(duration, initialTransform, canvas, DisplayFunc, isText)}, this.milisTimeout);
-        }, duration * 1000);
-    }
-
-    #Animate(duration, initialTransform, canvas, DisplayFunc = () => {}, isText = false, textObj = null)
-    {
-        let timePercent = this.elapsedTime / (duration * 1000);
-        if (timePercent < 0 || timePercent > 1) return;
-        let newTransform = this.#Lerp(initialTransform, timePercent, isText, textObj);
-        //ClearPortion(canvas, this.x, this.y, this.width, this.height);
-        
-        this.x = newTransform.x;
-        this.y = newTransform.y;
-        if (!isText)
-        {
-            this.width = newTransform.width;
-            this.height = newTransform.height;
-        }
-        else  textObj.size = newTransform.height;
-
-        DisplayFunc(canvas);
-
-        this.elapsedTime += this.milisTimeout;
-    }
-
-    #Lerp(initialTransform, timePercent, isText, textObj)
-    {
-        console.log(initialTransform, timePercent, this.width);
-        if (timePercent < 0 || timePercent > 1) return;
-        let newTransform =  new Transform(initialTransform.x + (this.x - initialTransform.x) * timePercent,
-                             initialTransform.y + (this.y - initialTransform.y) * timePercent,
-                             initialTransform.width + (this.width - initialTransform.width) * timePercent,
-                             initialTransform.height + (this.height - initialTransform.height) * timePercent);
-        
-        if (isText) newTransform.height = textObj.size + (this.size - initialTransform.height) * timePercent;
-
-        return newTransform;
-    }
 }
 
 class Interactable extends Transform
@@ -141,6 +96,16 @@ class Img extends Interactable
 
 class Text extends Transform
 {
+    /**
+     * Creates a text obj
+     * @param {number} x - xPos in canvas
+     * @param {number} y - yPos in canvas
+     * @param {string} text - Text to display
+     * @param {string} font - Font family to use
+     * @param {number} size - Font size
+     * @param {string} colour - Any colour that's usable in CSS
+     * @param {string} fontSrc - Relative location of font
+     */
     constructor(x, y, text, font, size, colour = "rgb(0, 0, 0)", fontSrc = "../Fonts/Silkscreen/Silkscreen-Regular.ttf")
     {
         super(x, y);
@@ -151,6 +116,11 @@ class Text extends Transform
         this.fontSrc = fontSrc; 
     }
 
+    /**
+     * Writes the text object onto canvas
+     * @param {Canvas} canvas 
+     * @param {boolean} fill 
+     */
     Write(canvas, fill = true)
     {
         const context = canvas.getContext("2d");
@@ -164,6 +134,14 @@ class Text extends Transform
     }
 }
 
+/**
+ * Clears a portion of canvas
+ * @param {Canvas} canvas - Canvas whose portion to clear
+ * @param {number} x - xPos on canvas
+ * @param {number} y -yPos on canvas
+ * @param {number} width - Width of portion
+ * @param {number} height - Height of portion
+ */
 function ClearPortion(canvas, x, y, width, height)
 {
     const context = canvas.getContext("2d");

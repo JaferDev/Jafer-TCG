@@ -37,7 +37,6 @@ function SelectCharacter(charIndex)
 {
     if (activeChar == charIndex) activeChar = undefined;
     else activeChar = charIndex;
-    console.log(activeChar);
     DisplaySelection();
 }   
 

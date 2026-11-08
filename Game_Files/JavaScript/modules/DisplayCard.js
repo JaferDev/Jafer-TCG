@@ -59,8 +59,8 @@ function CardHTML(character, onClick = "", id = "")
 }
 
 /**
- * Scales Card
- * @param {*} multiplyer 
+ * Scales Card by multiplyer amt
+ * @param {number} multiplyer 
  */
 function ScaleCard(multiplyer)
 {
@@ -69,6 +69,12 @@ function ScaleCard(multiplyer)
     for (let i = 0; i < cards.length; i++) cards[i].style.zoom =  multiplyer;
 }
 
+/**
+ * 
+ * @param {string} htmlContent - HTML5 Code to be displayed
+ * @param {string} htmlID - HTML ID of container
+ * @param {number} multiplyer - Multiply value to scale card
+ */
 function DisplayOnPage(htmlContent, htmlID, multiplyer = 1)
 {
     document.getElementById(htmlID).innerHTML = htmlContent;
@@ -86,9 +92,11 @@ function GetTypesPath(type)
 }
 
 /**
- * 
+ * Displays all cards in characters with onClick under htmlID
  * @param {Array[Character]} characters - Array of characters to display 
  * @param {Array[string]} onClick - Functions to execute
+ * @param {string} htmlID - HTML ID of container
+ * @param {number} multiplyer - Multiplyer value in the case of scaling
  */
 function DisplayCards(characters, onClick = [""], htmlID, multiplyer)
 {

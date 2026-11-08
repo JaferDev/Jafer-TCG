@@ -38,9 +38,11 @@ function AddCharacterCards()
     characters.push(new Character("Blow Torch", [ElementType.fire, ElementType.wind], 115, blowtorchWeakAtk, blowtorchStrongAtk, "Jafer Hussain"));
 
     localStorage["Characters"] = JSON.stringify(characters);
-    console.log(characters);
 }
 
+/**
+ * Resets sessionstorage values so that changes to characters are saved when game is in progress and reset when game's over
+ */
 function ResetSessionStorage()
 {
     const resetKeys = [ "enemyActiveChar", "enemyEnergies", "enemyCharacters", "turn" ];

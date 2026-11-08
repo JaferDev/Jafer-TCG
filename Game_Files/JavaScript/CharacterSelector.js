@@ -24,12 +24,14 @@ function Init()
 
 function SelectCharacter(charIndex)
 {
-    console.log("-----------\n", charsSelected);
     if (charsSelected.includes(charIndex)) DeselectCharacter(charIndex);
     else if (charsSelected.length != MAXCHARSSELECT) charsSelected.push(charIndex);
     DisplaySelection()
 }   
 
+/**
+ * Displays selection of selected characters
+ */
 function DisplaySelection()
 {   
     let characters = JSON.parse(localStorage.Characters);
@@ -47,9 +49,12 @@ function DeselectCharacter(charIndex)
     charsSelected = charsSelected.filter(item => item != charIndex);
 }
 
+/**
+ * If 3 characters selected, push to sessionStorage.Characters and go select energy
+ */
 function ConfirmCharacterSelection()
 {
-    if (charsSelected.length != MAXCHARSSELECT) {console.log("Nop"); return;}
+    if (charsSelected.length != MAXCHARSSELECT)  return;
     
     let charObjs = [];
     let characters = JSON.parse(localStorage.Characters);

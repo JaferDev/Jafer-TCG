@@ -27,6 +27,7 @@ function DisplayResults()
     const turn = JSON.parse(sessionStorage.turn);
     const data = [playerName, GetCharacterNames(playerCharacters), GetCharacterNames(enemyCharacters), turn];
 
+    //Gets elements in order of [name, player characters, enemy characters, rounds lasted]
     let elements = document.getElementsByClassName("ResultsData");
     for(let i = 0; i < elements.length; i++)
     {

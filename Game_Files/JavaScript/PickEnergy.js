@@ -39,7 +39,7 @@ function RandomiseEnergies(characters)
     let energies = [];
     let allElements = GetPrimarySecondaryTypes(characters);
     let primaryTypes = allElements[0]; let secondaryTypes = allElements[1];
-    console.log(allElements);
+
     for(let i = 0; i < NUMTYPES; i++)
     {
         let rng = Math.random();
@@ -55,8 +55,9 @@ function RandomiseEnergies(characters)
 }
 
 /**
- * 
+ * Gets two exclusive sets of primary elements and secondary elements
  * @param {Array[Character]} characters 
+ * @returns {Array[ElementType]} 
  */
 function GetPrimarySecondaryTypes(characters)
 {
@@ -79,6 +80,10 @@ function GetPrimarySecondaryTypes(characters)
     return [primaryElements, secondaryElements];
 }
 
+/**
+ * Flips energy if its face down and player hasn't selected SELECTABLETYPES yet
+ * @param {number} energyIndex 
+ */
 function SelectEnergy(energyIndex)
 {
     if (selectedEnergies.length == SELECTABLETYPES || selectedIndexes.includes(energyIndex)) return;
@@ -109,12 +114,12 @@ function DisplayChange(energyIndex)
  * Searches for line containing searchItem and replaces the src with previously randomly generated ElementType Image
  * @param {string} text 
  * @param {string} searchItem 
+ * @return {string} HTML5 Code replacing TypesBack.png with rngTypes[searchItem].png 
  */
 function FindAndReplace(text, searchItem)
 {
     let lines = text.split("\n")
-    console.log(lines);
-    console.log(rngEnergies);
+
     for (let i = 0; i < lines.length; i++)
     {
         if (lines[i].includes(searchItem)) 
@@ -122,11 +127,10 @@ function FindAndReplace(text, searchItem)
             let startIndex = lines[i].indexOf(TYPEIMGPATH);
             let randomEnergy = rngEnergies[searchItem];
             let newLine = lines[i].substring(0, startIndex + TYPEIMGPATH.length) + randomEnergy + lines[i].substring(startIndex + TYPEIMGPATH.length + 8);
-            console.log(newLine);
             lines[i] = newLine;
         }
     }
-    console.log(lines.toString);
+
     return lines.join("\n");    
 }
 
@@ -177,17 +181,21 @@ function GetAliveChars(characters)
     return aliveCharacters;
 }
 
+/**
+ * Shuffles array using Fischer-Yates Algorithm 
+ * @param {Array[any]} array 
+ * @param {number} n 
+ * @returns {Array[any]} First n elements of shuffle Array
+ */
 function GetRandom(array, n)
 {
     let currentIndex = array.length;
 
     while (currentIndex != 0) 
     {
-        // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }

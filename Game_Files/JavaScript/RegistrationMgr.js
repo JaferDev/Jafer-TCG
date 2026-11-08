@@ -9,6 +9,9 @@ function GoHome()
     location.replace(homePage);
 }
 
+/**
+ * Registers user if it passes all verification checks
+ */
 function Register()
 {
     const email = document.getElementById("email").value;
@@ -16,9 +19,7 @@ function Register()
     const dob = document.getElementById("dob").value;
     const password = document.getElementById("password").value;
     const confPassword = document.getElementById("confPassword").value;
-    console.log(password, confPassword);
     let regVerified = CheckRegistration(email, username, dob, password, confPassword);
-    console.log(regVerified[0]);
 
     if (!regVerified[0]) { DisplayErrorMsg(regVerified[1]); return; }
 
@@ -39,19 +40,18 @@ function CheckEmptyField(email, username, dob, password, confPassword)
     return false;
 }
 
+/**
+    * Checks if user input passes all checks. 
+    * If any condition fails, [false, errorMsg] is returned
+    * If all conditions pass, [true, ""] is returned
+    * @param {string} email - User input for email
+    * @param {string} username - User input for username
+    * @param {string} dob - User input for date of birth
+    * @param {string} password - User input for password
+    * @param {string} confPassword - User input for confirm password
+    */
 function CheckRegistration(email, username, dob, password, confPassword)
 {
-    /**
-     * Checks if user input passes all checks. 
-     * If any condition fails, [false, errorMsg] is returned
-     * If all conditions pass, [true, ""] is returned
-     * @param {string} email - User input for email
-     * @param {string} username - User input for username
-     * @param {string} dob - User input for date of birth
-     * @param {string} password - User input for password
-     * @param {string} confPassword - User input for confirm password
-     */
-
     let errorMsg = "";
 
     //Converting dates from string to Date datatype

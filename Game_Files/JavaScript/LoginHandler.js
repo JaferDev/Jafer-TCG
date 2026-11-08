@@ -1,5 +1,6 @@
 window.ConfirmLogin = ConfirmLogin;
 let characterPage = "HTMLPages/2_choosechar.html";
+
 function ConfirmLogin()
 {
     //Login Validation
@@ -7,7 +8,6 @@ function ConfirmLogin()
     const loginPassword = document.getElementById("loginPassword").value;
     const guestName = document.getElementById("guestNickname").value;
 
-    console.log(loginPassword);
     if ((loginUsername == "" && loginPassword == "") && (guestName != "")) GuestEnter(guestName);
     else if((loginUsername != "" || loginPassword == "") && (guestName != "")) RaiseError("Pick between login or guest");
     else LoggedInEnter(loginUsername, loginPassword);

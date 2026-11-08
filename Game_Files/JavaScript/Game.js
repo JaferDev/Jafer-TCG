@@ -47,6 +47,7 @@ function EndButton(canvas)
     canvasElements.push(endContainer);
 }
 
+/** Rectangles with 0 opacity but functionality */ 
 function TransparentButton(canvas)
 {
     const CHARWIDTH = 145; const CHARHEIGHT = 200;
@@ -76,6 +77,7 @@ function NavButtons(canvas)
     canvasElements.push(homeBtn, highscoresBtn);
 }
 
+/** Clears portions then displays enemy and player energies */ 
 function DisplayEnergies(canvas)
 {
     const IMGWIDTH = 40; const IMGHEIGHT = 40;
@@ -126,7 +128,7 @@ function DisplayImages(canvas, imgs)
 /**
  * Takes array of energies and returns array of Img
  * @param {Array[ElementType]} energiesArr 
- * @returns {Array[Img]}
+ * @returns {Array[Img]} Array of Imgs with src energiesArr[i].png
  */
 function GetEnergies(energiesArr, positions, width, height, functions)
 {
@@ -144,11 +146,10 @@ function DisplayAtkInfo(canvas)
     const TYPEWIDTH = 30; const TYPEHEIGHT = 30;
     
     AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.activeChar), 80, 440, false);
-    //AtkInfo(canvas, TYPEWIDTH, TYPEHEIGHT, JSON.parse(sessionStorage.enemyActiveChar), 1105, 170, true);
 }
 function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, isEnemy)
 {
-    //Creating
+    //Creating Objects
     //WeakAtk
     const backgroundRectangle1 = new Rectangle(STARTX, STARTY, 260, 110, "rgba(0, 0, 0, 0.2)", () => {SelectAtk(canvas, 0);});
 
@@ -166,7 +167,7 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, is
     
     if (!isEnemy) canvasElements.push(backgroundRectangle1, backgroundRectangle2);
     
-    //Displaying
+    //Displaying Objects on Canvas
     
     //WeakAtk
     backgroundRectangle1.DrawRectangle(canvas);
@@ -186,14 +187,11 @@ function AtkInfo(canvas, typesWidth, typesHeight, activeChar, STARTX, STARTY, is
 function DrawAtkInfoContainer(canvas)
 {
     ClearPortion(canvas, 75, 420, 270, 270);
-    ClearPortion(canvas, 1100, 150, 270, 270);
     const playerAtkInfoContainer = new Rectangle(75, 420, 270, 270, "rgba(255, 255, 255, 0.5)");
-    //const enemyAtkInfoContainer = new Rectangle(1100, 150, 270, 270, "rgba(255, 255, 255, 0.5)");
-
     playerAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
-    //enemyAtkInfoContainer.DrawRectangle(canvas, true, "rgb(0, 0, 0)", 5);
 }
 
+/** Displays both inactive and active cards as HTML Elements */ 
 function DisplayAllCards()
 {
     const inactiveCharacters = GetInactiveCharacters();
@@ -203,32 +201,34 @@ function DisplayAllCards()
     DisplayCards(inactiveCharacters[0], "", "BottomCards", 0.7);
 }
 
+/** Finds player and enemy inactive characters. If isDead, dead characters are not considered as inactive characters */ 
 function GetInactiveCharacters(isDead = false)
 {
     const playerChars = JSON.parse(sessionStorage.Characters);
     const enemyChars = JSON.parse(sessionStorage.enemyCharacters);
     const playerChar = JSON.parse(sessionStorage.activeChar);
     const enemyChar = JSON.parse(sessionStorage.enemyActiveChar);
+
     //extraCondition true by default, if you want to check if character is dead (as in SwitchCharacter()), you can add extraCondition
     let extraCondition = true
     let inactivePlayerCharacters = []; let inactiveEnemyCharacters = [];
+
     for(let i = 0; i < playerChars.length; i++) 
     {
         if (isDead) extraCondition = playerChars[i].hp != 0;
-        
         if (playerChars[i].name != playerChar.name && extraCondition) inactivePlayerCharacters.push(playerChars[i]);
     }
 
     for(let i = 0; i < enemyChars.length; i++) 
     {
         if (isDead) extraCondition = enemyChars[i].hp != 0;
-
         if (enemyChars[i].name != enemyChar.name && extraCondition) inactiveEnemyCharacters.push(enemyChars[i]);
     }
 
     return [inactivePlayerCharacters, inactiveEnemyCharacters] ;
 } 
 
+/** Displays who's turn it is and what action is currently going on */ 
 function DisplayGameBox(canvas, action = "", STARTX = 80, STARTY = 60)
 {
     let player;
@@ -260,6 +260,11 @@ function DisplayInfoBox(canvas, text, STARTX = 80, STARTY = 710)
     DisplayMultipleLines(canvas, text, 39, STARTX + 15, STARTY + 25, 15, "silkscreenRegular", "rgb(64, 255, 0)");
 }
 
+/**
+ * @param {string} text 
+ * @param {number} lineLength 
+ * @returns {Array[string]} Array of lines where each line has length < lineLength 
+ */
 function MultiLineText(text, lineLength)
 {
     let words = text.toString().split(" ");
@@ -294,6 +299,11 @@ function CheckClicked(event, canvas)
     });
 }
 
+/**
+ * If attack wasn't previously selected, confirming variable sets to true. Or else, attack enemy using atkStrength attack
+ * @param {Canvas} canvas 
+ * @param {number} atkStrength - 0 = Weak Attack, 1 = Strong Attack
+ */
 function SelectAtk(canvas, atkStrength)
 {
     if (!playerTurn) return;
@@ -331,6 +341,15 @@ function SelectAtk(canvas, atkStrength)
     }
 }
 
+/**
+ * Attacks opponent using atk.  
+ * If user doesn't have enough energy, display an error.    
+ * Damages Opponent, Displays Damage, and then displays new energies and new character cards
+ * @param {Attack} atk - Attack being used
+ * @param {Canvas} canvas - Canvas used to display
+ * @param {string} opponentKey - Key in sessionStorage to store opponent's active character
+ * @param {string} energiesKey - Key in sessionStorage to store user's energies 
+ */
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 { 
     if (!CheckEnoughEnergy(atk, energiesKey))
@@ -347,7 +366,6 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
     let dmg = GetDmg(atk, opponentActive);
     DamageOpponent(canvas, dmg);
     DisplayDmg(canvas, dmg);
-    console.log("Done with dmg opponent and display damage");
     playerTurn = !playerTurn; //After attack, its enemy's turn unless they ended turn
 
     DisplayEnergies(canvas);
@@ -355,6 +373,13 @@ function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
     if (!playerTurn || playerEnded) setTimeout(() => {EnemyTurn(canvas)}, 1000);
 }
 
+/**
+ * Damages opponent by reducing hp.  
+ * If the new HP is < 1, character dies   
+ * If all characters are dead, User wins
+ * @param {Canvas} canvas 
+ * @param {number} dmg - Damage to be done to opponent 
+ */
 function DamageOpponent(canvas, dmg)
 {
     let activeChars = [JSON.parse(sessionStorage.activeChar), JSON.parse(sessionStorage.enemyActiveChar)];
@@ -367,7 +392,6 @@ function DamageOpponent(canvas, dmg)
     });
 
     activeChar.hp -= dmg;
-    console.log(chars, activeChar);
     if (activeChar.hp < 1) 
     {
         chars = CharacterDeath(activeChar);
@@ -394,6 +418,7 @@ function DeadCount(characters)
     return cnt;
 }
 
+/** Sets dead character's hp to 0 */ 
 function CharacterDeath(character)
 {
     character.hp = 0;
@@ -408,6 +433,7 @@ function CharacterDeath(character)
     return playerCharacters;
 }
 
+/** Displays Text showing damage done for 2.5 seconds */ 
 function DisplayDmg(canvas, dmg)
 {
     const playerDmgTransform = new Transform(canvas.width / 2 - 80, canvas.height / 2 - 100, 50, 50);//Enemy dmgs player
@@ -431,6 +457,14 @@ function DisplayDmg(canvas, dmg)
     }, 2500);
 }
 
+/**
+ * Checks if there are enough energies to consume for the attack.  
+ * If there are, then it consumes energy and returns true.   
+ * Else, returns false
+ * @param {Attack} atk 
+ * @param {string} energyKey 
+ * @returns {boolean}
+ */
 function CheckEnoughEnergy(atk, energyKey)
 {
     let energy = JSON.parse(sessionStorage[energyKey]);
@@ -452,6 +486,7 @@ function CheckEnoughEnergy(atk, energyKey)
     return false;
 }
 
+/** Gets damage to be dealt to opponent. Damage increases if opponent has weakness or user has a reaction */ 
 function GetDmg(atk, enemy)
 {
     let totalDmg = atk.dmg;
@@ -474,6 +509,7 @@ function CheckAnyInArray(targetArr, arrToCheck)
     return false;
 }
 
+/** If player has selected energy to be used to switch, calls SwitchCharacter */ 
 function AttemptSwitching(canvas, charNum)
 {
     if (!playerTurn && !playerEnded) return;
@@ -485,6 +521,7 @@ function AttemptSwitching(canvas, charNum)
     DisplayInfoBox(canvas, "You need to use any one energy to switch characters. Select it by clicking on it");
 } 
 
+/** Consumes energy, sets selectedEnergy to true, and updates sessionStorage */ 
 function SelectEnergy(canvas, energy, isEnemy = false)
 {
     if (!isEnemy) if (!selectingEnergy) return;
@@ -512,12 +549,19 @@ function SelectEnergy(canvas, energy, isEnemy = false)
     DisplayEnergies(canvas); 
 }
 
+/**
+ * Switches active character to charNum and updates sessionStorage.   
+ * @param {Canvas} canvas 
+ * @param {number} charNum - index to switch with 
+ * @param {boolean} isEnemy - Default: false
+ * @param {boolean} isIntentional - Default: true, If it's true, means character died and switches automatically
+ * @returns 
+ */
 function SwitchCharacter(canvas, charNum, isEnemy = false, isIntentional = true)
 {
     let activeChar;
     if (!isEnemy) activeChar = JSON.parse(sessionStorage.activeChar);
     else activeChar = JSON.parse(sessionStorage.enemyActiveChar); 
-    console.log("Switching ", isEnemy, isIntentional);
     const inactiveChars = GetInactiveCharacters(true)[+ isEnemy];
 
     if (inactiveChars.length == 0) 
@@ -529,7 +573,6 @@ function SwitchCharacter(canvas, charNum, isEnemy = false, isIntentional = true)
         return; 
     }
     //inactiveChars[0] - charNum = 2
-    console.log(inactiveChars);
     if (inactiveChars.length == 1) activeChar = inactiveChars[0];
     else activeChar = inactiveChars[charNum - 2];
     
@@ -541,26 +584,22 @@ function SwitchCharacter(canvas, charNum, isEnemy = false, isIntentional = true)
     DisplayAllCards();
     DisplayAtkInfo(canvas);
 
+    //If character died, then playerTurn doesn't get skipped
     if (!isIntentional) return;
     playerTurn = !playerTurn;
     if (!isEnemy) EnemyTurn(canvas);
 }
 
+/**
+ * Uses weighted randomness to select action to perform. Calls function to perform action after 2.5 seconds
+ * @param {Canvas} canvas 
+ */
 function EnemyTurn(canvas)
 {
     if (playerTurn || enemyEnded) return;
-
-    /*
-        Actions Chances: (Switch, Weak Attack, Strong Attack, End Round)
-            Energy > 2:
-                Switch: 25%, Weak Attack: 50%, Strong Attack: 20%, End: 5%
-            Energy <= 2 && Energy > 0:
-                Switch: 50%, Weak Attack 10%, End: 40%
-            Energy == 0
-                End: 100%
-    */  
     let enemyEnergies = JSON.parse(sessionStorage.enemyEnergies)
 
+    //probabilities: {Dict[str, number]} - Key is action name and value is action's probability
     let probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 0};
     if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.45, "StrongAtk": 0.30, "EndRnd": 0};
     else if (enemyEnergies.length > 0) probabilities = {"Switch": 0.20, "WeakAtk": 0.40, "StrongAtk": 0, "EndRnd": 0.40};
@@ -602,13 +641,13 @@ function EnemyTurn(canvas)
             setTimeout(() => {EndRound(canvas, false);}, turnTime);
             break;
         default:
-            console.log(action);
             break;
     }
     if (!playerEnded) setTimeout(() => {playerTurn = true; DisplayGameBox(canvas, "");}, turnTime * 2);
     else setTimeout( () => {playerTurn = false; EnemyTurn(canvas);}, turnTime * 2);
 }
 
+/** Ends round for isPlayer. If player and enemy both end round, NextRound() */ 
 function EndRound(canvas, isPlayer)
 {
     if (isPlayer && playerEnded) return;
@@ -637,6 +676,7 @@ function EndRound(canvas, isPlayer)
     EnemyTurn(canvas);
 }
 
+/** Picks random element based on weights */ 
 function GetRandomElement(probabilities)
 {   
     let sum = 0;
