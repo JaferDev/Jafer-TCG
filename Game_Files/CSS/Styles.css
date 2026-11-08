@@ -1,16 +1,16 @@
 @font-face{
     font-family: silkScreenRegular;
-    src: url(Fonts/Silkscreen/Silkscreen-Regular.ttf)
+    src: url(../Fonts/Silkscreen/Silkscreen-Regular.ttf)
 }
 
 @font-face{
     font-family: silkScreenBold;
-    src: url(Fonts/Silkscreen/Silkscreen-Bold.ttf)
+    src: url(../Fonts/Silkscreen/Silkscreen-Bold.ttf)
 }
 
 @font-face{
     font-family: anta;
-    src: url(Fonts/Anta/Anta-Regular.ttf);
+    src: url(../Fonts/Anta/Anta-Regular.ttf);
 }
 
 body{
@@ -23,15 +23,15 @@ body{
 }
 
 body#Home{
-    background-image: url("Sprites/UI/Background2.jpeg");
+    background-image: url("../Sprites/UI/Background2.jpeg");
 }
 
 body#Game{
-    background-image: url("Sprites/UI/Background1.jpeg");
+    background-image: url("../Sprites/UI/Background1.jpeg");
 }
 
 body#GameFocused{
-    background-image: url("Sprites/UI/GameFocused.png");
+    background-image: url("../Sprites/UI/GameFocused.png");
 }
 
 ul{
@@ -129,7 +129,7 @@ ul li a:hover{
 }
 
 .InputContainerParent{
-    margin-top: 4%;
+    margin-top: 8%;
     margin-bottom: 4%;
     margin-right: 20%;
     margin-left: 20%;
@@ -144,7 +144,7 @@ ul li a:hover{
     padding-bottom: 3%;
     border-radius: 15px;
     transition: background-color 0.3s ease;
-    border-image: url(Sprites/UI/Border.png) 16 round;
+    border-image: url(../Sprites/UI/Border.png) 16 round;
 } 
 
 .InputContainer:hover{
@@ -193,9 +193,9 @@ ul li a:hover{
 .RegisterContainer{
     text-align: center;
     border: 10px solid transparent;
-    border-image: url(Sprites/UI/Border.png) 16 round;
+    border-image: url(../Sprites/UI/Border.png) 16 round;
     padding: 1%;
-    margin-top: 4%;
+    margin-top: 8%;
     margin-bottom: 5%;  
     width: 25%;
     margin-right: auto;
@@ -248,7 +248,7 @@ ul li a:hover{
     flex-direction: row;
     gap: 10px;
     margin-bottom: 1%;
-    margin-top: 3%;
+    margin-top: 7%;
 }
 
 .Card{
@@ -392,7 +392,7 @@ ul li a:hover{
 
 .EnergyContainer{
     justify-content: center;
-    margin-top: 4%;
+    margin-top: 9%;
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 1%;
@@ -458,7 +458,7 @@ ul li a:hover{
     padding-top: 10px;
     text-align: center;
     margin-bottom: 3%;
-    margin-top: 2%;
+    margin-top: 6%;
 }
 
 .HighScoreList table{
@@ -587,7 +587,7 @@ ul li a:hover{
     line-height: 15px;
 }
 
-.Credit p#Header{
+.Credit p.Header{
     color:#c5a9a4;
     font-size: 25px;
 }

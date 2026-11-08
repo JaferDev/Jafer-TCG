@@ -159,7 +159,7 @@ function AddToStorage()
 function EnemyEnergies()
 {
     AddEnemyCharacters();
-    enemyRngEnergies = RandomiseEnergies(JSON.parse(sessionStorage.enemyCharacters));
+    enemyRngEnergies = RandomiseEnergies(GetAliveChars(JSON.parse(sessionStorage.enemyCharacters)));
     sessionStorage["enemyEnergies"] = JSON.stringify(GetRandom(enemyRngEnergies, 5));
 }
 

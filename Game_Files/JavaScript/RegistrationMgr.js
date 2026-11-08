@@ -68,6 +68,7 @@ function CheckRegistration(email, username, dob, password, confPassword)
         "Email should include \"@\"": email.includes("@"),
         "Email cannot include space": !email.includes(" "),
         "Email cannot be longer than 64 characters in total": email.length < 64,
+        "Username exists": sessionStorage.getItem(username) !== null,
         "Username cannot include special characters": !CheckSpecialChars(username), 
         "Username cannot be longer than 16 characters": username.length < 17,
         "Username must at least be 5 characters": username.length > 4,
@@ -86,6 +87,11 @@ function CheckRegistration(email, username, dob, password, confPassword)
     if (errorMsg != "") return [false, errorMsg];
 
     return [true, ""];
+}
+
+function CheckUserExists(user)
+{
+
 }
 
 function DisplayErrorMsg(errorMsg)
