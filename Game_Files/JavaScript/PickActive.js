@@ -10,10 +10,20 @@ window.ConfirmCharacterSelection = ConfirmCharacterSelection;
 
 function Init()
 {
+    DisplayLoggedIn();
     let characters = JSON.parse(sessionStorage.Characters);
     characters = GetAliveChars(characters);
     let onClicks = ["SelectCharacter(0)", "SelectCharacter(1)", "SelectCharacter(2)"];
     DisplayCards(characters, onClicks, "CardContainer");
+}
+
+function DisplayLoggedIn()
+{
+    let loggedIn;
+    if (JSON.parse(sessionStorage.loggedIn)) loggedIn = "Logout";
+    else loggedIn = "Login";
+
+    document.getElementById("Logout").innerHTML = loggedIn;
 }
 
 function GetAliveChars(characters)
@@ -48,14 +58,8 @@ function ConfirmCharacterSelection()
     if (activeChar == undefined) return;
     
     let characters = JSON.parse(sessionStorage.Characters);
-    characters = GetAliveCharacters(characters);
+    characters = GetAliveChars(characters);
     sessionStorage.activeChar = JSON.stringify(characters[activeChar]);
 
     location.replace(GAMEPAGE);
-}
-
-function GetAliveCharacters(characters)
-{
-    let aliveChars = [];
-    characters.forEach(character => {if (character.hp > 1) aliveChars.push(character);});
 }

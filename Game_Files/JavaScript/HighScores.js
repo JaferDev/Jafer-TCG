@@ -38,15 +38,20 @@ function GetHighScores(users)
 {
     let sortedUsers = [];
     console.log(users);
-    for (let i = 0; i < users.length; i++)
+    
+    const usersLen = users.length;
+    for (let i = 0; i < usersLen; i++)
     {
         let maxUser = users[0];
         console.log(maxUser);
-        users.forEach(user =>{
-            if (user.highScore > maxUser.highScore) maxUser = user;
-        })
+        users.forEach(user => {
+            if (user.highScore >= maxUser.highScore) maxUser = user;
+        });
         sortedUsers.push(maxUser);
-        users = users.filter(user => {user != maxUser});
+        console.log(sortedUsers);
+        console.log(users);
+        users = users.filter(user => user != maxUser);
+        console.log(users);
     }
     console.log(sortedUsers);
     return sortedUsers;

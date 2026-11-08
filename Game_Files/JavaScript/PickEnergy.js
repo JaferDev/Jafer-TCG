@@ -32,14 +32,10 @@ function Init()
 function RandomiseEnergies(characters)
 {
     /*
-        Go through primary elements of selected characters
-        Go through secondary elements of selected characters
-        If primary element of one is secondary element of other, remove from secondary elements
-        Mutually exclusive sets
         Primary elements chance = 0.70
         Secondary elements chance = 0.30
     */
-
+    characters = GetAliveChars(characters);
     let energies = [];
     let allElements = GetPrimarySecondaryTypes(characters);
     let primaryTypes = allElements[0]; let secondaryTypes = allElements[1];

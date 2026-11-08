@@ -65,8 +65,8 @@ function NavButtons(canvas)
 {
     const homeBtn = new Rectangle(600, 10, 85, 35, "rgba(255, 255, 255, 0.7)", () => {location.replace("../index.html");});
     const highscoresBtn = new Rectangle(715, 10, 170, 35, "rgba(255, 255, 255, 0.7)", () => {location.replace("6_highscores.html");});
-    const homeTxt = new Text(610, 32, "Home", "silkscreenRegular", 20);
-    const highscoresTxt = new Text(725, 32, "High Scores", "silkscreenRegular", 20);
+    const homeTxt = new Text(610, 33, "Home", "silkscreenRegular", 20);
+    const highscoresTxt = new Text(725, 33, "High Scores", "silkscreenRegular", 20);
 
     homeBtn.DrawRectangle(canvas);
     highscoresBtn.DrawRectangle(canvas);
@@ -411,7 +411,7 @@ function CharacterDeath(character)
 function DisplayDmg(canvas, dmg)
 {
     const playerDmgTransform = new Transform(canvas.width / 2 - 80, canvas.height / 2 - 100, 50, 50);//Enemy dmgs player
-    const enemyDmgTransform = new Transform(canvas.width / 2 + 30, canvas.height / 2 + 110, 50, 50);//Player dmgs enemy
+    const enemyDmgTransform = new Transform(canvas.width / 2 + 180, canvas.height / 2 - 80, 50, 50);//Player dmgs enemy
     const curTransform = [playerDmgTransform, enemyDmgTransform][+ playerTurn];
 
     const dmgBorder = new Img("../Sprites/UI/DmgBorder.png", curTransform.x, curTransform.y, curTransform.width, curTransform.height);
@@ -562,8 +562,8 @@ function EnemyTurn(canvas)
     let enemyEnergies = JSON.parse(sessionStorage.enemyEnergies)
 
     let probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 0};
-    if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.50, "StrongAtk": 0.20, "EndRnd": 0};
-    else if (enemyEnergies.length > 0) probabilities = {"Switch": 0.50, "WeakAtk": 0.10, "StrongAtk": 0, "EndRnd": 0.40};
+    if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.45, "StrongAtk": 0.30, "EndRnd": 0};
+    else if (enemyEnergies.length > 0) probabilities = {"Switch": 0.20, "WeakAtk": 0.40, "StrongAtk": 0, "EndRnd": 0.40};
     else probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 1};
     
     if (enemyAtkFailed && enemyEnergies.length > 0) 
@@ -572,6 +572,7 @@ function EnemyTurn(canvas)
         probabilities["StrongAtk"] = 0; probabilities["WeakAtk"] = 0;
         enemyAtkFailed = false;
     }
+
     const action = GetRandomElement(probabilities);
     const turnTime = 2500;
     switch (action)
