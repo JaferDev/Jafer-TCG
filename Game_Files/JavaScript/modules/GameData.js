@@ -138,4 +138,29 @@ class User
     }
 }
 
-export {Attack, ElementType, Character, FindReactions, FindWeakness, User};
+class Sound
+{
+    constructor(src, volume = 1)
+    {
+        this.src = src;
+        this.volume = volume;
+        
+        this.#CreateSoundElement();
+    }
+    
+    #CreateSoundElement()
+    {
+        this.sound = document.createElement("audio");
+        this.sound.src = this.src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        this.sound.volume = this.volume;
+        document.body.appendChild(this.sound);
+    }
+
+    Play(loop = false) { this.sound.loop = loop; this.sound.play(); }
+    Stop() { this.sound.pause(); }
+}
+
+export {Attack, ElementType, Character, FindReactions, FindWeakness, User, Sound};

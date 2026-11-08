@@ -574,7 +574,7 @@ ul li a:hover{
     text-align: center;
 }
 
-.Credits{
+.Credit{
     width: 20%;
     margin-left: auto;
     margin-right: auto;
@@ -587,7 +587,7 @@ ul li a:hover{
     line-height: 15px;
 }
 
-.Credits p#Header{
+.Credit p#Header{
     color:#c5a9a4;
     font-size: 25px;
 }

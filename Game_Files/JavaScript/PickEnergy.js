@@ -1,4 +1,4 @@
-import {ElementType, Character} from "./modules/GameData.js"
+import {ElementType, Character, Sound } from "./modules/GameData.js"
 
 window.onload = Init;
 window.SelectEnergy = SelectEnergy;
@@ -12,9 +12,10 @@ let rngEnergies = [];
 let enemyRngEnergies = [];
 let selectedEnergies = []; //Array[ElementType]
 let selectedIndexes = [];
-
+let pickSound;
 function Init()
 {
+    pickSound = new Sound("../Audio/TakeEnergy.mp3", 0.5);
     let username;
     if (JSON.parse(sessionStorage.loggedIn)) username = "LOGOUT";
     else username = "LOGIN"
@@ -86,6 +87,7 @@ function GetPrimarySecondaryTypes(characters)
  */
 function SelectEnergy(energyIndex)
 {
+    pickSound.Play();
     if (selectedEnergies.length == SELECTABLETYPES || selectedIndexes.includes(energyIndex)) return;
 
     let htmlCode = document.getElementById("EnergyContainer").innerHTML;

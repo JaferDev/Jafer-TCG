@@ -1,6 +1,6 @@
 import { DisplayCards, DisplayOnPage, CardHTML } from "./modules/DisplayCard.js";
 import { Rectangle, Img, CanvasElement, Text, ClearPortion, Transform } from "./modules/CanvasDisplay.js";
-import { FindWeakness, FindReactions, ElementType } from "./modules/GameData.js";
+import { FindWeakness, FindReactions, ElementType, Sound } from "./modules/GameData.js";
 
 window.onload = Init;
 
@@ -14,6 +14,13 @@ let selectedEnergy = false;
 let playerEnded = false;
 let enemyEnded = false;
 let enemyAtkFailed = false;
+
+const cardSound = new Sound("../Audio/TakeCard.mp3", 0.5);
+const energySound = new Sound("../Audio/TakeEnergy.mp3", 0.5);
+const btnSound = new Sound("../Audio/ButtonClick.mp3", 0.5);
+const hitSound = new Sound("../Audio/Hit.mp3", 0.5);
+const switchSound = new Sound("../Audio/Switch.mp3", 0.5);
+const stopSound = new Sound("../Audio/Stop.mp3", 0.5);
 
 function Init()
 {
@@ -307,6 +314,7 @@ function CheckClicked(event, canvas)
 function SelectAtk(canvas, atkStrength)
 {
     if (!playerTurn) return;
+    cardSound.Play();
     const character = JSON.parse(sessionStorage.activeChar);
     const atk = [character.weakAttack, character.strongAttack][atkStrength];
 
@@ -352,6 +360,7 @@ function SelectAtk(canvas, atkStrength)
  */
 function Attack(atk, canvas, atkStrength, opponentKey, energiesKey)
 { 
+    hitSound.Play();
     if (!CheckEnoughEnergy(atk, energiesKey))
     {
         DisplayGameBox(canvas, "Attack Failed");
@@ -525,6 +534,7 @@ function AttemptSwitching(canvas, charNum)
 function SelectEnergy(canvas, energy, isEnemy = false)
 {
     if (!isEnemy) if (!selectingEnergy) return;
+    energySound.Play();
     let energies;
     
     if (!isEnemy) { selectingEnergy = false; energies = JSON.parse(sessionStorage.Energy); }
@@ -580,6 +590,8 @@ function SwitchCharacter(canvas, charNum, isEnemy = false, isIntentional = true)
     if (!isEnemy) sessionStorage.activeChar = JSON.stringify(activeChar); 
     else sessionStorage.enemyActiveChar = JSON.stringify(activeChar);
 
+    switchSound.Play();
+
     DisplayGameBox(canvas, "Switching Character!");
     DisplayAllCards();
     DisplayAtkInfo(canvas);
@@ -598,7 +610,8 @@ function EnemyTurn(canvas)
 {
     if (playerTurn || enemyEnded) return;
     let enemyEnergies = JSON.parse(sessionStorage.enemyEnergies)
-
+    let roundNo = 1;
+    if (JSON.parse(sessionStorage.loggedIn)) roundNo = JSON.parse(localStorage[JSON.parse(sessionStorage.username)]).curScore;
     //probabilities: {Dict[str, number]} - Key is action name and value is action's probability
     let probabilities = {"Switch": 0, "WeakAtk": 0, "StrongAtk": 0, "EndRnd": 0};
     if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25, "WeakAtk": 0.45, "StrongAtk": 0.30, "EndRnd": 0};
@@ -611,8 +624,15 @@ function EnemyTurn(canvas)
         probabilities["StrongAtk"] = 0; probabilities["WeakAtk"] = 0;
         enemyAtkFailed = false;
     }
-
+    
+    //Making game harder as rounds go on
+    if (!enemyAtkFailed && enemyEnergies.length > 0 && roundNo < 4)
+    {
+        if (enemyEnergies.length > 2) probabilities = {"Switch": 0.25 - ((roundNo - 1) * 0.05), "WeakAtk": 0.45 + ((roundNo - 1) * 0.02), "StrongAtk": 0.30 + ((roundNo - 1) * 0.03), "EndRnd": 0};
+    }
+    console.log(probabilities);
     const action = GetRandomElement(probabilities);
+    console.log(action);
     const turnTime = 2500;
     switch (action)
     {
@@ -652,6 +672,7 @@ function EndRound(canvas, isPlayer)
 {
     if (isPlayer && playerEnded) return;
 
+    stopSound.Play();
     if (!isPlayer && !playerEnded)
     {
         enemyEnded = true;

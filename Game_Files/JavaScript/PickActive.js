@@ -1,5 +1,5 @@
 import {DisplayCards} from "./modules/DisplayCard.js"
-
+import { Sound } from "./modules/GameData.js";
 const GAMEPAGE = "5_game.html";
 
 let activeChar;
@@ -7,9 +7,10 @@ let activeChar;
 window.onload = Init;
 window.SelectCharacter = SelectCharacter;
 window.ConfirmCharacterSelection = ConfirmCharacterSelection;
-
+let pickSound;
 function Init()
 {
+    pickSound = new Sound("../Audio/TakeCard.mp3", 0.5);
     DisplayLoggedIn();
     let characters = JSON.parse(sessionStorage.Characters);
     characters = GetAliveChars(characters);
@@ -35,6 +36,7 @@ function GetAliveChars(characters)
 
 function SelectCharacter(charIndex)
 {
+    pickSound.Play();
     if (activeChar == charIndex) activeChar = undefined;
     else activeChar = charIndex;
     DisplaySelection();

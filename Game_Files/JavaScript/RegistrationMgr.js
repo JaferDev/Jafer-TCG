@@ -1,4 +1,4 @@
-import { User } from "./modules/GameData.js";
+import { User, Sound } from "./modules/GameData.js";
 
 const homePage = "../index.html";
 
@@ -14,6 +14,7 @@ function GoHome()
  */
 function Register()
 {
+    new Sound("../Audio/ButtonClick.mp3").Play();
     const email = document.getElementById("email").value;
     const username = document.getElementById("username").value;
     const dob = document.getElementById("dob").value;

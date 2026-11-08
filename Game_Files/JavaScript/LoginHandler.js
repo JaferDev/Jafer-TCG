@@ -1,8 +1,11 @@
+import { Sound } from "./modules/GameData.js";
+
 window.ConfirmLogin = ConfirmLogin;
 let characterPage = "HTMLPages/2_choosechar.html";
 
 function ConfirmLogin()
 {
+    new Sound("Audio/ButtonClick.mp3", 1).Play();
     //Login Validation
     const loginUsername = document.getElementById("loginUsername").value;
     const loginPassword = document.getElementById("loginPassword").value;
